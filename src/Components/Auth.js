@@ -4,10 +4,8 @@ import validator from "validator/es";
 export default function Header(){
     const [register, setRegister] = useState(() => {
         return {
-            username: "",
             email: "",
             password: "",
-            password2: "",
         }
     })
 
@@ -22,67 +20,65 @@ export default function Header(){
     }
 
 
-    const submitChackin = event => {
+    const submit = event => {
         event.preventDefault();
         if(!validator.isEmail(register.email)) {
-            alert("You did not enter email")
-        } else if(register.password !== register.password2) {
-            alert("Repeated password incorrectly")
-        } else if(!validator.isStrongPassword(register.password, {minSymbols: 0})) {
-            alert("Password must consist of one lowercase, uppercase letter and number, at least 8 characters")
-        } else {
-            axios.post("http://www.youtube.com", {
-                username: register.username,
+            alert("Введите электронную почту!")
+        }
+        else {
+            axios.get("http://www.youtube.com", {
                 email: register.email,
                 password: register.password,
             }).then(res => {
                 if (res.data === true) {
                     window.location.href = "/auth"
-                } else {
-                    alert("There is already a user with this email")
                 }
             }).catch(() => {
-                alert("An error occurred on the server")
+                alert("Проблема с сервером!")
             })
         }
     }
 
 
     return (
-        <div className="auth">
-            <h2>Register user:</h2>
-            <form onSubmit={submitChackin}>
-                <p>Name: <input
-                    type="username"
-                    id="username"
-                    name="username"
-                    value={register.usernamr}
-                    onChange={changeInputRegister}
-                /></p>
-                <p>Email: <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={register.email}
-                    onChange={changeInputRegister}
-                    formNoValidate
-                /></p>
-                <p>Password: <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={register.password}
-                    onChange={changeInputRegister}
-                /></p>
-                <p>Repeat password: <input
-                    type="password"
-                    id="password2"
-                    name="password2"
-                    value={register.password2}
-                    onChange={changeInputRegister}
-                /></p>
-                <input type="submit"></input>
-            </form>
+        <div className="align-middle">
+            <div className='shadow-formShadow bg-darkGray bg-opacity-20 my-auto px-10 py-8 rounded-2xl '>
+                <h2 className='text-center text-2xl font-black mb-6'>Авторизация:</h2>
+                <form onSubmit={submit}>
+                    <div className='mb-3.5 min-w-[350px]'>
+                        <input className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue'
+                            type="email"
+                            id="email"
+                            placeholder='Email'
+                            name="email"
+                            value={register.email}
+                            onChange={changeInputRegister}
+                            formNoValidate
+                        />
+                    </div>
+
+                    <div className='mb-2 min-w-[350px]'>
+                        <input className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue'
+                            type="password"
+                            id="password"
+                            placeholder="Пароль"
+                            name="password"
+                            value={register.password}
+                            onChange={changeInputRegister}
+                        />
+                    </div>
+
+                    <div className='flex items-center justify-center flex-col'>
+                        <button type="submit" className='bg-primary px-12 py-2 rounded-lg mt-5 font-medium'>
+                            Войти
+                        </button>
+                        <span className='text-xs mt-3'>Нет аккаунта?
+                            <a href='#' className='text-accentBlue'>Подайте заявку на регистрацию</a>
+                        </span>
+                    </div>
+
+                </form>
+            </div>
         </div>
     )
 }
