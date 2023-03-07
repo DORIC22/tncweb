@@ -4,10 +4,8 @@ import validator from "validator/es";
 export default function Header(){
     const [register, setRegister] = useState(() => {
         return {
-            username: "",
             email: "",
             password: "",
-            password2: "",
         }
     })
 
@@ -25,24 +23,18 @@ export default function Header(){
     const submitChackin = event => {
         event.preventDefault();
         if(!validator.isEmail(register.email)) {
-            alert("You did not enter email")
-        } else if(register.password !== register.password2) {
-            alert("Repeated password incorrectly")
-        } else if(!validator.isStrongPassword(register.password, {minSymbols: 0})) {
-            alert("Password must consist of one lowercase, uppercase letter and number, at least 8 characters")
-        } else {
-            axios.post("http://www.youtube.com", {
-                username: register.username,
+            alert("Введите электронную почту!")
+        }
+        else {
+            axios.get("http://www.youtube.com", {
                 email: register.email,
                 password: register.password,
             }).then(res => {
                 if (res.data === true) {
                     window.location.href = "/auth"
-                } else {
-                    alert("There is already a user with this email")
                 }
             }).catch(() => {
-                alert("An error occurred on the server")
+                alert("Проблема с сервером!")
             })
         }
     }
@@ -50,15 +42,8 @@ export default function Header(){
 
     return (
         <div className="auth">
-            <h2>Register user:</h2>
+            <h2 align="Center">Авторизация:</h2>
             <form onSubmit={submitChackin}>
-                <p>Name: <input
-                    type="username"
-                    id="username"
-                    name="username"
-                    value={register.usernamr}
-                    onChange={changeInputRegister}
-                /></p>
                 <p>Email: <input
                     type="email"
                     id="email"
@@ -74,14 +59,9 @@ export default function Header(){
                     value={register.password}
                     onChange={changeInputRegister}
                 /></p>
-                <p>Repeat password: <input
-                    type="password"
-                    id="password2"
-                    name="password2"
-                    value={register.password2}
-                    onChange={changeInputRegister}
-                /></p>
-                <input type="submit"></input>
+                <div className="auth-container-btn">
+                    <button type="submit" className="auth-btn">Войти</button>
+                </div>
             </form>
         </div>
     )

@@ -2,8 +2,7 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Auth from "./Components/Auth";
 import React from "react";
-class App extends React.Component {
-  render() {
+function App(){
     return (
     <div className="wrapper">
       <Header/>
@@ -11,7 +10,6 @@ class App extends React.Component {
       <Footer/>
     </div>
     )
-  }
 }
 
 export default App;
