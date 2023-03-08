@@ -69,7 +69,7 @@ export default function Header(){
                             Войти
                         </button>
                         <span className='text-xs mt-3'>Нет аккаунта?
-                            <a href='#' className='text-accentBlue'>Подайте заявку на регистрацию</a>
+                            <a href='/home' className='text-accentBlue'>Подайте заявку на регистрацию</a>
                         </span>
                     </div>
 
