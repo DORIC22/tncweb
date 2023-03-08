@@ -1,14 +1,16 @@
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import Auth from "./Components/Auth";
 import React from "react";
+import {Wrapper} from "./Components/Wrapper";
+import {MainSection} from "./Components/MainSection";
+
 function App(){
     return (
-    <div className="wrapper">
-      <Header/>
-      <Auth />
-      <Footer/>
-    </div>
+      <Wrapper>
+        <Header/>
+        <MainSection/>
+        <Footer/>
+      </Wrapper>
     )
 }
 
