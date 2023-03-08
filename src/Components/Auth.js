@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import ky from 'ky'
 import validator from "validator/es";
 export default function Header(){
     const [register, setRegister] = useState(() => {
@@ -20,23 +20,19 @@ export default function Header(){
     }
 
 
-    const submit = event => {
-        event.preventDefault();
-        if(!validator.isEmail(register.email)) {
-            alert("Введите электронную почту!")
-        }
-        else {
-            axios.get("http://www.youtube.com", {
-                email: register.email,
-                password: register.password,
-            }).then(res => {
-                if (res.data === true) {
-                    window.location.href = "/auth"
+    const submit = async (e) => {
+        e.preventDefault()
+
+        const user = await ky.get('http://192.168.0.107:7119/api/users?email=' + register.email, {
+                headers: {
+                    'x-apikey': '59a7ad19f5a9fa0808f11931',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
                 }
-            }).catch(() => {
-                alert("Проблема с сервером!")
-            })
-        }
+            }
+        ).json();
+
+        console.log(user)
     }
 
 
