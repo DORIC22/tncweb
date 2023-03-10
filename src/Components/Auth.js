@@ -22,8 +22,7 @@ export default function Header(){
 
     const submit = async (e) => {
         e.preventDefault()
-
-        const user = await ky.get('http://192.168.0.107:7119/api/users?email=' + register.email, {
+        const user = await ky.get('http://5.128.221.139:7119/api/users?email=' + register.email, {
                 headers: {
                     'x-apikey': '59a7ad19f5a9fa0808f11931',
                     'Access-Control-Allow-Origin': '*',
@@ -33,8 +32,21 @@ export default function Header(){
         ).json();
 
         console.log(user)
-    }
 
+        //Проверяем авторизацию
+        if (user.password == register.password && user.role == "1") //Не помню точно id роли админа, исправить
+        {
+            window.location.href = "/Home";
+            //Тут переадресация на страницу
+        }
+        else
+        {
+            alert("Неверный логин или пароль!");
+        }
+
+
+
+    }
 
     return (
         <div className="align-middle">
@@ -69,7 +81,7 @@ export default function Header(){
                             Войти
                         </button>
                         <span className='text-xs mt-3'>Нет аккаунта?
-                            <a href='/home' className='text-accentBlue'>Подайте заявку на регистрацию</a>
+                            <a href='/Registration' className='text-accentBlue'>Подайте заявку на регистрацию</a>
                         </span>
                     </div>
 
