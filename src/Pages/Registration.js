@@ -55,6 +55,8 @@ export default function Registration() {
         // Если все валидно, то по кнопке попадаем сюда.
     };
 
+    const inputStyle = "w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue"
+
     return (
         <div className="align-middle flex justify-center items-center h-screen">
             <div className="shadow-formShadow bg-darkGray bg-opacity-20 my-auto px-10 py-8 rounded-2xl ">
@@ -62,7 +64,7 @@ export default function Registration() {
                 <form onSubmit={submit}>
                     <div className="mb-3.5 min-w-[350px]">
                         <input
-                            className="w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue"
+                            className={inputStyle}
                             type="email"
                             id="email"
                             placeholder="Почта"
@@ -75,7 +77,7 @@ export default function Registration() {
 
                     <div className="mb-3.5 min-w-[350px]">
                         <InputMask
-                            className="w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue"
+                            className={inputStyle}
                             mask="+7 (999) 999-99-99"
                             type="tel"
                             id="phoneNumber"
@@ -88,7 +90,7 @@ export default function Registration() {
 
                     <div className="mb-2 min-w-[350px]">
                         <input
-                            className="w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue"
+                            className={inputStyle}
                             type="text"
                             id="lastName"
                             placeholder="Фамилия"
@@ -100,7 +102,7 @@ export default function Registration() {
 
                     <div className="mb-2 min-w-[350px]">
                         <input
-                            className="w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue"
+                            className={inputStyle}
                             type="text"
                             id="firstName"
                             placeholder="Имя"
@@ -112,7 +114,7 @@ export default function Registration() {
                     </div>
                     <div className="mb-3.5 min-w-[350px]">
                         <input
-                            className="w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue"
+                            className={inputStyle}
                             type="text"
                             id="patronymic"
                             placeholder="Отчество"
@@ -131,9 +133,9 @@ export default function Registration() {
                             className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-accentBlue focus:border-accentBlue sm:text-sm focus:bg-blue-100"
                             required
                         >
-                            <option value="1">Пользователь</option>
+                            <option value="1">Администратор</option>
                             <option value="2">Техник</option>
-                            <option value="3">Администратор</option>
+                            <option value="3">Пользователь</option>
                         </select>
                     </div>
                     <div className="flex items-center justify-center flex-col">
