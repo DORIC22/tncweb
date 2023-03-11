@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ky from 'ky'
 import validator from "validator/es";
+import { AuthContext } from "../hoc/AuthProvider";
+import {Link} from "react-router-dom";
+
 export default function Header(){
+    const { loginUser } = useContext(AuthContext)
+
     const [register, setRegister] = useState(() => {
         return {
             email: "",
@@ -22,29 +27,13 @@ export default function Header(){
 
     const submit = async (e) => {
         e.preventDefault()
-        const user = await ky.get('http://5.128.221.139:7119/api/users?email=' + register.email, {
-                headers: {
-                    'x-apikey': '59a7ad19f5a9fa0808f11931',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                }
-            }
-        ).json();
 
-        console.log(user)
+        console.log('Submit')
+        alert('gdgdgdf')
 
-        //Проверяем авторизацию
-        if (user.password == register.password && user.role == "1") //Не помню точно id роли админа, исправить
-        {
-            window.location.href = "/Home";
-            //Тут переадресация на страницу
-        }
-        else
-        {
-            alert("Неверный логин или пароль!");
-        }
+        await loginUser(register.email, register.password)
 
-
+        //window.location.href = "/home"
 
     }
 
@@ -77,9 +66,13 @@ export default function Header(){
                     </div>
 
                     <div className='flex items-center justify-center flex-col'>
-                        <button type="submit" className='bg-primary px-12 py-2 rounded-lg mt-5 font-medium'>
-                            Войти
-                        </button>
+
+                            <button type="submit" className='bg-primary px-12 py-2 rounded-lg mt-5 font-medium'>
+                                Войти
+                            </button>
+                        <Link to='/home'>
+                            <button>НАЖМИ НА МЕНЯ СУККА</button>
+                        </Link>
                         <span className='text-xs mt-3'>Нет аккаунта?
                             <a href='/Registration' className='text-accentBlue'>Подайте заявку на регистрацию</a>
                         </span>
