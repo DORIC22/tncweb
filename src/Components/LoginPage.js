@@ -10,7 +10,6 @@ export const LoginPage = () => {
 
     return (
         <div className='mx-auto h-full'>
-            <div>{fromUrl}</div>
             <div className='flex justify-center my-16'>
                 <img src={Logo} width={150} height={150} alt='logo tnc'/>
             </div>
