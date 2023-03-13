@@ -25,7 +25,6 @@ export default function Registration() {
             register.phoneNumber !== "" &&
             register.firstName !== "" &&
             register.lastName !== "" &&
-            register.patronymic !== "" &&
             isEmailValid
         );
     }, [register]);
@@ -58,7 +57,7 @@ export default function Registration() {
     const inputStyle = "w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue"
 
     return (
-        <div className="align-middle flex justify-center items-center h-screen">
+        <div className="align-middle flex justify-center items-center h-screen max-w-[575px]">
             <div className="shadow-formShadow bg-darkGray bg-opacity-20 my-auto px-10 py-8 rounded-2xl">
                 <h2 className="text-center text-2xl font-black mb-4">Регистрация:</h2>
                 <div className="my-4 mx-auto border-b-4 border-blue-500 rounded-full" style={{ borderColor: '#839BFF' }}></div>
@@ -89,42 +88,46 @@ export default function Registration() {
                         />
                     </div>
 
-                    <div className="mb-2 min-w-[350px]">
-                        <input
-                            className={inputStyle}
-                            type="text"
-                            id="lastName"
-                            placeholder="Фамилия"
-                            name="lastName"
-                            value={register.lastName}
-                            onChange={changeInputRegister}
-                        />
+                    <div class="flex justify-between">
+                        <div className="mb-2 min-w-[100px] pr-1">
+                            <input
+                                className={inputStyle}
+                                type="text"
+                                id="lastName"
+                                placeholder="Фамилия"
+                                name="lastName"
+                                value={register.lastName}
+                                onChange={changeInputRegister}
+                            />
+                        </div>
+
+                        <div className="mb-2 min-w-[100px]">
+                            <input
+                                className={inputStyle}
+                                type="text"
+                                id="firstName"
+                                placeholder="Имя"
+                                name="firstName"
+                                value={register.firstName}
+                                onChange={changeInputRegister}
+                                required // добавляем атрибут required
+                            />
+                        </div>
+                        <div className="mb-3.5 min-w-[100px] pl-1">
+                            <input
+                                className={inputStyle}
+                                type="text"
+                                id="patronymic"
+                                placeholder="Отчество"
+                                name="patronymic"
+                                value={register.patronymic}
+                                onChange={changeInputRegister}
+                                required // добавляем атрибут required
+                            />
+                        </div>
                     </div>
 
-                    <div className="mb-2 min-w-[350px]">
-                        <input
-                            className={inputStyle}
-                            type="text"
-                            id="firstName"
-                            placeholder="Имя"
-                            name="firstName"
-                            value={register.firstName}
-                            onChange={changeInputRegister}
-                            required // добавляем атрибут required
-                        />
-                    </div>
-                    <div className="mb-3.5 min-w-[350px]">
-                        <input
-                            className={inputStyle}
-                            type="text"
-                            id="patronymic"
-                            placeholder="Отчество"
-                            name="patronymic"
-                            value={register.patronymic}
-                            onChange={changeInputRegister}
-                            required // добавляем атрибут required
-                        />
-                    </div>
+
                     <div>
                         <select
                             id="role"
