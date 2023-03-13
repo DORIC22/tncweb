@@ -5,7 +5,7 @@ const Home = () => {
     const { user } = useContext(AuthContext)
     return (
         <div className='mx-auto h-full'>
-            <div> Welcome {user?.firstName || "Зайчик"}</div>
+            <div> Welcome {user?.firstName || "error"}</div>
             Home Page
         </div>
     );

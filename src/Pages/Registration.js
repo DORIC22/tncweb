@@ -59,8 +59,9 @@ export default function Registration() {
 
     return (
         <div className="align-middle flex justify-center items-center h-screen">
-            <div className="shadow-formShadow bg-darkGray bg-opacity-20 my-auto px-10 py-8 rounded-2xl ">
-                <h2 className="text-center text-2xl font-black mb-6">Регистрация:</h2>
+            <div className="shadow-formShadow bg-darkGray bg-opacity-20 my-auto px-10 py-8 rounded-2xl">
+                <h2 className="text-center text-2xl font-black mb-4">Регистрация:</h2>
+                <div className="my-4 mx-auto border-b-4 border-blue-500 rounded-full" style={{ borderColor: '#839BFF' }}></div>
                 <form onSubmit={submit}>
                     <div className="mb-3.5 min-w-[350px]">
                         <input
@@ -150,9 +151,11 @@ export default function Registration() {
                                 !register.firstName ||
                                 !register.patronymic
                             }
+                            style={{backgroundColor: isFormValid ? '#839BFF' : null}}
                         >
                             Подать заявку
                         </button>
+
 
                         <span className="text-xs mt-3">Уже есть аккаунт?
                           <a href="/" className="text-accentBlue">Пройдите авторизацию</a>

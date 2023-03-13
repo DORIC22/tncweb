@@ -5,7 +5,7 @@ import { AuthContext } from "../hoc/AuthProvider";
 import { Link } from "react-router-dom";
 
 export default function Header() {
-    const { loginUser } = useContext(AuthContext);
+    const {loginUser, isLoggedIn} = useContext(AuthContext);
 
     const [register, setRegister] = useState(() => {
         return {
@@ -15,7 +15,7 @@ export default function Header() {
     });
 
     const linkToHome = useRef(null);
-    const { isLoggedIn } = useContext(AuthContext);
+
     const changeInputRegister = (event) => {
         event.persist();
         setRegister((prev) => {
@@ -30,41 +30,42 @@ export default function Header() {
         e.preventDefault();
         console.log('Submit');
         await loginUser(register.email, register.password);
-        // вызываем программный клик на кнопку "ссылка - переход"
+    };
 
-        alert("Проверка на состояние авторизации:" + isLoggedIn) // Тут происходит задержка, видимо условие if ниже выполняется быстрее чем isLoggedIn
-        //Успевает менять своё состояние
-
+    useEffect(() => {
         if (isLoggedIn) {
             linkToHome.current.click();
         }
-    };
+    }, [isLoggedIn]);
 
     return (
         <div className="align-middle">
             <div className='shadow-formShadow bg-darkGray bg-opacity-20 my-auto px-10 py-8 rounded-2xl '>
-                <h2 className='text-center text-2xl font-black mb-6'>Авторизация:</h2>
+                <h2 className='text-center text-2xl font-black mb-4'>Авторизация:</h2>
+                <div className="my-4 mx-auto border-b-4 border-blue-500 rounded-full" style={{ borderColor: '#839BFF' }}></div>
                 <form onSubmit={submit}>
                     <div className='mb-3.5 min-w-[350px]'>
-                        <input className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue'
-                               type="email"
-                               id="email"
-                               placeholder='Email'
-                               name="email"
-                               value={register.email}
-                               onChange={changeInputRegister}
-                               formNoValidate
+                        <input
+                            className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue'
+                            type="email"
+                            id="email"
+                            placeholder='Email'
+                            name="email"
+                            value={register.email}
+                            onChange={changeInputRegister}
+                            formNoValidate
                         />
                     </div>
 
                     <div className='mb-2 min-w-[350px]'>
-                        <input className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue'
-                               type="password"
-                               id="password"
-                               placeholder="Пароль"
-                               name="password"
-                               value={register.password}
-                               onChange={changeInputRegister}
+                        <input
+                            className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue'
+                            type="password"
+                            id="password"
+                            placeholder="Пароль"
+                            name="password"
+                            value={register.password}
+                            onChange={changeInputRegister}
                         />
                     </div>
 
