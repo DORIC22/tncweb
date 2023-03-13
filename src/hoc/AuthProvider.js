@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     const loginUser = async (email, password) => {
-        const result = await ky.get('http://5.128.221.139:7119/api/users?email=' + email, {
+        const result = await ky.get('http://192.168.0.107:7119/api/users?email=' + email, {
                 headers: {
                     'x-apikey': '59a7ad19f5a9fa0808f11931',
                     'Access-Control-Allow-Origin': '*',

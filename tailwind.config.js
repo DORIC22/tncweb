@@ -1,18 +1,16 @@
-/** @type {import('tailwindcss').Config} */
+ /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    screens: {
-      'xl': '1440px',
-      'md': '1024px'
-    },
     colors:{
-      'primary' : '#D9D9D9',
-      'accentBlue': '#462EDA',
-      'darkGray': '#B2ACAC',
-      'accentWhite': '#EFEFEF'
+      'Accent_light': '#839BFF',
+      'Accent': '#7989CE',
+      'WhiteThemeBackground': '#FFF',
+      'WhiteThemeMainColor1': '#F4F4F3',
+      'WhiteThemeMainColor2': '#D9D9D9',
+      'WhiteThemeFontColor': '#3C3C3C'
     },
 
     extend: {
