@@ -12,7 +12,8 @@ export default function Registration() {
             firstName: "",
             lastName: "",
             patronymic: "",
-            role: ""
+            role: "",
+            fullName: ""
         };
     });
 
@@ -23,8 +24,7 @@ export default function Registration() {
         setIsFormValid(
             register.email !== "" &&
             register.phoneNumber !== "" &&
-            register.firstName !== "" &&
-            register.lastName !== "" &&
+            ((register.firstName !== "" && register.lastName !== "") || (register.fullName != "")) &&
             isEmailValid
         );
     }, [register]);
@@ -46,6 +46,17 @@ export default function Registration() {
             register.role = "1";
         }
 
+        if (register.fullName != "" && register.fullName != undefined)
+        {
+            let fioMassive = register.fullName.split(" ")
+            register.lastName = fioMassive[0]
+            register.firstName = fioMassive[1]
+            register.patronymic = fioMassive[2]
+
+            alert("Входное значение FullName: " + register.fullName + "\nЧто в итоге получилось, lastname,firstname,patronymic: " +
+                register.lastName + "\n" + register.firstName + "\n" + register.patronymic)
+        }
+
         console.log(register);
         alert("Форма успешно отправлена!\n" +
             "В случае регистрации, вы получите письмо на указанный вами адрес электронный почты.\n" +
@@ -57,12 +68,12 @@ export default function Registration() {
     const inputStyle = "w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue"
 
     return (
-        <div className="align-middle flex justify-center items-center h-screen max-w-[575px]">
-            <div className="shadow-formShadow bg-darkGray bg-opacity-20 my-auto px-10 py-8 rounded-2xl">
-                <h2 className="text-center text-2xl font-black mb-4">Регистрация:</h2>
+        <div className="align-middle flex justify-center items-center h-screen min-w-[300px]">
+            <div className="shadow-formShadow my-auto px-6 py-8 rounded-2xl bg-WhiteThemeMainColor1 min-w-[315px]">
+                <h2 className="text-center text-2xl font-light mb-4">Регистрация:</h2>
                 <div className="my-4 mx-auto border-b-4 border-blue-500 rounded-full" style={{ borderColor: '#839BFF' }}/>
                 <form onSubmit={submit}>
-                    <div className="mb-3.5 min-w-[350px]">
+                    <div className="mb-3.5">
                         <input
                             className={inputStyle}
                             type="email"
@@ -75,7 +86,7 @@ export default function Registration() {
                         />
                     </div>
 
-                    <div className="mb-3.5 min-w-[350px]">
+                    <div className="mb-3.5">
                         <InputMask
                             className={inputStyle}
                             mask="+7 (999) 999-99-99"
@@ -88,8 +99,23 @@ export default function Registration() {
                         />
                     </div>
 
-                    <div class="flex justify-between">
-                        <div className="mb-2 min-w-[100px] pr-1">
+                    {/* div на мобильный адаптив:*/}
+                    <div className="mb-3.5
+                    sm:hidden">
+                        <input
+                            className={inputStyle}
+                            type="text"
+                            id="fullName"
+                            placeholder="ФИО"
+                            name="fullName"
+                            value={register.fullName}
+                            onChange={changeInputRegister}
+                        />
+                    </div>
+
+                    <div className="hidden
+                    sm:flex justify-between">
+                        <div className="mb-2 pr-1">
                             <input
                                 className={inputStyle}
                                 type="text"
@@ -101,7 +127,7 @@ export default function Registration() {
                             />
                         </div>
 
-                        <div className="mb-2 min-w-[100px]">
+                        <div className="mb-2">
                             <input
                                 className={inputStyle}
                                 type="text"
@@ -110,10 +136,10 @@ export default function Registration() {
                                 name="firstName"
                                 value={register.firstName}
                                 onChange={changeInputRegister}
-                                required // добавляем атрибут required
+                                //required // добавляем атрибут required
                             />
                         </div>
-                        <div className="mb-3.5 min-w-[100px] pl-1">
+                        <div className="mb-3.5 pl-1">
                             <input
                                 className={inputStyle}
                                 type="text"
@@ -122,7 +148,7 @@ export default function Registration() {
                                 name="patronymic"
                                 value={register.patronymic}
                                 onChange={changeInputRegister}
-                                required // добавляем атрибут required
+                                //required // добавляем атрибут required
                             />
                         </div>
                     </div>
@@ -145,24 +171,22 @@ export default function Registration() {
                     <div className="flex items-center justify-center flex-col">
                         <button
                             type="submit"
-                            className={`px-12 py-2 rounded-lg mt-5 font-medium ${isFormValid ? 'bg-accentBlue' : 'bg-primary'}`}
+                            className={`px-12 py-2 rounded-lg mt-5 font-medium ${isFormValid ? 'bg-accentBlue' : 'WhiteThemeMainColor2'}`}
                             disabled={
                                 !validator.isEmail(register.email) ||
                                 !register.email ||
-                                !register.phoneNumber ||
-                                !register.lastName ||
-                                !register.firstName ||
-                                !register.patronymic
+                                !register.phoneNumber || !((!register.lastName || !register.firstName) || !register.fullName)
                             }
-                            style={{backgroundColor: isFormValid ? '#839BFF' : null}}
+                            style={{backgroundColor: isFormValid ? '#839BFF' : '#D9D9D9'}}
                         >
                             Подать заявку
                         </button>
 
 
-                        <span className="text-xs mt-3">Уже есть аккаунт?
-                          <a href="/" className="text-accentBlue">Пройдите авторизацию</a>
-                        </span>
+                        <span className='text-xs font-light mt-3
+                                        sm:text-sm'>Есть аккаунт?</span>
+                        <a className='text-xs text-Accent_light font-light
+                                     sm:text-sm' href='/' >Пройдите авторизацию</a>
                     </div>
                 </form>
             </div>
