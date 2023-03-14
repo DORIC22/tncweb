@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ky from "ky";
 import validator from "validator/es";
 import InputMask from 'react-input-mask';
-import {message} from "react-widgets/PropTypes";
 
 export default function Registration() {
     const [register, setRegister] = useState(() => {
@@ -24,7 +22,7 @@ export default function Registration() {
         setIsFormValid(
             register.email !== "" &&
             register.phoneNumber !== "" &&
-            ((register.firstName !== "" && register.lastName !== "") || (register.fullName != "")) &&
+            ((register.firstName !== "" && register.lastName !== "") || (register.fullName !== "")) &&
             isEmailValid
         );
     }, [register]);
@@ -46,7 +44,7 @@ export default function Registration() {
             register.role = "1";
         }
 
-        if (register.fullName != "" && register.fullName != undefined)
+        if (register.fullName !== "" && register.fullName !== undefined)
         {
             let fioMassive = register.fullName.split(" ")
             register.lastName = fioMassive[0]
@@ -71,7 +69,7 @@ export default function Registration() {
         <div className="align-middle flex justify-center items-center h-screen min-w-[300px]">
             <div className="shadow-formShadow my-auto px-6 py-8 rounded-2xl bg-WhiteThemeMainColor1 min-w-[315px]">
                 <h2 className="text-center text-2xl font-light mb-4">Регистрация:</h2>
-                <div className="my-4 mx-auto border-b-4 border-blue-500 rounded-full" style={{ borderColor: '#839BFF' }}/>
+                <div className="my-4 mx-auto border-b-4 border-Accent_light rounded-full"/>
                 <form onSubmit={submit}>
                     <div className="mb-3.5">
                         <input
@@ -160,7 +158,9 @@ export default function Registration() {
                             name="role"
                             value={register.role}
                             onChange={changeInputRegister}
-                            className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-accentBlue focus:border-accentBlue sm:text-sm focus:bg-blue-100"
+                            className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm
+                                       focus:outline-none focus:ring-accentBlue focus:border-accentBlue
+                              sm:text-sm focus:bg-blue-100"
                             required
                         >
                             <option value="1">Администратор</option>
@@ -171,17 +171,16 @@ export default function Registration() {
                     <div className="flex items-center justify-center flex-col">
                         <button
                             type="submit"
-                            className={`px-12 py-2 rounded-lg mt-5 font-medium ${isFormValid ? 'bg-accentBlue' : 'WhiteThemeMainColor2'}`}
+                            className={`px-12 py-2 rounded-lg mt-5 font-medium 
+                                      ${isFormValid ? 'bg-Accent_light text-white' : 'bg-WhiteThemeMainColor2'}`}
                             disabled={
                                 !validator.isEmail(register.email) ||
                                 !register.email ||
                                 !register.phoneNumber || !((!register.lastName || !register.firstName) || !register.fullName)
                             }
-                            style={{backgroundColor: isFormValid ? '#839BFF' : '#D9D9D9'}}
                         >
                             Подать заявку
                         </button>
-
 
                         <span className='text-xs font-light mt-3
                                         sm:text-sm'>Есть аккаунт?</span>
