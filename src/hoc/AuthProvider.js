@@ -9,9 +9,15 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState({ })
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-    const loginUser = async (email, password) => {
-        password = sha256(password)
-        const result = await ky.get('http://192.168.0.107:7119/api/users?email=' + email + '&password=' + password, {
+    const loginUser = async (email, password, remeberMe) => {
+
+        if (localStorage.getItem("UserAuth") === "true") {
+            email = localStorage.getItem("email")
+            password = localStorage.getItem("password")
+        }
+
+        let passwordHash = sha256(password)
+        const result = await ky.get('http://5.128.221.139:7119/api/users?email=' + email + '&password=' + passwordHash, {
                 headers: {
                     'x-apikey': '59a7ad19f5a9fa0808f11931',
                     'Access-Control-Allow-Origin': '*',
@@ -20,11 +26,23 @@ export const AuthProvider = ({ children }) => {
             }
         )
         if (result.status === 200) {
+            console.log(result)
             setUser(result.json())
             setIsLoggedIn(true)
-            alert("Удачная авторизация")
+            if (remeberMe)
+            {
+                localStorage.setItem("UserAuth", "true")
+                localStorage.setItem("email", email)
+                localStorage.setItem("password", password)
+            }
         } else {
-            alert("Неверные данные")
+            if (localStorage.getItem("UserAuth") === "true") {
+                alert("С момента последней сессии на этом устройстве, ваши учетные данные изменились. Введите новый пароль.")
+                localStorage.setItem("UserAuth", "false")
+            }
+            else {
+                alert("Неверный логин или пароль")
+            }
         }
     }
 

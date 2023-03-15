@@ -6,6 +6,11 @@ export default function Header() {
     const { loginUser, isLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate()
     const linkToHome = useRef(null);
+    const [rememberMe, setRememberMe] = useState(false);
+
+    const handleRememberMeChange = (event) => {
+        setRememberMe(event.target.checked);
+    };
 
     const [register, setRegister] = useState(() => {
         return {
@@ -14,13 +19,28 @@ export default function Header() {
         };
     });
 
+    //если стоит чекбокс
+    const loginUserOnInit = async () => {
+        if (localStorage.getItem("UserAuth") === "true") {
+            const email = localStorage.getItem("email");
+            const password = localStorage.getItem("password");
+            await loginUser(email, password, rememberMe);
+        }
+    };
+
+    (async () => {
+        await loginUserOnInit();
+        // код, который должен выполниться после успешной аутентификации
+    })();
+    //если стоит чекбокс
+
     useEffect(() => {
         // вызываем программный клик на кнопку "ссылка - переход"
         if (isLoggedIn) {
             navigate("/home")
             //linkToHome.current.click();
         }
-    }, [isLoggedIn])
+    }, [isLoggedIn, navigate]) //Убрать navigate в случае странного поведения
 
     const changeInputRegister = (event) => {
         event.persist();
@@ -35,11 +55,11 @@ export default function Header() {
     const submit = async (e) => {
         e.preventDefault();
         console.log('Submit');
-        await loginUser(register.email, register.password);
-
-        // Тут происходит задержка, видимо условие if ниже выполняется быстрее чем isLoggedIn
-        //Успевает менять своё состояние
-        alert("Проверка на состояние авторизации:" + isLoggedIn)
+        if (localStorage.getItem("UserAuth") === "true") {
+            register.email = localStorage.getItem("email")
+            register.password = localStorage.getItem("password")
+        }
+            await loginUser(register.email, register.password, rememberMe);
     };
 
     return (
@@ -73,6 +93,19 @@ export default function Header() {
                                value={register.password}
                                onChange={changeInputRegister}
                         />
+                    </div>
+
+                    <div>
+                        <label className='flex items-center'>
+                            <input type="checkbox"
+                                   name="cbRememberMe"
+                                   id="cbRememberMe"
+                                   className='mr-2 h-5 w-5 align-middle'
+                                   checked={rememberMe}
+                                   onChange={handleRememberMeChange}
+                            />
+                            <span className='align-middle h-5 leading-5'>Запомнить меня</span>
+                        </label>
                     </div>
 
                     <div className='flex items-center justify-center flex-col'>
