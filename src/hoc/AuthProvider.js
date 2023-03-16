@@ -2,7 +2,6 @@ import React, {createContext, useState} from 'react';
 import ky from "ky";
 import sha256 from 'js-sha256';
 
-
 export const AuthContext = createContext({ })
 
 export const AuthProvider = ({ children }) => {
@@ -26,7 +25,6 @@ export const AuthProvider = ({ children }) => {
             }
         )
         if (result.status === 200) {
-            console.log(result)
             setUser(result.json())
             setIsLoggedIn(true)
             if (remeberMe)
