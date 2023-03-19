@@ -12,6 +12,7 @@ export default function Header() {
         setRememberMe(event.target.checked);
     };
 
+
     const [register, setRegister] = useState(() => {
         return {
             email: "",
@@ -62,6 +63,13 @@ export default function Header() {
             await loginUser(register.email, register.password, rememberMe);
     };
 
+    const [isFormValid, setIsFormValid] = useState(false);
+
+    useEffect(() => {
+        // Проверяем, что email и password не пустые строки
+        setIsFormValid(register.email !== "" && register.password !== "");
+    }, [register.email, register.password]);
+
     return (
         <div className="align-middle">
             <div className='shadow-formShadow bg-WhiteThemeMainColor1 min-w-[315px] p-6 my-auto rounded-2xl
@@ -110,7 +118,8 @@ export default function Header() {
 
                     <div className='flex items-center justify-center flex-col'>
                         <button className='bg-WhiteThemeMainColor2 px-12 py-2 rounded-lg mt-5 font-medium
-                                           sm:px-20' type="submit" >
+                                           sm:px-20' type="submit"
+                        disabled={!isFormValid}>
                             Войти
                         </button>
                         {/* задаем ref для ссылки на страницу Home */}
