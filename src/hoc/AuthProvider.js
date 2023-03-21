@@ -24,6 +24,7 @@ export const AuthProvider = ({ children }) => {
                 }
             }
         )
+        console.log(result)
         if (result.status === 200) {
             setUser(result.json())
             setIsLoggedIn(true)
