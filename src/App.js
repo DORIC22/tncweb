@@ -7,6 +7,8 @@ import { Wrapper } from "./Components/Wrapper";
 import { LoginPage } from "./Components/LoginPage";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import RequireAuth from "./hoc/RequireAuth";
+import Users from "./Pages/Users";
+import {repairRequestsLoader} from "./Components/RepairRequestList";
 
 const router = createBrowserRouter([
     {
@@ -19,7 +21,8 @@ const router = createBrowserRouter([
             <RequireAuth>
                 <Home/>
             </RequireAuth>
-        )
+        ),
+        loader: repairRequestsLoader
     },
     {
       path: '/registration',

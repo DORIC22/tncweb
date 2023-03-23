@@ -60,7 +60,7 @@ export default function Header() {
             register.email = localStorage.getItem("email")
             register.password = localStorage.getItem("password")
         }
-            await loginUser(register.email, register.password, rememberMe);
+        await loginUser(register.email, register.password, rememberMe);
     };
 
     const [isFormValid, setIsFormValid] = useState(false);
