@@ -5,7 +5,7 @@ import { RepairRequestList } from "./RepairRequestList";
 const FilterableRepairRequestList = () => {
     const [searchText, setSearchText] = useState('')
     const [requestStatus, setRequestStatus] = useState(0)
-    const [deviceTypes, setDeviceTypes] = useState([])
+    const [deviceTypes, setDeviceTypes] = useState(['0'])
 
     const handleSearchTextChange = (searchText) => {
         setSearchText(searchText)
@@ -19,13 +19,15 @@ const FilterableRepairRequestList = () => {
         console.log(type)
         console.log(isChecked)
 
-        if (isChecked){
+        setDeviceTypes(type)
+
+        /*if (isChecked){
             setDeviceTypes([...deviceTypes, type])
         }
         else{
             const newValue = deviceTypes.filter(t => t !== type)
             setDeviceTypes(newValue)
-        }
+        }*/
     }
 
     return (

@@ -39,7 +39,7 @@ const RepairRequestList = (props) => {
 };
 
 const getRequest = async () => {
-    const result = await ky.get('http://192.168.0.107:7119/api/repairrequest', {
+    const result = await ky.get('http://5.128.221.139:7119/api/repairrequest', {
         headers: {
             'x-apikey': '59a7ad19f5a9fa0808f11931',
             'Access-Control-Allow-Origin': '*',
