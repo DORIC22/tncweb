@@ -9,11 +9,11 @@ export const LoginPage = () => {
     const fromUrl = location.state?.from?.pathname || '/'
 
     return (
-        <div className='mx-auto h-full mt-8
-        sm:mt-20'>
-            <div className='flex justify-center mt-8 mb-10
-            sm:mb-16 mt-40'>
-                <img src={Logo} alt='logo tnc' className='w-[120px] sm:w-[150px]'/>
+        <div className='h-full'>
+            <div className='h-2/6 flex flex-col justify-center items-center scroll sm:-my-5'>
+                <div className='flex justify-center items-center'>
+                    <img src={Logo} alt='logo tnc' className='w-[100px] sm:w-[130px]'/>
+                </div>
             </div>
             <Auth/>
         </div>
