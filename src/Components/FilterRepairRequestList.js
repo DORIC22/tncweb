@@ -27,17 +27,20 @@ const FilterRepairRequestList = (props) => {
     };
 
     return (
-        <div>
-            <div>
+        <div className='w-full'>
+            <div className='flex justify-between mt-2'>
                 <input
+                    className='w-full border border-darkGray px-1 py-1 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light'
                     placeholder="Поиск"
                     value={searchText}
                     onChange={(e) => onChangeSearchText(e.target.value)}
                 />
+                <p className='ml-2'>Дата</p>
             </div>
 
-            <div>
+            <div className='flex justify-between mt-2'>
                 <select
+                    className='border border-darkGray rounded-lg'
                     value={requestStatus}
                     onChange={(e) => onChangeRequestStatus(e.target.value)}
                 >
@@ -46,12 +49,10 @@ const FilterRepairRequestList = (props) => {
                     <option value="2">Завершенные</option>
                     <option value="3">Отмененные</option>
                 </select>
-            </div>
 
-            <div>
-                <h3>Тип оборудования</h3>
-                <Select className='text-xs mx-0 w-full
-                sm:text-base h-full mx-auto w-full'
+
+                <Select className='text-xs ml-2 w-full
+                   sm:text-base h-full mx-auto w-full'
                         isClearable={false}
                         components={animatedComponents}
                         onChange={handleChange}
@@ -60,9 +61,8 @@ const FilterRepairRequestList = (props) => {
                         isSearchable={false}
                         defaultValue={[options[0]]}
                         placeholder='Тип оборудования'
-                />
+                    />
             </div>
-
             {props.children}
         </div>
     );

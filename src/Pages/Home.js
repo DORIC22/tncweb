@@ -8,7 +8,9 @@ const Home = () => {
     const { user } = useContext(AuthContext);
 
     return (
-        <FilterableRepairRequestList/>
+        <div className='screenMobile w-full sm:mt-1 sm:w-1/2'>
+            <FilterableRepairRequestList />
+        </div>
     );
 };
 

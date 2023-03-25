@@ -25,3 +25,8 @@ footer {
     font-weight: 100;
 }
 
+.screenMobile {
+    height: calc(100% - 80px);
+}
+
+
