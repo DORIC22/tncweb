@@ -31,9 +31,9 @@ const FilterableRepairRequestList = () => {
     }
 
     return (
-        <div className='h-full ms:flex justify-center items-center'>
-            <div className='h-full'>
-                <div className='flex justify-center items-center'>
+        <div>
+            <div>
+                <div>
                     <FilterRepairRequestList
                         searchText = {searchText}
                         requestStatus = {requestStatus}
@@ -42,7 +42,7 @@ const FilterableRepairRequestList = () => {
                         onChangeDeviceType = {handelDeviceType}
                     />
                 </div>
-                <div className='h-5/6'>
+                <div>
                     <RepairRequestList
                         searchText = {searchText}
                         requestStatus = {requestStatus}

@@ -10,7 +10,7 @@ export const LoginPage = () => {
 
     return (
         <div className='h-full'>
-            <div className='h-2/6 flex flex-col justify-center items-center scroll sm:-my-4'>
+            <div className='flex flex-col justify-center items-center my-8 sm:my-16'>
                 <div className='flex justify-center items-center'>
                     <img src={Logo} alt='logo tnc' className='w-[100px] sm:w-[130px]'/>
                 </div>

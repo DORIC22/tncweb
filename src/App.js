@@ -32,11 +32,13 @@ const router = createBrowserRouter([
 
 function App(){
     return (
-      <Wrapper>
-        <Header/>
-        <RouterProvider router={router} />
-        <Footer/>
-      </Wrapper>
+        <div className='flex flex-col min-h-screen'>
+            <Header/>
+            <Wrapper>
+                <RouterProvider router={router} />
+            </Wrapper>
+            <Footer/>
+        </div>
     )
 }
 

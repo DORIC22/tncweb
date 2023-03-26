@@ -3,7 +3,7 @@ import headerLogoMobileApp from '../Resources/headerLogoMobileApp.png'
 
 export default function Header(){
     return (
-        <header className='w-screen shadow-formShadow'>
+        <header className='shadow-formShadow fixed w-full bg-white'>
             <div className='flex justify-between items-center py-2 px-3'>
                 <div className='sm:flex justify-start items-center sm:w-48'>
                     <h2 className='text-base font-bold sm:text-2xl'>TNC - Web</h2>

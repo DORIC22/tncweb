@@ -8,7 +8,7 @@ const RepairRequestList = (props) => {
     const {requests} = useLoaderData()
 
     return (
-        <div className='h-full overflow-y-auto mt-2 p-2'>
+        <div className=''>
             <Suspense fallback={<h2>Загрузка данных...</h2>}>
                 <Await resolve={requests}>
                     {
@@ -22,7 +22,7 @@ const RepairRequestList = (props) => {
                                         deviceTypes.includes(request.techType.toString())
                                     )
                                         .map(request => (
-                                        <div className='mb-4 rounded-lg shadow-formShadow' key={request.id}>
+                                        <div className='border-2' key={request.id}>
                                             <p>{request.techEquipmentId}</p>
                                             <p>{request.description}</p>
                                         </div>

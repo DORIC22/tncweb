@@ -27,8 +27,8 @@ const FilterRepairRequestList = (props) => {
     };
 
     return (
-        <div className='w-full'>
-            <div className='flex justify-between mt-2'>
+        <div>
+            <div>
                 <input
                     className='w-full border border-darkGray px-1 py-1 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light'
                     placeholder="Поиск"
@@ -38,7 +38,7 @@ const FilterRepairRequestList = (props) => {
                 <p className='ml-2'>Дата</p>
             </div>
 
-            <div className='flex justify-between mt-2'>
+            <div className='flex justify-around'>
                 <select
                     className='border border-darkGray rounded-lg'
                     value={requestStatus}

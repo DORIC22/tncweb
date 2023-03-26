@@ -2,7 +2,7 @@ import React from 'react'
 
 export const Wrapper = ({ children }) => {
     return(
-        <div className='container mx-auto px-3 min-h-screen flex items-center justify-center h-screen flex-col'>
+        <div className='container mx-auto flex flex-col items-center justify-start flex-1 mt-[50px]'>
             {children}
         </div>
     )
