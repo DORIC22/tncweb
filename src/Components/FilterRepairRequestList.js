@@ -56,7 +56,7 @@ const FilterRepairRequestList = (props) => {
                         isMulti={true}
                         defaultValue={deviceOptions[0]}
                         placeholder='Тип оборудования'
-                    />
+                />
             </div>
             {props.children}
         </div>

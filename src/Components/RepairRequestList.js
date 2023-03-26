@@ -20,7 +20,7 @@ const RepairRequestList = (props) => {
     }
 
     return (
-        <div className=''>
+        <div className='w-full'>
             <Suspense fallback={<h2>Загрузка данных...</h2>}>
                 <Await resolve={requests}>
                     {
@@ -34,12 +34,33 @@ const RepairRequestList = (props) => {
                                             deviceTypes.includes(request.techType)
                                     )
                                         .map(request => (
-                                        <div className='border-2' key={request.id}>
-                                            <p>{request.techEquipmentId}</p>
-                                            <p>{request.description}</p>
-                                        </div>
+                                                <div className='gap-3 my-2 h-18 py-2 px-2 shadow-formShadow rounded-lg'
+                                                     key={request.id}>
+                                                    <div className='flex flex-row'>
+                                                        <div
+                                                            className='bg-gray-100 p-2 rounded-lg flex-shrink-0 flex items-center'>
+                                                            {getIcon(request)}
+                                                        </div>
+                                                        <div className='ml-2 flex-1 flex flex-col justify-start'>
+                                                            <p className=''>{request.techEquipmentId} | № {request.id}</p>
+                                                            <p className='text-xs sm:text-base sm-text-base flex-1'>{request.description.slice(0, 200)}{request.description.length > 200 ? '...' : ''}</p>
+                                                            <div
+                                                                className='bg-gray-100 rounded-lg py-0.5 mt-1 px-3 hidden sm:block'>
+                                                                <div className='flex justify-between'>
+                                                                    <p className='text-xs'>Дата создания: </p>
+                                                                    <p className='text-xs'>{request.createdDate}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        className='flex justify-between bg-gray-100 rounded-lg py-0.5 mt-1 px-3 sm:hidden'>
+                                                        <p className='text-xs'>Дата создания: </p>
+                                                        <p className='text-xs'>{request.createdDate}</p>
+                                                    </div>
+                                                </div>
+                                            )
                                         )
-                                    )
                                 }
                             </>
                         )

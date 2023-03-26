@@ -6,8 +6,8 @@ const Home = () => {
     const {user} = useContext(AuthContext);
 
     return (
-        <div>
-            <FilterableRepairRequestList />
+        <div className='px-4 w-full mx-auto'>
+            <FilterableRepairRequestList/>
         </div>
     );
 };
