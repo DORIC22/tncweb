@@ -1,65 +1,60 @@
-import React, { useState } from "react";
-import Select from "react-select";
-import makeAnimated from 'react-select/animated';
+import React from "react";
+import Select from "./Select";
+import filter_date_up from "../Resources/filter_date_up.svg"
 
 const FilterRepairRequestList = (props) => {
     const {
         searchText,
-        requestStatus,
         onChangeSearchText,
         onChangeRequestStatus,
         onChangeDeviceType,
+        onChangeDateSorting
     } = props;
 
-    const options = [
-        { value: "0", label: "Компьютер" },
-        { value: "1", label: "Принтер" },
-        { value: "2", label: "Камера" },
+    const deviceOptions = [
+        {value: 0, label: 'Компьютер'},
+        {value: 1, label: 'Принтер'},
+        {value: 2, label: 'Камера'},
     ];
 
-    const animatedComponents = makeAnimated();
+    const statusOptions = [
+        {value: 0, label: 'В работе'},
+        {value: 1, label: 'Активные'},
+        {value: 2, label: 'Завершённые'},
+        {value: 3, label: 'Архив'},
+    ];
 
     const handleChange = (selected) => {
-        onChangeDeviceType(
-            selected.map((option) => option.value),
-            true
-        );
+        onChangeDeviceType(selected)
     };
 
     return (
-        <div>
-            <div>
+        <div className=''>
+            <div className='flex mt-4'>
                 <input
-                    className='w-full border border-darkGray px-1 py-1 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light'
+                    className='w-full border border-darkGray px-1 py-1 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base'
                     placeholder="Поиск"
                     value={searchText}
                     onChange={(e) => onChangeSearchText(e.target.value)}
                 />
-                <p className='ml-2'>Дата</p>
+                <div className='flex gap-2 ml-2'>
+                    <button onClick={onChangeDateSorting}>
+                        <img src={filter_date_up} className='w-[35px] h-[35px]'/>
+                    </button>
+                </div>
             </div>
 
-            <div className='flex justify-around'>
-                <select
-                    className='border border-darkGray rounded-lg'
-                    value={requestStatus}
-                    onChange={(e) => onChangeRequestStatus(e.target.value)}
-                >
-                    <option value="0">В работе</option>
-                    <option value="1">Активные</option>
-                    <option value="2">Завершенные</option>
-                    <option value="3">Отмененные</option>
-                </select>
-
-
-                <Select className='text-xs ml-2 w-full
-                   sm:text-base h-full mx-auto w-full'
-                        isClearable={false}
-                        components={animatedComponents}
-                        onChange={handleChange}
-                        options={options}
-                        isMulti
-                        isSearchable={false}
-                        defaultValue={[options[0]]}
+            <div className='my-2 flex justify-between gap-1 sm:gap-3'>
+                <Select onChange={(e) => onChangeRequestStatus(e)}
+                        options={statusOptions}
+                        isMulti={false}
+                        defaultValue={statusOptions[0]}
+                        placeholder='Статус заявки'
+                />
+                <Select onChange={handleChange}
+                        options={deviceOptions}
+                        isMulti={true}
+                        defaultValue={deviceOptions[0]}
                         placeholder='Тип оборудования'
                     />
             </div>

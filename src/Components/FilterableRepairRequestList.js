@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import FilterRepairRequestList from "./FilterRepairRequestList";
-import { RepairRequestList } from "./RepairRequestList";
+import {RepairRequestList} from "./RepairRequestList";
 
 const FilterableRepairRequestList = () => {
     const [searchText, setSearchText] = useState('')
     const [requestStatus, setRequestStatus] = useState(0)
     const [deviceTypes, setDeviceTypes] = useState(['0'])
+    const [sortDateByDesc, setSortDateByDesc] = useState(false)
 
     const handleSearchTextChange = (searchText) => {
         setSearchText(searchText)
@@ -16,41 +17,29 @@ const FilterableRepairRequestList = () => {
     }
 
     const handelDeviceType = (type, isChecked) => {
-        console.log(type)
-        console.log(isChecked)
-
         setDeviceTypes(type)
+    }
 
-        /*if (isChecked){
-            setDeviceTypes([...deviceTypes, type])
-        }
-        else{
-            const newValue = deviceTypes.filter(t => t !== type)
-            setDeviceTypes(newValue)
-        }*/
+    const handleDateSorting = () => {
+        setSortDateByDesc((prev) => !prev)
     }
 
     return (
-        <div>
-            <div>
-                <div>
-                    <FilterRepairRequestList
-                        searchText = {searchText}
-                        requestStatus = {requestStatus}
-                        onChangeSearchText = {handleSearchTextChange}
-                        onChangeRequestStatus = {handleRequestStatus}
-                        onChangeDeviceType = {handelDeviceType}
-                    />
-                </div>
-                <div>
-                    <RepairRequestList
-                        searchText = {searchText}
-                        requestStatus = {requestStatus}
-                        deviceTypes = {deviceTypes}
-                    />
-                </div>
-            </div>
-        </div>
+        <>
+            <FilterRepairRequestList
+                searchText={searchText}
+                onChangeSearchText={handleSearchTextChange}
+                onChangeRequestStatus={handleRequestStatus}
+                onChangeDeviceType={handelDeviceType}
+                onChangeDateSorting={handleDateSorting}
+            />
+            <RepairRequestList
+                searchText={searchText}
+                requestStatus={requestStatus}
+                deviceTypes={deviceTypes}
+                sortDateByDesc={sortDateByDesc}
+            />
+        </>
     );
 };
 
