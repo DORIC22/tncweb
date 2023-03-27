@@ -1,9 +1,10 @@
 import React, {Suspense} from 'react';
 import ky from "ky";
-import {Await, defer, useLoaderData} from "react-router-dom";
+import {Await, defer, Link, useLoaderData} from "react-router-dom";
 import icon_pc from "../../Resources/icon_pc.svg"
 import icon_printer from "../../Resources/icon_printer.svg"
 import icon_camera from "../../Resources/icon_camera.svg"
+import TechEquiepmentIcon from "../TechEquiepmentIcon";
 
 const RepairRequestList = (props) => {
     const {searchText, requestStatus, deviceTypes} = props
@@ -39,10 +40,14 @@ const RepairRequestList = (props) => {
                                                     <div className='flex flex-row'>
                                                         <div
                                                             className='bg-gray-100 p-2 rounded-lg flex-shrink-0 flex items-center'>
-                                                            {getIcon(request)}
+                                                            <TechEquiepmentIcon techEquipmentType={request.techType}
+                                                                                width={70}
+                                                                                height={70}/>
                                                         </div>
                                                         <div className='ml-2 flex-1 flex flex-col justify-start'>
-                                                            <p className=''>{request.techEquipmentId} | № {request.id}</p>
+                                                            <Link to={`/repair-requests/${request.id}`}
+                                                                  className=''>{request.techEquipmentId} |
+                                                                № {request.id}</Link>
                                                             <p className='text-xs sm:text-base sm-text-base flex-1'>{request.description.slice(0, 200)}{request.description.length > 200 ? '...' : ''}</p>
                                                             <div
                                                                 className='bg-gray-100 rounded-lg py-0.5 mt-1 px-3 hidden sm:block'>

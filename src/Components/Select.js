@@ -1,7 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
+import '../index.css'
 
 const Select = (props) => {
-    const {placeholder = 'Select', options, defaultValue, isMulti, onChange} = props;
+    const {placeholder = 'Select', options = {}, defaultValue, isMulti, onChange = () => null} = props;
 
     const [isDropdownEnabled, setIsDropdownEnabled] = useState(false)
     const [selectedItems, setSelectedItems] = useState([defaultValue.value])
@@ -75,11 +76,12 @@ const Select = (props) => {
             {isDropdownEnabled &&
                 (<div onClick={(e) => e.stopPropagation()}
                       ref={dropdownPanel}
-                      className='gradient-border-rotate border rounded-t-none text-black absolute bg-white w-full rounded-lg'>
+                      className='gradient-border-panel border rounded-t-none text-black absolute bg-white w-full rounded-lg'>
                     {options.map((opt, index) => {
                         const isItemSelected = selectedItems.includes(opt.value)
                         return (
-                            <div key={index} className={`${isItemSelected ? 'bg-purple-300' : 'hover:bg-purple-100'}
+                            <div key={index}
+                                 className={`${isItemSelected ? 'bg-Accent_light' : 'hover:bg-Accent_light hover:bg-opacity-10'}
                              ${index === options.length - 1 && 'rounded-b-lg'}`}>
                                 <div className="p-2 flex items-center">
                                     <input id={`input-${opt.value}`}

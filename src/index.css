@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;1,600&display=swap');
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -27,6 +26,18 @@ footer {
 
 .screenMobile {
     height: calc(100% - 80px);
+}
+
+.gradient-border {
+    background: linear-gradient(white, white) padding-box, linear-gradient(#839BFF, #C883FF) border-box;
+    border-style: solid;
+    border-color: transparent;
+}
+
+.gradient-border-panel {
+    background: linear-gradient(white, white) padding-box, linear-gradient(#C883FF, #839BFF) border-box;
+    border-style: solid;
+    border-color: transparent;
 }
 
 

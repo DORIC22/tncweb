@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { AuthContext } from "../hoc/AuthProvider";
+import React, {useContext, useEffect, useRef, useState} from "react";
+import {AuthContext} from "../hoc/AuthProvider";
 import {Link, useNavigate} from "react-router-dom";
 
 export default function Header() {
-    const { loginUser, isLoggedIn } = useContext(AuthContext);
+    const {loginUser, isLoggedIn} = useContext(AuthContext);
     const navigate = useNavigate()
     const linkToHome = useRef(null);
     const [rememberMe, setRememberMe] = useState(false);
@@ -78,25 +78,27 @@ export default function Header() {
                 <div className="my-4 mx-auto border-b-4 border-Accent_light rounded-full"/>
                 <form onSubmit={submit}>
                     <div className='mb-3.5'>
-                        <input className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light'
-                               type="email"
-                               id="email"
-                               placeholder='Email'
-                               name="email"
-                               value={register.email}
-                               onChange={changeInputRegister}
-                               formNoValidate
+                        <input
+                            className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light'
+                            type="email"
+                            id="email"
+                            placeholder='Email'
+                            name="email"
+                            value={register.email}
+                            onChange={changeInputRegister}
+                            formNoValidate
                         />
                     </div>
 
                     <div className='mb-2'>
-                        <input className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light'
-                               type="password"
-                               id="password"
-                               placeholder="Пароль"
-                               name="password"
-                               value={register.password}
-                               onChange={changeInputRegister}
+                        <input
+                            className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light'
+                            type="password"
+                            id="password"
+                            placeholder="Пароль"
+                            name="password"
+                            value={register.password}
+                            onChange={changeInputRegister}
                         />
                     </div>
 
@@ -116,17 +118,17 @@ export default function Header() {
                     <div className='flex items-center justify-center flex-col'>
                         <button className='bg-WhiteThemeMainColor2 px-12 py-2 rounded-lg mt-5 font-medium
                                            sm:px-20' type="submit"
-                        disabled={!isFormValid}>
+                                disabled={!isFormValid}>
                             Войти
                         </button>
                         {/* задаем ref для ссылки на страницу Home */}
-                        <Link to='/home' ref={linkToHome} className='hidden' >
+                        <Link to='/home' ref={linkToHome} className='hidden'>
                             <button>ссылка - переход</button>
                         </Link>
                         <span className='text-xs font-light mt-3
                                         sm:text-sm'>Нет аккаунта?</span>
-                        <a className='text-xs text-Accent_light font-light
-                                     sm:text-sm' href='/Registration' >
+                        <Link className='text-xs text-Accent_light font-light
+                                     sm:text-sm' to='/Registration'>
                             Подайте заявку на регистрацию
                         </Link>
                     </div>

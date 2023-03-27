@@ -1,51 +1,61 @@
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
 import RepairRequests from "./Pages/RepairRequests"
 import Registration from "./Pages/Registration";
 import React from "react";
-import {Wrapper} from "./Components/Wrapper";
-import {LoginPage} from "./Components/LoginPage";
+import {LoginPage} from "./Pages/LoginPage";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import RequireAuth from "./hoc/RequireAuth";
 import {repairRequestsLoader} from "./Components/RepairRequestList/RepairRequestList";
-import RepairRequestDetails from "./Pages/RepairRequestDetails";
+import {RepairRequestDetails, repairRequestLoader} from "./Pages/RepairRequestDetails";
+import Layout from "./Components/Layout";
+import Users from "./Pages/Users";
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <LoginPage/>
-    },
-    {
-        path: '/repair-requests',
-        element: (
-            <RequireAuth>
-                <RepairRequests/>
-            </RequireAuth>
-        ),
-        loader: repairRequestsLoader
-    },
-    {
-        path: '/repair-requests/:id',
-        element: (
-            <RequireAuth>
-                <RepairRequestDetails/>
-            </RequireAuth>
-        ),
-    },
-    {
-        path: '/registration',
-        element: <Registration/>
+        element: <Layout/>,
+        children: [
+            {
+                index: true,
+                element: <LoginPage/>
+            },
+            {
+                path: 'registration',
+                element: <Registration/>
+            },
+            {
+                path: 'repair-requests',
+                element: (
+                    <RequireAuth>
+                        <RepairRequests/>
+                    </RequireAuth>
+                ),
+                loader: repairRequestsLoader,
+            },
+            {
+                path: 'repair-requests/:id',
+                element: (
+                    <RequireAuth>
+                        <RepairRequestDetails/>
+                    </RequireAuth>
+                ),
+                loader: repairRequestLoader
+            },
+            {
+                path: 'users',
+                element: (
+                    <RequireAuth>
+                        <Users/>
+                    </RequireAuth>
+                ),
+            }
+        ]
     },
 ])
 
 function App() {
     return (
         <div className='flex flex-col min-h-screen'>
-            <Header/>
-            <Wrapper>
-                <RouterProvider router={router}/>
-            </Wrapper>
-            <Footer/>
+            <RouterProvider router={router}/>
         </div>
     )
 }

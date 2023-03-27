@@ -1,5 +1,5 @@
 import React from "react";
-import Auth from "./Auth";
+import Auth from "../Components/Auth";
 import Logo from '../Resources/logo.png'
 import {useLocation, useNavigate} from "react-router-dom";
 
