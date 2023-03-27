@@ -1,9 +1,9 @@
 import React, {Suspense} from 'react';
 import ky from "ky";
 import {Await, defer, useLoaderData} from "react-router-dom";
-import icon_pc from "../Resources/icon_pc.svg"
-import icon_printer from "../Resources/icon_printer.svg"
-import icon_camera from "../Resources/icon_camera.svg"
+import icon_pc from "../../Resources/icon_pc.svg"
+import icon_printer from "../../Resources/icon_printer.svg"
+import icon_camera from "../../Resources/icon_camera.svg"
 
 const RepairRequestList = (props) => {
     const {searchText, requestStatus, deviceTypes} = props
@@ -92,4 +92,4 @@ const repairRequestsLoader = async () => {
     })
 }
 
-export { RepairRequestList, repairRequestsLoader}
+export {RepairRequestList, repairRequestsLoader}

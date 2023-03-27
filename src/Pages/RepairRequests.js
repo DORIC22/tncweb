@@ -1,15 +1,15 @@
 import React, {useContext} from 'react';
 import {AuthContext} from '../hoc/AuthProvider';
-import FilterableRepairRequestList from "../Components/FilterableRepairRequestList";
+import FilterableRepairRequestList from "../Components/RepairRequestList/FilterableRepairRequestList";
 
-const Home = () => {
+const RepairRequests = () => {
     const {user} = useContext(AuthContext);
 
     return (
-        <div className='px-4 w-full mx-auto'>
+        <div className='w-full mx-auto'>
             <FilterableRepairRequestList/>
         </div>
     );
 };
 
-export default Home;
+export default RepairRequests;

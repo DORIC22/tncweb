@@ -31,17 +31,14 @@ export default function Header() {
 
     (async () => {
         await loginUserOnInit();
-        // код, который должен выполниться после успешной аутентификации
     })();
-    //если стоит чекбокс
+
 
     useEffect(() => {
-        // вызываем программный клик на кнопку "ссылка - переход"
         if (isLoggedIn) {
-            navigate("/home")
-            //linkToHome.current.click();
+            navigate("/repair-requests")
         }
-    }, [isLoggedIn, navigate]) //Убрать navigate в случае странного поведения
+    }, [isLoggedIn, navigate])
 
     const changeInputRegister = (event) => {
         event.persist();
@@ -131,7 +128,7 @@ export default function Header() {
                         <a className='text-xs text-Accent_light font-light
                                      sm:text-sm' href='/Registration' >
                             Подайте заявку на регистрацию
-                        </a>
+                        </Link>
                     </div>
 
                 </form>

@@ -1,6 +1,6 @@
 import React from "react";
-import Select from "./Select";
-import filter_date_up from "../Resources/filter_date_up.svg"
+import Select from "../Select";
+import filter_date_up from "../../Resources/filter_date_up.svg"
 
 const FilterRepairRequestList = (props) => {
     const {

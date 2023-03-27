@@ -1,14 +1,14 @@
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import Home from "./Pages/Home"
+import RepairRequests from "./Pages/RepairRequests"
 import Registration from "./Pages/Registration";
 import React from "react";
-import { Wrapper } from "./Components/Wrapper";
-import { LoginPage } from "./Components/LoginPage";
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import {Wrapper} from "./Components/Wrapper";
+import {LoginPage} from "./Components/LoginPage";
+import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import RequireAuth from "./hoc/RequireAuth";
-import Users from "./Pages/Users";
-import {repairRequestsLoader} from "./Components/RepairRequestList";
+import {repairRequestsLoader} from "./Components/RepairRequestList/RepairRequestList";
+import RepairRequestDetails from "./Pages/RepairRequestDetails";
 
 const router = createBrowserRouter([
     {
@@ -16,26 +16,34 @@ const router = createBrowserRouter([
         element: <LoginPage/>
     },
     {
-        path: '/home',
+        path: '/repair-requests',
         element: (
             <RequireAuth>
-                <Home/>
+                <RepairRequests/>
             </RequireAuth>
         ),
         loader: repairRequestsLoader
     },
     {
-      path: '/registration',
-      element: <Registration/>
-    }
+        path: '/repair-requests/:id',
+        element: (
+            <RequireAuth>
+                <RepairRequestDetails/>
+            </RequireAuth>
+        ),
+    },
+    {
+        path: '/registration',
+        element: <Registration/>
+    },
 ])
 
-function App(){
+function App() {
     return (
         <div className='flex flex-col min-h-screen'>
             <Header/>
             <Wrapper>
-                <RouterProvider router={router} />
+                <RouterProvider router={router}/>
             </Wrapper>
             <Footer/>
         </div>

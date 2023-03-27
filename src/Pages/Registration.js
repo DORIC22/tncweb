@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import validator from "validator/es";
 import InputMask from 'react-input-mask';
+import {Link} from "react-router-dom";
 
 export default function Registration() {
     const [register, setRegister] = useState(() => {
@@ -44,8 +45,7 @@ export default function Registration() {
             register.role = "1";
         }
 
-        if (register.fullName !== "" && register.fullName !== undefined)
-        {
+        if (register.fullName !== "" && register.fullName !== undefined) {
             let fioMassive = register.fullName.split(" ")
             register.lastName = fioMassive[0]
             register.firstName = fioMassive[1]
@@ -184,8 +184,8 @@ export default function Registration() {
 
                         <span className='text-xs font-light mt-3
                                         sm:text-sm'>Есть аккаунт?</span>
-                        <a className='text-xs text-Accent_light font-light
-                                     sm:text-sm' href='/' >Пройдите авторизацию</a>
+                        <Link className='text-xs text-Accent_light font-light
+                                     sm:text-sm' to='/'>Пройдите авторизацию</Link>
                     </div>
                 </form>
             </div>
