@@ -10,12 +10,12 @@ const RepairRequestDetails = () => {
     console.log(request)
 
     return (
-        <div className='sm:mx-48 flex-col sm:flex-1 sm:mt-12'>
+        <div className='sm:mx-32 flex-col sm:flex-1 sm:mt-12'>
             <TitleRepairRequestDetails date={request.createdDate}
                                        requestNumber={id}
                                        status={request.status}/>
             <BodyRepairRequestDetails techEquipmentId={request.techEquipmentId}
-                                      ipAddress={request.ipAddress}
+                                      ipAddress={request.techIpAddress}
                                       techType={request.techType}
                                       description={request.description}
                                       requestFrom={request.userFromId}

@@ -20,8 +20,8 @@ const FilterRepairRequestList = (props) => {
     const statusOptions = [
         {value: 0, label: 'В работе'},
         {value: 1, label: 'Активные'},
-        {value: 2, label: 'Завершённые'},
-        {value: 3, label: 'Архив'},
+        {value: 2, label: 'Архив'},
+        {value: 3, label: 'Отменённые'},
     ];
 
     const handleChange = (selected) => {
