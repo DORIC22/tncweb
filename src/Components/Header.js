@@ -1,12 +1,12 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import headerLogoMobileApp from '../Resources/headerLogoMobileApp.png'
 import {AuthContext} from "../hoc/AuthProvider";
-import {Link} from "react-router-dom";
 import BurgerMenu from "../Components/BurgerMenu"
+import CanSelectedLink from "./CanSelectedLink";
 
 export default function Header() {
     const {isLoggedIn} = useContext(AuthContext)
-    const links = [ { label: 'Сетевое оборудование', link: '/techEquipment' },
+    const links = [{label: 'Сетевое оборудование', link: '/techEquipment'},
         {label: 'Пользователи', link: '/users'},
         {label: 'Заявки', link: '/repair-requests'}]
 
@@ -16,37 +16,35 @@ export default function Header() {
 
                 <div className='flex'>
                     {isLoggedIn &&
-                        <div className='sm:hidden bg-Accent rounded-lg '>
-                            <BurgerMenu options={links}/>
-                        </div>
+                        <BurgerMenu options={links}/>
                     }
 
-                    <div className='sm:flex sm:justify-start sm:items-center sm:w-48 ml-2 sm:ml-0'>
+                    <div className='sm:flex sm:justify-start sm:items-center ml-2 md:ml-0'>
                         <h2 className='text-2xl font-bold sm:text-2xl'>TNC - Web</h2>
-                        { !isLoggedIn &&
-                        <h2 className='text-xs sm:hidden'>Система учета состояния сетевого оборудования</h2>
+                        {!isLoggedIn &&
+                            <h2 className='text-xs sm:hidden'>Система учета состояния сетевого оборудования</h2>
                         }
                     </div>
                 </div>
 
                 <div>
-                    { !isLoggedIn &&
+                    {!isLoggedIn &&
                         <h2 className='text-sm hidden sm:block'> {/*sm:block*/}
                             Система учета состояния сетевого оборудования
                         </h2>
                     }
-                    { isLoggedIn &&
-                        <div className='hidden sm:block'> {/*если isLoggedIn = true*/}
-                            <Link to={'/tech-equipment'} className=''>Сетевое оборудование</Link>
-                            <Link to={'/users'} className='mx-4'>Пользователи</Link>
-                            <Link to={'/repair-requests'} className=''>Заявки</Link>
+                    {isLoggedIn &&
+                        <div className='hidden md:block'> {/*если isLoggedIn = true*/}
+                            <CanSelectedLink to={'/tech-equipment'} className=''>Сетевое оборудование</CanSelectedLink>
+                            <CanSelectedLink to={'/users'} className='mx-4 lg:mx-12'>Пользователи</CanSelectedLink>
+                            <CanSelectedLink to={'/repair-requests'} className=''>Заявки</CanSelectedLink>
                         </div>
                     }
                 </div>
 
-                <div className='justify-center items-center sm:flex  sm:w-48'>
+                <div className='justify-center items-center md:flex  md:w-48'>
                     <img src={headerLogoMobileApp} alt='logo mobile' className='w-[20px] sm:w-[20px]'/>
-                    <h2 className='hidden sm:ml-1 sm:block'>Клиентская версия</h2>
+                    <h2 className='hidden md:ml-1 md:block'>Клиентская версия</h2>
                 </div>
 
             </div>

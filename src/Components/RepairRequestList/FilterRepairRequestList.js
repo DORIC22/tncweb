@@ -1,15 +1,17 @@
 import React from "react";
 import Select from "../Select";
 import filter_date_up from "../../Resources/filter_date_up.svg"
+import filter_date_down from "../../Resources/filter_date_down.svg"
 
-const FilterRepairRequestList = (props) => {
-    const {
-        searchText,
-        onChangeSearchText,
-        onChangeRequestStatus,
-        onChangeDeviceType,
-        onChangeDateSorting
-    } = props;
+const FilterRepairRequestList = ({
+                                     searchText,
+                                     onChangeSearchText,
+                                     onChangeRequestStatus,
+                                     onChangeDeviceType,
+                                     onChangeDateSorting,
+                                     sortDateByDesc,
+                                     children
+                                 }) => {
 
     const deviceOptions = [
         {value: 0, label: 'Компьютер'},
@@ -39,7 +41,10 @@ const FilterRepairRequestList = (props) => {
                 />
                 <div className='flex gap-2 ml-2'>
                     <button onClick={onChangeDateSorting}>
-                        <img src={filter_date_up} className='w-[35px] h-[35px]'/>
+                        {
+                            sortDateByDesc ? <img src={filter_date_up} className='w-[35px] h-[35px]'/> :
+                                <img src={filter_date_down} className='w-[35px] h-[35px]'/>
+                        }
                     </button>
                 </div>
             </div>
@@ -58,7 +63,7 @@ const FilterRepairRequestList = (props) => {
                         placeholder='Тип оборудования'
                 />
             </div>
-            {props.children}
+            {children}
         </div>
     );
 };

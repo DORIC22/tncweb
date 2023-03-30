@@ -1,28 +1,22 @@
 import React, {Suspense} from 'react';
 import ky from "ky";
 import {Await, defer, Link, useLoaderData} from "react-router-dom";
-import icon_pc from "../../Resources/icon_pc.svg"
-import icon_printer from "../../Resources/icon_printer.svg"
-import icon_camera from "../../Resources/icon_camera.svg"
 import TechEquiepmentIcon from "../TechEquiepmentIcon";
+import SkeletonLoader from "../SkeletonLoader";
 
-const RepairRequestList = (props) => {
-    const {searchText, requestStatus, deviceTypes} = props
-
+const RepairRequestList = ({searchText, requestStatus, deviceTypes, sortDateByDesc}) => {
     const {requests} = useLoaderData()
 
-    const getIcon = (request) => {
-        if (request.techType === 0)
-            return <img src={icon_pc} className='w-[70px] h-[70px]'/>
-        if (request.techType === 1)
-            return <img src={icon_printer} className='w-[70px] h-[70px]'/>
-        if (request.techType === 2)
-            return <img src={icon_camera} className='w-[70px] h-[70px]'/>
+    const getSortFunc = () => {
+        if (sortDateByDesc)
+            return (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
+        else
+            return (a, b) => new Date(a.createdDate) - new Date(b.createdDate)
     }
 
     return (
         <div className='w-full'>
-            <Suspense fallback={<h2>Загрузка данных...</h2>}>
+            <Suspense fallback={<SkeletonLoader/>}>
                 <Await resolve={requests}>
                     {
                         (resolvedRequests) => (
@@ -33,7 +27,7 @@ const RepairRequestList = (props) => {
                                         request => request.status == requestStatus &&
                                             request.techEquipmentId.includes(searchText) &&
                                             deviceTypes.includes(request.techType)
-                                    )
+                                    ).sort(getSortFunc())
                                         .map(request => (
                                                 <div className='gap-3 my-2 h-18 py-2 px-2 shadow-formShadow rounded-lg'
                                                      key={request.id}>

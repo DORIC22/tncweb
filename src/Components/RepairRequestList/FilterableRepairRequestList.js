@@ -32,6 +32,7 @@ const FilterableRepairRequestList = () => {
                 onChangeRequestStatus={handleRequestStatus}
                 onChangeDeviceType={handelDeviceType}
                 onChangeDateSorting={handleDateSorting}
+                sortDateByDesc={sortDateByDesc}
             />
             <RepairRequestList
                 searchText={searchText}
