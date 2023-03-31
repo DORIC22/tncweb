@@ -47,6 +47,7 @@ const router = createBrowserRouter([
                         <UsersPage/>
                     </RequireAuth>
                 ),
+                loader: usersLoader
             }
         ]
     },
