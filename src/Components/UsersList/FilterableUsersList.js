@@ -1,6 +1,6 @@
 import React from 'react';
 import FilterUsersList from "./FilterUsersList";
-import UsersList from "./UsersList";
+import {UsersList} from "./UsersList";
 
 const FilterableUsersList = () => {
     return (

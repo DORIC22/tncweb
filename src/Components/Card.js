@@ -7,11 +7,11 @@ const Card = ({title, linkToDetails, image, footerTitle, footerValue, children})
     return (
         <div className='my-2 p-2 shadow-formShadow rounded-lg'>
             <div className='flex'>
-                <div className='bg-gray-100 p-2 rounded-lg flex-shrink-0'>
+                <div className='bg-gray-100 p-2 rounded-lg flex-shrink-0 flex items-center'>
                     {image}
                 </div>
                 <div className={'ml-2 flex flex-col flex-1 justify-start'}>
-                    <Link to={linkToDetails}>{title}</Link>
+                    <Link className='text-xl font-medium opacity-80' to={linkToDetails}>{title}</Link>
 
                     {children}
 

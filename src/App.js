@@ -8,6 +8,7 @@ import {repairRequestsLoader} from "./Components/RepairRequestList/RepairRequest
 import {RepairRequestDetailsPage, repairRequestLoader} from "./Pages/RepairRequestDetailsPage";
 import Layout from "./Components/Layout";
 import UsersPage from "./Pages/UsersPage";
+import {usersLoader} from "./Components/UsersList/UsersList";
 
 const router = createBrowserRouter([
     {
