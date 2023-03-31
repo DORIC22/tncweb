@@ -12,7 +12,7 @@ const TitleRepairRequestDetails = (props) => {
         {value: 3, label: 'Отмененная'},
     ];
 
-    function test(e) {
+    function showModalCancel(e) {
         console.log(e[0])
 
         if (isModalCancel === true)

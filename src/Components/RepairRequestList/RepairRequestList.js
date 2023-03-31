@@ -1,8 +1,8 @@
 import React, {Suspense} from 'react';
 import ky from "ky";
-import {Await, defer, Link, useLoaderData} from "react-router-dom";
-import TechEquiepmentIcon from "../TechEquiepmentIcon";
+import {Await, defer, useLoaderData} from "react-router-dom";
 import SkeletonLoader from "../SkeletonLoader";
+import RepairRequestCard from "../RepairRequestCard";
 
 const RepairRequestList = ({searchText, requestStatus, deviceTypes, sortDateByDesc}) => {
     const {requests} = useLoaderData()
@@ -29,35 +29,13 @@ const RepairRequestList = ({searchText, requestStatus, deviceTypes, sortDateByDe
                                             deviceTypes.includes(request.techType)
                                     ).sort(getSortFunc())
                                         .map(request => (
-                                                <div className='gap-3 my-2 h-18 py-2 px-2 shadow-formShadow rounded-lg'
-                                                     key={request.id}>
-                                                    <div className='flex flex-row'>
-                                                        <div
-                                                            className='bg-gray-100 p-2 rounded-lg flex-shrink-0 flex items-center'>
-                                                            <TechEquiepmentIcon techEquipmentType={request.techType}
-                                                                                width={70}
-                                                                                height={70}/>
-                                                        </div>
-                                                        <div className='ml-2 flex-1 flex flex-col justify-start'>
-                                                            <Link to={`/repair-requests/${request.id}`}
-                                                                  className=''>{request.techEquipmentId} |
-                                                                № {request.id}</Link>
-                                                            <p className='text-xs sm:text-base sm-text-base flex-1'>{request.description.slice(0, 200)}{request.description.length > 200 ? '...' : ''}</p>
-                                                            <div
-                                                                className='bg-gray-100 rounded-lg py-0.5 mt-1 px-3 hidden sm:block'>
-                                                                <div className='flex justify-between'>
-                                                                    <p className='text-xs'>Дата создания: </p>
-                                                                    <p className='text-xs'>{new Date(request.createdDate).toLocaleDateString()}</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        className='flex justify-between bg-gray-100 rounded-lg py-0.5 mt-1 px-3 sm:hidden'>
-                                                        <p className='text-xs'>Дата создания: </p>
-                                                        <p className='text-xs'>{request.createdDate}</p>
-                                                    </div>
-                                                </div>
+                                                <RepairRequestCard title={`${request.techEquipmentId} | № ${request.id}`}
+                                                                   description={request.description}
+                                                                   descriptionLength={200}
+                                                                   type={request.techType}
+                                                                   id={request.id}
+                                                                   createdDate={request.createdDate}
+                                                />
                                             )
                                         )
                                 }
