@@ -3,7 +3,7 @@ import validator from "validator/es";
 import InputMask from 'react-input-mask';
 import {Link} from "react-router-dom";
 
-export default function Registration() {
+export default function RegistrationPage() {
     const [register, setRegister] = useState(() => {
         return {
             email: "",

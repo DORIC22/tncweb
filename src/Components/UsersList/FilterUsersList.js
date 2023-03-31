@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Users = () => {
+const FilterUsersList = () => {
     return (
         <div>
-            
+
         </div>
     );
 };
 
-export default Users;
+export default FilterUsersList;

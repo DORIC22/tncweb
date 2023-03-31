@@ -5,7 +5,7 @@ import BottomRepairRequestDetails from "../Components/BottomRepairRequestDetails
 import ky from "ky";
 import {defer, useLoaderData} from "react-router-dom";
 
-const RepairRequestDetails = () => {
+const RepairRequestDetailsPage = () => {
     const {id, request} = useLoaderData()
     console.log(request)
 
@@ -46,4 +46,4 @@ const repairRequestLoader = async ({params}) => {
     })
 }
 
-export {RepairRequestDetails, repairRequestLoader};
+export {RepairRequestDetailsPage, repairRequestLoader};

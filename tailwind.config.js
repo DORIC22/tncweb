@@ -17,7 +17,8 @@ module.exports = {
 
             boxShadow: {
                 'btnBlack': '0px 0px 10px rgba(0, 0, 0, 0.5)',
-                'formShadow': '0px 0px 5px 1px rgba(0, 0, 0, 0.2)'
+                'formShadow': '0px 0px 3px 1px rgba(0, 0, 0, 0.2)',
+                'formShadowMobile': '0px 0px 3px 1px rgba(0, 0, 0, 0.2)'
             },
         },
     },

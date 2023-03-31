@@ -1,13 +1,13 @@
-import RepairRequests from "./Pages/RepairRequests"
-import Registration from "./Pages/Registration";
+import RepairRequestsPage from "./Pages/RepairRequestsPage"
+import RegistrationPage from "./Pages/RegistrationPage";
 import React from "react";
 import {LoginPage} from "./Pages/LoginPage";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import RequireAuth from "./hoc/RequireAuth";
 import {repairRequestsLoader} from "./Components/RepairRequestList/RepairRequestList";
-import {RepairRequestDetails, repairRequestLoader} from "./Pages/RepairRequestDetails";
+import {RepairRequestDetailsPage, repairRequestLoader} from "./Pages/RepairRequestDetailsPage";
 import Layout from "./Components/Layout";
-import Users from "./Pages/Users";
+import UsersPage from "./Pages/UsersPage";
 
 const router = createBrowserRouter([
     {
@@ -20,13 +20,13 @@ const router = createBrowserRouter([
             },
             {
                 path: 'registration',
-                element: <Registration/>
+                element: <RegistrationPage/>
             },
             {
                 path: 'repair-requests',
                 element: (
                     <RequireAuth>
-                        <RepairRequests/>
+                        <RepairRequestsPage/>
                     </RequireAuth>
                 ),
                 loader: repairRequestsLoader,
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
                 path: 'repair-requests/:id',
                 element: (
                     <RequireAuth>
-                        <RepairRequestDetails/>
+                        <RepairRequestDetailsPage/>
                     </RequireAuth>
                 ),
                 loader: repairRequestLoader
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
                 path: 'users',
                 element: (
                     <RequireAuth>
-                        <Users/>
+                        <UsersPage/>
                     </RequireAuth>
                 ),
             }

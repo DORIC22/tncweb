@@ -47,7 +47,7 @@ const RepairRequestList = ({searchText, requestStatus, deviceTypes, sortDateByDe
                                                                 className='bg-gray-100 rounded-lg py-0.5 mt-1 px-3 hidden sm:block'>
                                                                 <div className='flex justify-between'>
                                                                     <p className='text-xs'>Дата создания: </p>
-                                                                    <p className='text-xs'>{request.createdDate}</p>
+                                                                    <p className='text-xs'>{new Date(request.createdDate).toLocaleDateString()}</p>
                                                                 </div>
                                                             </div>
                                                         </div>

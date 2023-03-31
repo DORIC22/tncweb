@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {AuthContext} from '../hoc/AuthProvider';
 import FilterableRepairRequestList from "../Components/RepairRequestList/FilterableRepairRequestList";
 
-const RepairRequests = () => {
+const RepairRequestsPage = () => {
     const {user} = useContext(AuthContext);
 
     return (
@@ -12,4 +12,4 @@ const RepairRequests = () => {
     );
 };
 
-export default RepairRequests;
+export default RepairRequestsPage;
