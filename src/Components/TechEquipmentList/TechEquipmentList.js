@@ -1,21 +1,21 @@
 import React, {Suspense} from 'react';
-import ky from "ky";
-import {Await, defer, useLoaderData} from "react-router-dom";
 import SkeletonLoader from "../SkeletonLoader";
 import UserCard from "../UserCard";
+import {Await,defer, useLoaderData} from "react-router-dom";
+import ky from "ky";
 
-const UsersList = () => {
-    const {users} = useLoaderData()
+const TechEquipmentList = () => {
+    const {equipments} = useLoaderData()
 
     return (
         <div className='w-full'>
             <Suspense fallback={<SkeletonLoader/>}>
-                <Await resolve={users}>
+                <Await resolve={equipments}>
                     {
-                        (resolvedUsers) => (
+                        (resolvedEquipment) => (
                             <>
                                 {
-                                    resolvedUsers.map(user => <UserCard/>)
+                                    resolvedEquipment.map(equipment => <UserCard/>)
                                 }
                             </>
                         )
@@ -26,8 +26,8 @@ const UsersList = () => {
     );
 };
 
-const getUsers = async () => {
-     const result = await ky.get(`http://5.128.221.139:7119/api/users`, {
+const getTechEquipment = async () => {
+    const result = await ky.get(`http://5.128.221.139:7119/api/tech-equipment`, {
         headers: {
             'x-apikey': '59a7ad19f5a9fa0808f11931',
             'Access-Control-Allow-Origin': '*',
@@ -40,11 +40,11 @@ const getUsers = async () => {
     return result
 }
 
-const usersLoader = async () => {
+const techEquipmentLoader = async () => {
 
     return defer({
-        users: getUsers()
+        equipments: getTechEquipment()
     })
 }
 
-export {UsersList, usersLoader};
+export {TechEquipmentList, techEquipmentLoader};
