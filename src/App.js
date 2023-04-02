@@ -9,6 +9,7 @@ import {RepairRequestDetailsPage, repairRequestLoader} from "./Pages/RepairReque
 import Layout from "./Components/Layout";
 import UsersPage from "./Pages/UsersPage";
 import {usersLoader} from "./Components/UsersList/UsersList";
+import NotFoundPage from "./Pages/NotFoundPage";
 
 const router = createBrowserRouter([
     {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
                     </RequireAuth>
                 ),
                 loader: usersLoader
+            },
+            {
+                path: '*',
+                element: <NotFoundPage/>
             }
         ]
     },

@@ -66,7 +66,7 @@ export default function RegistrationPage() {
     const inputStyle = "w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue"
 
     return (
-        <div className="align-middle flex flex-col justify-center items-center min-w-[300px] mt-12 sm:mt-36">
+        <div className="align-middle flex flex-col justify-center items-center min-w-[300px] mt-8 2xl:mt-36 ">
             <div className="shadow-formShadow my-auto px-6 py-8 rounded-2xl bg-WhiteThemeMainColor1 min-w-[315px]">
                 <h2 className="text-center text-2xl font-light mb-4">Регистрация:</h2>
                 <div className="my-4 mx-auto border-b-4 border-Accent_light rounded-full"/>

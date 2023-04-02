@@ -15,7 +15,7 @@ const UsersList = () => {
                         (resolvedUsers) => (
                             <>
                                 {
-                                    resolvedUsers.map(user => <UserCard/>)
+                                    resolvedUsers.map(user => <UserCard title={'title'} role={'role'} registrationDate={'regdate'} id={'id'} phone={'phone'} email={'email'}/>)
                                 }
                             </>
                         )

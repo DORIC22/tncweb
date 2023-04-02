@@ -70,7 +70,7 @@ export default function Header() {
     return (
         <div className="align-middle">
             <div className='shadow-formShadow bg-WhiteThemeMainColor1 min-w-[315px] p-6 my-auto rounded-2xl
-                            sm:px-10 sm:py-8 sm:min-w-[500px]'>
+                            sm:px-10 2xl:py-8 sm:min-w-[500px] md:py-2 '>
                 <h2 className='text-center text-2xl font-medium mb-6
                                sm:text-3xl'>
                     Авторизация:
