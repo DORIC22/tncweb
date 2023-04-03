@@ -47,14 +47,16 @@ const BodyRepairRequestDetails = ({techEquipmentId, ipAddress, techType, descrip
 
 
             <div className='flex justify-between my-2'>
-                <div className='p-1 bg-gray-100 rounded-lg flex'>
-                    <p className='text-xs'>ID устройства: {techEquipmentId}</p>
+                <div className='p-1 bg-gray-100 rounded-lg flex mr-1'>
+                    <p className='text-xs'>ID устройства: <p className='block md:inline'>{techEquipmentId}</p>
+                    </p>
                 </div>
-                <div className='flex justify-end'>
-                    <input maxLength={15} className='rounded-lg px-1.5 text-xs py-1 bg-gray-100 w-4/6'
-                           placeholder='IP'
-                           value={ipAddressValue}
-                           onChange={handleIpAddressChange}/>
+                <div className='flex justify-end ml-1'>
+                    <p className='rounded-lg px-1.5 text-xs py-1 bg-gray-100 w-full'>
+                        IP устройства:
+                        <p className='block md:inline'> {ipAddress}</p>
+                    </p>
+
                 </div>
             </div>
 

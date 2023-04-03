@@ -53,7 +53,7 @@ const Select = ({placeholder = 'Select', options = {}, defaultValue, isMulti, on
     }
 
     return (
-        <fieldset className='relative border-none w-full'>
+        <fieldset className='relative border-none w-full z-10'>
             <button
                 className={`gradient-border w-full bg-white px-2 sm:h-[42px] h-[36px] flex justify-between items-center border rounded-lg ${isDropdownEnabled && `rounded-b-none border-b-0 pb-0.5`}`}
                 onClick={(e) => {
