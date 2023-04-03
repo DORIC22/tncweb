@@ -1,8 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import '../index.css'
 
-const Select = (props) => {
-    const {placeholder = 'Select', options = {}, defaultValue, isMulti, onChange = () => null} = props;
+const Select = ({placeholder = 'Select', options = {}, defaultValue, isMulti, onChange = () => null}) => {
 
     const [isDropdownEnabled, setIsDropdownEnabled] = useState(false)
     const [selectedItems, setSelectedItems] = useState([defaultValue.value])

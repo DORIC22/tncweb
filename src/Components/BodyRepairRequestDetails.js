@@ -75,11 +75,11 @@ const BodyRepairRequestDetails = ({techEquipmentId, ipAddress, techType, descrip
             <div className='mt-4'>
                 <div>
                     <span className='sm:text-sm text-xs text-Accent_light'>Создатель заявки: </span>
-                    <span className='sm:text-sm text-xs'>{requestFrom}</span>
+                    <span className='sm:text-sm text-xs'>{requestFrom.fullName || 'Не назначено'}</span>
                 </div>
                 <div>
                     <span className='sm:text-sm text-xs text-Accent_light'>Исполнитель заявки: </span>
-                    <span className='sm:text-sm text-xs'>{requestFor}</span>
+                    <span className='sm:text-sm text-xs'>{requestFor.fullName || 'Не назначено'}</span>
                 </div>
 
                 <div className='flex justify-center my-3'>

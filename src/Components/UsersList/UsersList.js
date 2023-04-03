@@ -1,11 +1,18 @@
 import React, {Suspense} from 'react';
-import ky from "ky";
 import {Await, defer, useLoaderData} from "react-router-dom";
 import SkeletonLoader from "../SkeletonLoader";
 import UserCard from "../UserCard";
+import ExtendedKy from "../../ExtendedKy";
 
-const UsersList = () => {
+const UsersList = ({searchText, role, sortDateByDesc}) => {
     const {users} = useLoaderData()
+
+    const getSortFunc = () => {
+        if (sortDateByDesc)
+            return (a, b) => new Date(b.registrationDate) - new Date(a.registrationDate)
+        else
+            return (a, b) => new Date(a.registrationDate) - new Date(b.registrationDate)
+    }
 
     return (
         <div className='w-full'>
@@ -15,7 +22,12 @@ const UsersList = () => {
                         (resolvedUsers) => (
                             <>
                                 {
-                                    resolvedUsers.map(user => <UserCard title={'title'} role={'role'} registrationDate={'regdate'} id={'id'} phone={'phone'} email={'email'}/>)
+                                    resolvedUsers
+                                        .filter(user => user.fullName.includes(searchText) && user.role === role[0])
+                                        .sort(getSortFunc())
+                                        .map(user => <UserCard title={user.fullName} role={user.role}
+                                                               registrationDate={'05-05-2023'} id={user.id}
+                                                               phone={user.phone} email={user.email}/>)
                                 }
                             </>
                         )
@@ -27,13 +39,7 @@ const UsersList = () => {
 };
 
 const getUsers = async () => {
-     const result = await ky.get(`http://5.128.221.139:7119/api/users`, {
-        headers: {
-            'x-apikey': '59a7ad19f5a9fa0808f11931',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-        }
-    }).json();
+    const result = await ExtendedKy.get('users').json();
 
     console.log(result)
 

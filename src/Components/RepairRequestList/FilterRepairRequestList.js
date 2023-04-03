@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "../Select";
-import filter_date_up from "../../Resources/filter_date_up.svg"
-import filter_date_down from "../../Resources/filter_date_down.svg"
+import SearchBar from "../SearchBar";
+import {DeviceOptions, RepairRequestStatusOptions} from "../../SelectOptions";
 
 const FilterRepairRequestList = ({
                                      searchText,
@@ -13,53 +13,27 @@ const FilterRepairRequestList = ({
                                      children
                                  }) => {
 
-    const deviceOptions = [
-        {value: 0, label: 'Компьютер'},
-        {value: 1, label: 'Принтер'},
-        {value: 2, label: 'Камера'},
-    ];
-
-    const statusOptions = [
-        {value: 0, label: 'В работе'},
-        {value: 1, label: 'Активные'},
-        {value: 2, label: 'Архив'},
-        {value: 3, label: 'Отменённые'},
-    ];
-
     const handleChange = (selected) => {
         onChangeDeviceType(selected)
     };
 
     return (
-        <div className=''>
-            <div className='flex mt-4'>
-                <input
-                    className='w-full gradient-border border border-darkGray px-1 py-1 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base'
-                    placeholder="Поиск"
-                    value={searchText}
-                    onChange={(e) => onChangeSearchText(e.target.value)}
-                />
-                <div className='flex gap-2 ml-2'>
-                    <button className={'gradient-border border rounded-lg px-1 py-0.5'} onClick={onChangeDateSorting}>
-                        {
-                            sortDateByDesc ? <img src={filter_date_up} className='w-[25px] h-[25px]'/> :
-                                <img src={filter_date_down} className='w-[25px] h-[25px]'/>
-                        }
-                    </button>
-                </div>
-            </div>
+        <div>
+            <SearchBar className='mt-4' searchText={searchText} sortDateByDesc={sortDateByDesc}
+                       onChangeSearchText={onChangeSearchText}
+                       onChangeDateSorting={onChangeDateSorting}/>
 
             <div className='my-2 flex justify-between gap-1 sm:gap-3'>
                 <Select onChange={(e) => onChangeRequestStatus(e)}
-                        options={statusOptions}
+                        options={RepairRequestStatusOptions}
                         isMulti={false}
-                        defaultValue={statusOptions[0]}
+                        defaultValue={RepairRequestStatusOptions[0]}
                         placeholder='Статус заявки'
                 />
                 <Select onChange={handleChange}
-                        options={deviceOptions}
+                        options={DeviceOptions}
                         isMulti={true}
-                        defaultValue={deviceOptions[0]}
+                        defaultValue={DeviceOptions[0]}
                         placeholder='Тип оборудования'
                 />
             </div>

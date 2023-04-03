@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import Select from "./Select";
+import {RepairRequestStatusOptions} from "../SelectOptions";
 
-const TitleRepairRequestDetails = (props) => {
-    const {date, requestNumber, status} = props
+const TitleRepairRequestDetails = ({date, requestNumber, status, onChangeStatus}) => {
     const [isModalCancel, setIsModalCancel] = useState(false)
 
     const statusOptions = [
@@ -13,13 +13,12 @@ const TitleRepairRequestDetails = (props) => {
     ];
 
     function showModalCancel(e) {
-        console.log(e[0])
+        onChangeStatus(e[0])
 
         if (isModalCancel === true)
             setIsModalCancel(false)
         if (e[0] == 3) {
             setIsModalCancel(true)
-            console.log('modal_show')
         }
     }
 
@@ -60,8 +59,8 @@ const TitleRepairRequestDetails = (props) => {
                 <p className='font-bold text-xs sm:text-base sm:ml-4'>От {date}</p>
             </div>
             <div className='w-1/2'>
-                <Select options={statusOptions}
-                        defaultValue={statusOptions.find(x => x.value === status)}
+                <Select options={RepairRequestStatusOptions}
+                        defaultValue={RepairRequestStatusOptions.find(x => x.value === status)}
                         onChange={(e) => showModalCancel(e)}/>
             </div>
         </div>

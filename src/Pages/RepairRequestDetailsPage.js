@@ -2,37 +2,56 @@ import React from 'react';
 import TitleRepairRequestDetails from "../Components/TitleRepairRequestDetails";
 import BodyRepairRequestDetails from "../Components/BodyRepairRequestDetails";
 import BottomRepairRequestDetails from "../Components/BottomRepairRequestDetails"
-import ky from "ky";
 import {defer, useLoaderData} from "react-router-dom";
+import ExtendedKy from "../ExtendedKy";
 
 const RepairRequestDetailsPage = () => {
     const {id, request} = useLoaderData()
     console.log(request)
 
+    const updateRepairRequest = () => {
+        const response = ExtendedKy.put('repairrequest', {json: request})
+
+        console.log(response.status)
+    }
+
+    const changeRepairRequestStatus = (newStatus) => {
+        console.log(newStatus)
+        request.status = newStatus
+    }
+
     return (
         <div className='sm:mx-32 flex-col sm:flex-1 sm:mt-12'>
             <TitleRepairRequestDetails date={request.createdDate}
                                        requestNumber={id}
-                                       status={request.status}/>
+                                       status={request.status}
+                                       onChangeStatus={changeRepairRequestStatus}/>
             <BodyRepairRequestDetails techEquipmentId={request.techEquipmentId}
                                       ipAddress={request.techIpAddress}
                                       techType={request.techType}
                                       description={request.description}
-                                      requestFrom={request.userFromId}
-                                      requestFor={request.userToId}/>
-            <BottomRepairRequestDetails/>
+                                      requestFrom={request.userFrom}
+                                      requestFor={request.userTo}/>
+            <BottomRepairRequestDetails updateRepairRequest={updateRepairRequest}/>
         </div>
     );
 };
 
 const getRequestById = async (id) => {
-    const result = await ky.get(`http://5.128.221.139:7119/api/repairrequest?id=${id}`, {
-        headers: {
-            'x-apikey': '59a7ad19f5a9fa0808f11931',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-        }
-    }).json();
+    const result = await ExtendedKy.get(`repairrequest?id=${id}`).json()
+    result.userFrom = {fullName: ''}
+    result.userTo = {fullName: ''}
+
+
+    try {
+        const userFrom = await ExtendedKy.get(`users?id=${result.userFromId}`).json()
+        result.userFrom = userFrom
+        const userTo = await ExtendedKy.get(`users?id=${result.userToId}`).json()
+        result.userTo = userTo
+
+    } catch (e) {
+        console.log('Catch')
+    }
 
     return result
 }
