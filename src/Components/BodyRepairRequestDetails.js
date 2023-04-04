@@ -92,22 +92,33 @@ const BodyRepairRequestDetails = ({
                     <span className='sm:text-sm text-xs text-Accent_light'>Создатель заявки: </span>
                     <span className='sm:text-sm text-xs'>{requestFrom.fullName || 'Не назначено'}</span>
                 </div>
-                <div>
+                <div className='flex items-center gap-1'>
                     <span className='sm:text-sm text-xs text-Accent_light'>Исполнитель заявки: </span>
-                    <span className='sm:text-sm text-xs'>{requestFor.fullName || 'Не назначено'}</span>
-                </div>
+                    <Suspense
+                        fallback=
+                            {(
+                                <div className='flex gap-1'>
+                                    <input
+                                        className={`flex-1 w-full text-sm sm:text-base border border-gray-900 rounded-lg pl-1 focus:outline-none focus:border-Accent_light `}
+                                        placeholder='Не назначено'
+                                        type='search'
+                                        value={requestFor.fullName || 'Не назчаненно'}
+                                        readOnly={true}/>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" className="animate-spin w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                                    </svg>
+                                </div>
 
-                <div className='flex justify-center my-3'>
-                    <button className='bg-gray-100 rounded-lg mt-1 text-xs px-3 py-1 sm:text-sm' onClick={changeModal}>
-                        Изменить исполнителя
-                    </button>
-                    <Suspense fallback={<p>Загрузка техников...</p>}>
+                            )}>
                         <Await resolve={resolvedData}>
                             {
                                 (resolvedData) => {
                                     console.log(resolvedData)
                                     return <AutoSuggestBox itemSource={resolvedData}
                                                            displayMember='fullName'
+                                                           defaultText={requestFor.fullName || ''}
                                                            onChangeTech={changeTech}
                                     />
                                 }
