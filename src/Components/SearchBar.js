@@ -8,6 +8,7 @@ const SearchBar = ({className, searchText, sortDateByDesc, onChangeSearchText, o
             <input
                 className='w-full gradient-border border border-darkGray px-1 py-1 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base'
                 placeholder="Поиск"
+                type="search"
                 value={searchText}
                 onChange={(e) => onChangeSearchText(e.target.value)}
             />

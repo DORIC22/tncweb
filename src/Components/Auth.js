@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
 import {AuthContext} from "../hoc/AuthProvider";
 import {Link, useNavigate} from "react-router-dom";
-import SmartSearch from "./smartSearch";
 
 export default function Header() {
     const {loginUser, isLoggedIn} = useContext(AuthContext);
@@ -70,7 +69,6 @@ export default function Header() {
 
     return (
         <div className="align-middle">
-            <SmartSearch/>
             <div className='shadow-formShadow bg-WhiteThemeMainColor1 min-w-[315px] p-6 my-auto rounded-2xl
                             sm:px-10 2xl:py-8 sm:min-w-[500px] md:py-2 '>
                 <h2 className='text-center text-2xl font-medium mb-6

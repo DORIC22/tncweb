@@ -1,8 +1,19 @@
-import React, {useState} from 'react';
+import React, {Suspense, useState} from 'react';
 import '../index.css'
 import TechEquipmentIcon from "./TechEquiepmentIcon";
+import AutoSuggestBox from "./AutoSuggestBox";
+import {Await} from "react-router-dom";
 
-const BodyRepairRequestDetails = ({techEquipmentId, ipAddress, techType, description, requestFrom, requestFor}) => {
+const BodyRepairRequestDetails = ({
+                                      techEquipmentId,
+                                      ipAddress,
+                                      techType,
+                                      description,
+                                      requestFrom,
+                                      requestFor,
+                                      resolvedData,
+                                      onChangeTech
+                                  }) => {
     const [isModal, setIsModal] = useState(false);
     const [ipAddressValue, setIpAddressValue] = useState(ipAddress);
 
@@ -14,6 +25,9 @@ const BodyRepairRequestDetails = ({techEquipmentId, ipAddress, techType, descrip
         setIpAddressValue(event.target.value);
     }
 
+    const changeTech = (newTech) => {
+        onChangeTech(newTech)
+    }
 
     return (
         <div className='gradient-border border mt-4 rounded-lg shadow-formShadow px-6 py-3'>
@@ -44,7 +58,6 @@ const BodyRepairRequestDetails = ({techEquipmentId, ipAddress, techType, descrip
                     <div className='fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40'></div>
                 </>
             }
-
 
             <div className='flex justify-between my-2'>
                 <div className='p-1 bg-gray-100 rounded-lg flex mr-1'>
@@ -88,6 +101,19 @@ const BodyRepairRequestDetails = ({techEquipmentId, ipAddress, techType, descrip
                     <button className='bg-gray-100 rounded-lg mt-1 text-xs px-3 py-1 sm:text-sm' onClick={changeModal}>
                         Изменить исполнителя
                     </button>
+                    <Suspense fallback={<p>Загрузка техников...</p>}>
+                        <Await resolve={resolvedData}>
+                            {
+                                (resolvedData) => {
+                                    console.log(resolvedData)
+                                    return <AutoSuggestBox itemSource={resolvedData}
+                                                           displayMember='fullName'
+                                                           onChangeTech={changeTech}
+                                    />
+                                }
+                            }
+                        </Await>
+                    </Suspense>
                 </div>
 
             </div>

@@ -6,8 +6,7 @@ import {defer, useLoaderData} from "react-router-dom";
 import ExtendedKy from "../ExtendedKy";
 
 const RepairRequestDetailsPage = () => {
-    const {id, request} = useLoaderData()
-    console.log(request)
+    const {id, request, tech} = useLoaderData()
 
     const updateRepairRequest = () => {
         const response = ExtendedKy.put('repairrequest', {json: request})
@@ -16,8 +15,11 @@ const RepairRequestDetailsPage = () => {
     }
 
     const changeRepairRequestStatus = (newStatus) => {
-        console.log(newStatus)
         request.status = newStatus
+    }
+
+    const changeTech = (techId) => {
+        request.userToId = techId
     }
 
     return (
@@ -31,17 +33,26 @@ const RepairRequestDetailsPage = () => {
                                       techType={request.techType}
                                       description={request.description}
                                       requestFrom={request.userFrom}
-                                      requestFor={request.userTo}/>
+                                      requestFor={request.userTo}
+                                      resolvedData={tech}
+                                      onChangeTech={changeTech}/>
             <BottomRepairRequestDetails updateRepairRequest={updateRepairRequest}/>
         </div>
     );
 };
 
+const getUsersTech = async () => {
+    const result = await ExtendedKy.get('users?role=Tech').json()
+
+    console.log(result)
+
+    return result
+}
+
 const getRequestById = async (id) => {
     const result = await ExtendedKy.get(`repairrequest?id=${id}`).json()
     result.userFrom = {fullName: ''}
     result.userTo = {fullName: ''}
-
 
     try {
         const userFrom = await ExtendedKy.get(`users?id=${result.userFromId}`).json()
@@ -61,7 +72,8 @@ const repairRequestLoader = async ({params}) => {
 
     return defer({
         id: id,
-        request: await getRequestById(id)
+        request: await getRequestById(id),
+        tech: getUsersTech()
     })
 }
 
