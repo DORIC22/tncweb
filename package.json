@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "email-js": "^2.0.2",
+    "emailjs-com": "^3.2.0",
     "js-sha256": "^0.9.0",
     "ky": "^0.33.2",
     "react": "^18.2.0",

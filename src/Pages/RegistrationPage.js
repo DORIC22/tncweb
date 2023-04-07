@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import validator from "validator/es";
 import InputMask from 'react-input-mask';
 import {Link} from "react-router-dom";
+import emailjs from 'emailjs-com';
+
 
 export default function RegistrationPage() {
     const [register, setRegister] = useState(() => {
@@ -17,6 +19,7 @@ export default function RegistrationPage() {
     });
 
     const [isFormValid, setIsFormValid] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(register.email);
@@ -54,19 +57,64 @@ export default function RegistrationPage() {
             alert("Входное значение FullName: " + register.fullName + "\nЧто в итоге получилось, lastname,firstname,patronymic: " +
                 register.lastName + "\n" + register.firstName + "\n" + register.patronymic)
         }
-
-        console.log(register);
-        alert("Форма успешно отправлена!\n" +
-            "В случае регистрации, вы получите письмо на указанный вами адрес электронный почты.\n" +
-            "Вы будете перенаправлены на страницу авторизации.");
-        window.location.href = "/";
-        // Если все валидно, то по кнопке попадаем сюда.
+        console.log(register.role)
+        switch (register.role)
+        {
+            case '1':
+                register.role = 'Администратор'
+                break
+            case '2':
+                register.role = 'Техник'
+                break
+            case '3':
+                register.role = 'Пользователь'
+                break
+        }
+        sendMail();
     };
 
     const inputStyle = "w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue"
 
+    function sendMail() {
+        console.log('ggbet')
+        const templateParams = {
+            from_name: register.firstName + ' ' + register.lastName + ' ' + register.patronymic,
+            from_email: 'Net-Eye@yandex.ru',
+            to_name: 'awesome.tnc@yandex.ru',
+            userEmail: register.email,
+            userPhoneNumber: register.phoneNumber,
+            userRole: register.role
+        };
+        console.log(templateParams)
+        setIsLoading(true)
+        emailjs.send('service_58empoa', 'template_tgnnld8', templateParams, '9UvieRKIjqQahLyKs')
+            .then((result) => {
+                setIsLoading(false)
+                alert('Успешно отправлено!')
+                window.location.href = "/";
+            }, (error) => {
+                console.log(error)
+                setIsLoading(false)
+            });
+    }
+
     return (
         <div className="align-middle flex flex-col justify-center items-center min-w-[300px] mt-8 2xl:mt-36 ">
+
+            {isLoading&&
+                <div className="inline-flex items-center absolute bg-gray-100 shadow-formShadow px-4 py-3 rounded-lg">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-Accent_light sm:w-8 sm:h-8" xmlns="http://www.w3.org/2000/svg"
+                         fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4"></circle>
+                        <path className="opacity-75" fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647zM12 20.25a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5z"></path>
+                    </svg>
+                    <span className='text-xs sm:text-base'>Отправляем письмо...</span>
+                </div>
+
+            }
+
             <div className="shadow-formShadow my-auto px-6 py-8 rounded-2xl bg-WhiteThemeMainColor1 min-w-[315px]">
                 <h2 className="text-center text-2xl font-light mb-4">Регистрация:</h2>
                 <div className="my-4 mx-auto border-b-4 border-Accent_light rounded-full"/>
