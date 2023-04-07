@@ -1,7 +1,7 @@
 import React, {Suspense, useState} from 'react';
-import '../index.css'
-import TechEquipmentIcon from "./TechEquiepmentIcon";
-import AutoSuggestBox from "./AutoSuggestBox";
+import '../../index.css'
+import TechEquipmentIcon from "../TechEquiepmentIcon";
+import AutoSuggestBox from "../AutoSuggestBox";
 import {Await} from "react-router-dom";
 
 const BodyRepairRequestDetails = ({

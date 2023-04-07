@@ -1,7 +1,7 @@
 import ky from "ky";
 
 const ExtendedKy = ky.extend({
-    prefixUrl: 'http://192.168.0.107:7119/api',
+    prefixUrl: 'http://5.128.221.139:7119/api',
     headers: {
         'x-apikey': '59a7ad19f5a9fa0808f11931',
         'Access-Control-Allow-Origin': '*',

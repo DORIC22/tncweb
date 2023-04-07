@@ -1,19 +1,28 @@
 import React, {useState} from 'react';
-import Select from "./Select";
-import {RepairRequestStatusOptions} from "../SelectOptions";
+import Select from "../Select";
+import {RepairRequestStatusOptions} from "../../SelectOptions";
 
 const TitleRepairRequestDetails = ({date, requestNumber, status, onChangeStatus}) => {
     const [isModalCancel, setIsModalCancel] = useState(false)
+    const [selectedStatus, setSelectedStatus] = useState(status) // сохраняем значение выбранного статуса
 
     function showModalCancel(e) {
         onChangeStatus(e[0])
+        setSelectedStatus(e[0]) // сохраняем значение выбранного статуса при открытии модального окна
 
         if (isModalCancel === true)
             setIsModalCancel(false)
-        if (e[0] == 3 || e[0] == 2) {
+        if (e[0] === 3 || e[0] === 2) {
             setIsModalCancel(true)
         }
     }
+
+    // используем сохраненное значение внутри модального окна
+    function handleSave() {
+        onChangeStatus(selectedStatus)
+        setIsModalCancel(false)
+    }
+
 
 
     return (
@@ -36,12 +45,12 @@ const TitleRepairRequestDetails = ({date, requestNumber, status, onChangeStatus}
                             <div className='flex justify-center'>
                                 <button
                                     className='bg-Accent sm:py-3 sm:px-6 sm:text-base text-sm rounded-lg py-1.5 px-2 text-white mr-1'
-                                    onClick={showModalCancel}>
+                                    onClick={handleSave}>
                                     Закрыть
                                 </button>
                                 <button
                                     className='bg-Accent sm:py-3 sm:px-6 sm:text-base text-sm rounded-lg py-1.5 px-2 text-white ml-1'
-                                    onClick={showModalCancel}>
+                                    onClick={handleSave}>
                                     Сохранить
                                 </button>
                             </div>

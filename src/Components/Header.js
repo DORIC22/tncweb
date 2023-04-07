@@ -3,12 +3,28 @@ import headerLogoMobileApp from '../Resources/headerLogoMobileApp.png'
 import {AuthContext} from "../hoc/AuthProvider";
 import BurgerMenu from "../Components/BurgerMenu"
 import CanSelectedLink from "./CanSelectedLink";
+import {Link, useHref} from "react-router-dom";
 
 export default function Header() {
     const {isLoggedIn} = useContext(AuthContext)
     const links = [{label: 'Сетевое оборудование', link: '/techEquipment'},
         {label: 'Пользователи', link: '/users'},
         {label: 'Заявки', link: '/repair-requests'}]
+
+    function out() {
+        if (isLoggedIn) {
+            const result = window.confirm("Выйти из аккаунта?");
+            if (result) {
+                localStorage.setItem("UserAuth", "false")
+                window.location.reload()
+                console.log('Achievement required:' +
+                    'Home sweet Home')
+            } else {
+                console.log('Achievement required:' +
+                    'Сорвался!')
+            }
+        }
+    }
 
     return (
         <header className='shadow-formShadow fixed w-full bg-white z-30'>
@@ -20,7 +36,9 @@ export default function Header() {
                     }
 
                     <div className='sm:flex sm:justify-start sm:items-center ml-2 md:ml-0'>
-                        <h2 className='text-2xl font-bold sm:text-2xl'>TNC - Web</h2>
+                        <a onClick={out}>
+                            <h2 className='text-2xl font-bold sm:text-2xl'>Net-Eye</h2>
+                        </a>
                         {!isLoggedIn &&
                             <h2 className='text-xs sm:hidden'>Система учета состояния сетевого оборудования</h2>
                         }
@@ -42,10 +60,15 @@ export default function Header() {
                     }
                 </div>
 
-                <div className='justify-center items-center md:flex  md:w-48'>
-                    <img src={headerLogoMobileApp} alt='logo mobile' className='w-[20px] sm:w-[20px]'/>
-                    <h2 className='hidden md:ml-1 md:block'>Клиентская версия</h2>
-                </div>
+                <a href="https://disk.yandex.ru/d/Nb2t_7hJu84djg" onClick={(e) => {
+                    e.preventDefault();
+                    window.open('https://disk.yandex.ru/d/Nb2t_7hJu84djg', '_blank', 'width=800,height=600');
+                }}>
+                    <div className='justify-center items-center md:flex  md:w-48'>
+                        <img src={headerLogoMobileApp} alt='logo mobile' className='w-[20px] sm:w-[20px]'/>
+                        <h2 className='hidden md:ml-1 md:block'>Клиентская версия</h2>
+                    </div>
+                </a>
 
             </div>
         </header>

@@ -1,7 +1,7 @@
 import React from 'react';
-import TitleRepairRequestDetails from "../Components/TitleRepairRequestDetails";
-import BodyRepairRequestDetails from "../Components/BodyRepairRequestDetails";
-import BottomRepairRequestDetails from "../Components/BottomRepairRequestDetails"
+import TitleRepairRequestDetails from "../Components/RepairRequestDetails/TitleRepairRequestDetails";
+import BodyRepairRequestDetails from "../Components/RepairRequestDetails/BodyRepairRequestDetails";
+import BottomRepairRequestDetails from "../Components/RepairRequestDetails/BottomRepairRequestDetails"
 import {defer, useLoaderData} from "react-router-dom";
 import ExtendedKy from "../ExtendedKy";
 
@@ -9,6 +9,7 @@ const RepairRequestDetailsPage = () => {
     const {id, request, tech} = useLoaderData()
 
     const updateRepairRequest = () => {
+        console.log(request.status)
         const response = ExtendedKy.put('repairrequest', {json: request})
 
         console.log(response.status)
