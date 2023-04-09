@@ -49,7 +49,6 @@ const Select = ({placeholder = 'Select', options = {}, defaultValue, isMulti = f
                 setSelectedItems(value)
             setIsDropdownEnabled(false)
         }
-
     }
 
     return (

@@ -3,8 +3,6 @@ import '../../index.css'
 import TechEquipmentIcon from "../Icons/TechEquiepmentIcon";
 import AutoSuggestBox from "../AutoSuggestBox";
 import {Await} from "react-router-dom";
-import ModalWindow from "../ModalWindow";
-import useModal from "../../Hooks/useModal";
 
 const BodyRepairRequestDetails = ({
                                       techEquipmentId,
@@ -16,8 +14,7 @@ const BodyRepairRequestDetails = ({
                                       resolvedData,
                                       onChangeTech
                                   }) => {
-    const [ipAddressValue, setIpAddressValue] = useState(ipAddress);
-    const [isOpenModal, toggleModal] = useModal()
+    const [ipAddressValue, setIpAddressValue] = useState(ipAddress)
 
     function handleIpAddressChange(event) {
         setIpAddressValue(event.target.value);
@@ -27,25 +24,8 @@ const BodyRepairRequestDetails = ({
         onChangeTech(newTech)
     }
 
-    const buttons = [
-        {
-            content: 'Сохранить',
-            onClick: () => {
-            },
-            className: 'bg-Accent text-sm rounded-lg py-1.5 px-2 text-white sm:py-3 sm:px-6 sm:text-base'
-        }
-    ]
-
     return (
         <div className='gradient-border border mt-4 rounded-lg shadow-formShadow px-6 py-3'>
-
-            <ModalWindow isOpen={true} title='Изменение исполнителя' width={250} widthSm={400} buttons={buttons}>
-                <div className='flex justify-center my-4'>
-                    <input
-                        className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue'
-                        placeholder='Введите ФИО'/>
-                </div>
-            </ModalWindow>
 
             <div className='flex justify-between my-2'>
                 <div className='p-1 bg-gray-100 rounded-lg flex mr-1'>
