@@ -6,6 +6,7 @@ import sha256 from "js-sha256";
 import ExtendedKy from "../../ExtendedKy";
 import InputMask from "react-input-mask";
 import validator from "validator/es";
+import emailjs from "emailjs-com";
 
 const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChangeRole, onChangeDateSorting}) => {
     const [isModalAdd, setIsModalAdd] = useState(false)
