@@ -11,6 +11,7 @@ import emailjs from "emailjs-com";
 const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChangeRole, onChangeDateSorting}) => {
     const [isModalAdd, setIsModalAdd] = useState(false)
     const [rPassword, setRPassword] = useState('')
+    const [sendRegMail, setSendRegMail] = useState(false)
     const [savedUser, setSavedUser] = useState({
         lastName: '',
         firstName: '',
@@ -63,6 +64,9 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
 
         try {
             const response = await ExtendedKy.post('users', {json: savedUser});
+            if (sendRegMail) {
+                sendMail()
+            }
             isModalAddChange();
         } catch (error) {
             console.error('Failed to save new user:', error);
@@ -106,6 +110,10 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
         const numericPhoneNumber = phoneNumber.replace(/\D/g, '');
 
         return numericPhoneNumber;
+    }
+
+    const changeSendRegMail = () => {
+        setSendRegMail(!sendRegMail)
     }
 
     return (
@@ -173,6 +181,14 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
                                 placeholder='Повтор пароля'
                                 autoComplete={'new-password'}
                                 onChange={(event) => setRPassword(event.target.value)}/>
+
+                            <div className='flex justify-start mt-2'>
+                                <input className=''
+                                       type={"checkbox"}
+                                       onChange={changeSendRegMail}
+                                />
+                                <span className='ml-2'>Отправить письмо</span>
+                            </div>
                         </div>
 
                         <div className='flex justify-center'>
