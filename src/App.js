@@ -6,7 +6,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import RequireAuth from "./hoc/RequireAuth";
 import {repairRequestsLoader} from "./Components/RepairRequestList/RepairRequestList";
 import {RepairRequestDetailsPage, repairRequestLoader} from "./Pages/RepairRequestDetailsPage";
-import Layout from "./Components/Layout";
+import Layout from "./Components/Layouts/Layout";
 import UsersPage from "./Pages/UsersPage";
 import {usersLoader} from "./Components/UsersList/UsersList";
 import NotFoundPage from "./Pages/NotFoundPage";

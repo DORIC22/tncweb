@@ -1,9 +1,8 @@
 import React, {useContext} from "react";
-import headerLogoMobileApp from '../Resources/headerLogoMobileApp.png'
-import {AuthContext} from "../hoc/AuthProvider";
-import BurgerMenu from "../Components/BurgerMenu"
-import CanSelectedLink from "./CanSelectedLink";
-import {Link, useHref} from "react-router-dom";
+import headerLogoMobileApp from '../../Resources/headerLogoMobileApp.png'
+import {AuthContext} from "../../hoc/AuthProvider";
+import BurgerMenu from "../BurgerMenu"
+import CanSelectedLink from "../CanSelectedLink";
 
 export default function Header() {
     const {isLoggedIn} = useContext(AuthContext)

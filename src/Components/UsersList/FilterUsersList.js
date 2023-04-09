@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import SearchBar from "../SearchBar";
 import Select from "../Select";
-import {RoleOptions} from "../../SelectOptions";
+import {RoleOptions} from "../../Common/SelectOptions";
 import sha256 from "js-sha256";
-import ExtendedKy from "../../ExtendedKy";
+import ExtendedKy from "../../Common/ExtendedKy";
 import InputMask from "react-input-mask";
 import validator from "validator/es";
 import emailjs from "emailjs-com";
@@ -15,11 +15,13 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
         lastName: '',
         firstName: '',
         patronymic: '',
-        phoneNumber: '',
+        phone: '',
         email: '',
-        userType: 0,
+        role: 0,
         password: ''
     });
+
+    const inputStyle = 'border border-darkGray p-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base mt-2'
 
     function isModalAddChange() {
         setIsModalAdd((prev) => !prev)
@@ -30,36 +32,81 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
         }
     }
 
-
-    function saveNewUser() {
-        if (savedUser.firstName.length > 1 && savedUser.lastName.length > 1 && validator.isEmail(savedUser.email) && !savedUser.phoneNumber.includes('_'))
-        {
-            if(rPassword === savedUser.password)
-            {
-                if (validator.isStrongPassword(savedUser.password)) {
-                    setSavedUser.password = (sha256(savedUser.password))
-                    const response = ExtendedKy.put('users', {json: savedUser})
-                    isModalAddChange()
-                }
-                else
-                {
-                    alert('Сложность пароля не отвечает требованиям безопасности')
-                }
-            }
-            else
-            {
-                alert('Введенные пароли не совпадают.')
-            }
+    async function saveNewUser() {
+        if (!savedUser.firstName || !savedUser.lastName) {
+            alert('Заполните все поля.');
+            return;
         }
-        else
-        {
-            alert('Заполните все поля.')
+
+        if (!validator.isEmail(savedUser.email)) {
+            alert('Введите корректный адрес электронной почты.');
+            return;
+        }
+
+        if (savedUser.phone.includes('_') || !savedUser.phone) {
+            alert('Введите корректный номер телефона.');
+            return;
+        }
+
+        if (rPassword !== savedUser.password) {
+            alert('Введенные пароли не совпадают.');
+            return;
+        }
+
+        if (!validator.isStrongPassword(savedUser.password)) {
+            alert('Сложность пароля не отвечает требованиям безопасности.');
+            return;
+        }
+
+        savedUser.password = sha256(savedUser.password);
+        savedUser.phone = formatPhoneNumber(savedUser.phone);
+
+        try {
+            const response = await ExtendedKy.post('users', {json: savedUser});
+            isModalAddChange();
+        } catch (error) {
+            console.error('Failed to save new user:', error);
+            alert('Не удалось сохранить нового пользователя.');
         }
     }
 
+    function sendMail() {
+
+        const templateParams = {
+            userEmail: savedUser.email,
+            userFullName: savedUser.lastName + ' ' + savedUser.firstName + ' ' + savedUser.patronymic,
+            userPassword: savedUser.password
+        };
+
+        switch (savedUser.role) {
+            case 0:
+                templateParams.userRole = 'Пользователь'
+                break
+            case 1:
+                templateParams.userRole = 'Техник'
+                break
+            case 2:
+                templateParams.userRole = 'Администратор'
+                break
+        }
+
+        emailjs.send('service_58empoa', 'template_8uv60ai', templateParams, '9UvieRKIjqQahLyKs')
+            .then((result) => {
+                alert('Успешно отправлено!')
+            }, (error) => {
+                console.log(error)
+            });
+    }
+
     const handleChange = (selected) => {
-        savedUser.userType = selected
+        savedUser.role = selected
     };
+
+    function formatPhoneNumber(phoneNumber) {
+        const numericPhoneNumber = phoneNumber.replace(/\D/g, '');
+
+        return numericPhoneNumber;
+    }
 
     return (
         <div>
@@ -74,32 +121,32 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
 
                         <div className='py-2 px-4 flex flex-col'>
                             <input
-                                className='border border-darkGray p-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base mt-2'
+                                className={inputStyle}
                                 placeholder='Фамилия'
                                 maxLength={102}
                                 value={savedUser.lastName}
                                 onChange={(event) => setSavedUser({...savedUser, lastName: event.target.value})}/>
                             <input
-                                className='border border-darkGray p-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base mt-2'
+                                className={inputStyle}
                                 placeholder='Имя'
                                 maxLength={102}
                                 value={savedUser.firstName}
                                 onChange={(event) => setSavedUser({...savedUser, firstName: event.target.value})}/>
                             <input
-                                className='border border-darkGray p-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base mt-2'
+                                className={inputStyle}
                                 placeholder='Отчество'
                                 maxLength={102}
                                 value={savedUser.patronymic}
                                 onChange={(event) => setSavedUser({...savedUser, patronymic: event.target.value})}/>
                             <InputMask
-                                className='border border-darkGray p-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base mt-2'
+                                className={inputStyle}
                                 placeholder='Телефон'
                                 type='tel'
                                 mask="+7 (999) 999-99-99"
-                                value={savedUser.phoneNumber}
-                                onChange={(event) => setSavedUser({...savedUser, phoneNumber: event.target.value})}/>
+                                value={savedUser.phone}
+                                onChange={(event) => setSavedUser({...savedUser, phone: event.target.value})}/>
                             <input
-                                className='border border-darkGray p-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base my-2'
+                                className={`${inputStyle} mb-2`}
                                 placeholder='Электронная почта'
                                 autoComplete={'new-password'}
                                 maxLength={100}
@@ -113,15 +160,16 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
                             />
 
                             <input
-                                className='border border-darkGray p-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base mt-2'
+                                className={inputStyle}
                                 placeholder='Пароль'
                                 type={"password"}
                                 autoComplete={'new-password'}
                                 value={savedUser.password}
                                 onChange={(event) => setSavedUser({...savedUser, password: event.target.value})}/>
+
                             <input
                                 type={"password"}
-                                className='border border-darkGray p-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base mt-2'
+                                className={inputStyle}
                                 placeholder='Повтор пароля'
                                 autoComplete={'new-password'}
                                 onChange={(event) => setRPassword(event.target.value)}/>

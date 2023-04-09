@@ -1,8 +1,10 @@
 import React, {Suspense, useState} from 'react';
 import '../../index.css'
-import TechEquipmentIcon from "../TechEquiepmentIcon";
+import TechEquipmentIcon from "../Icons/TechEquiepmentIcon";
 import AutoSuggestBox from "../AutoSuggestBox";
 import {Await} from "react-router-dom";
+import ModalWindow from "../ModalWindow";
+import useModal from "../../Hooks/useModal";
 
 const BodyRepairRequestDetails = ({
                                       techEquipmentId,
@@ -14,12 +16,8 @@ const BodyRepairRequestDetails = ({
                                       resolvedData,
                                       onChangeTech
                                   }) => {
-    const [isModal, setIsModal] = useState(false);
     const [ipAddressValue, setIpAddressValue] = useState(ipAddress);
-
-    function changeModal() {
-        setIsModal(!isModal);
-    }
+    const [isOpenModal, toggleModal] = useModal()
 
     function handleIpAddressChange(event) {
         setIpAddressValue(event.target.value);
@@ -29,35 +27,25 @@ const BodyRepairRequestDetails = ({
         onChangeTech(newTech)
     }
 
+    const buttons = [
+        {
+            content: 'Сохранить',
+            onClick: () => {
+            },
+            className: 'bg-Accent text-sm rounded-lg py-1.5 px-2 text-white sm:py-3 sm:px-6 sm:text-base'
+        }
+    ]
+
     return (
         <div className='gradient-border border mt-4 rounded-lg shadow-formShadow px-6 py-3'>
 
-            {isModal &&
-                <>
-                    <div
-                        className='z-50 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white sm:px-6 px-2 py-2 rounded-lg min-w-[250px] sm:min-w-[400px] gradient-border border'>
-                        <div className=''>
-                            <div className='flex justify-center'>
-                                <p className='text-sm sm:text-base'>Изменение исполнителя</p>
-                            </div>
-                            <div className='flex justify-center my-4'>
-                                <input
-                                    className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue'
-                                    placeholder='Введите ФИО'/>
-                            </div>
-                            <div className='flex justify-center'>
-                                <button
-                                    className='bg-Accent sm:py-3 sm:px-6 sm:text-base text-sm rounded-lg py-1.5 px-2 text-white'
-                                    onClick={changeModal}>
-                                    Сохранить
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40'></div>
-                </>
-            }
+            <ModalWindow isOpen={true} title='Изменение исполнителя' width={250} widthSm={400} buttons={buttons}>
+                <div className='flex justify-center my-4'>
+                    <input
+                        className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue'
+                        placeholder='Введите ФИО'/>
+                </div>
+            </ModalWindow>
 
             <div className='flex justify-between my-2'>
                 <div className='p-1 bg-gray-100 rounded-lg flex mr-1'>
@@ -69,7 +57,6 @@ const BodyRepairRequestDetails = ({
                         IP устройства:
                         <p className='block md:inline'> {ipAddress}</p>
                     </p>
-
                 </div>
             </div>
 

@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import '../index.css'
 
-const Select = ({placeholder = 'Select', options = {}, defaultValue, isMulti, onChange = () => null}) => {
+const Select = ({placeholder = 'Select', options = {}, defaultValue, isMulti = false, onChange = () => null}) => {
 
     const [isDropdownEnabled, setIsDropdownEnabled] = useState(false)
-    const [selectedItems, setSelectedItems] = useState([defaultValue.value])
+    const [selectedItems, setSelectedItems] = useState(isMulti ? [defaultValue.value] : defaultValue.value)
     const [title, setTitle] = useState(placeholder)
 
     const dropdownPanel = useRef()
@@ -25,14 +25,14 @@ const Select = ({placeholder = 'Select', options = {}, defaultValue, isMulti, on
 
     useEffect(() => {
         onChange(selectedItems)
-        if (selectedItems) {
+        if (isMulti ? selectedItems : selectedItems >= 0) {
             if (isMulti)
-                if (selectedItems.length == 0)
+                if (selectedItems.length === 0)
                     setTitle(placeholder)
                 else
                     setTitle(`${placeholder} (${selectedItems.length})`)
             else
-                setTitle(options.find(item => item.value === selectedItems[0]).label)
+                setTitle(options.find(item => item.value === selectedItems).label)
         }
     }, [selectedItems])
 
@@ -46,7 +46,7 @@ const Select = ({placeholder = 'Select', options = {}, defaultValue, isMulti, on
             }
         } else {
             if (status)
-                setSelectedItems([value])
+                setSelectedItems(value)
             setIsDropdownEnabled(false)
         }
 
@@ -77,7 +77,7 @@ const Select = ({placeholder = 'Select', options = {}, defaultValue, isMulti, on
                       ref={dropdownPanel}
                       className='gradient-border-panel border rounded-t-none text-black absolute bg-white w-full rounded-lg'>
                     {options.map((opt, index) => {
-                        const isItemSelected = selectedItems.includes(opt.value)
+                        const isItemSelected = isMulti ? selectedItems.includes(opt.value) : selectedItems === opt.value
                         return (
                             <div key={index}
                                  className={`${isItemSelected ? 'bg-Accent_light' : 'hover:bg-Accent_light hover:bg-opacity-10'}

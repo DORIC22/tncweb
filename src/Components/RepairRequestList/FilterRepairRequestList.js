@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "../Select";
 import SearchBar from "../SearchBar";
-import {DeviceOptions, RepairRequestStatusOptions} from "../../SelectOptions";
+import {DeviceOptions, RepairRequestStatusOptions} from "../../Common/SelectOptions";
 
 const FilterRepairRequestList = ({
                                      searchText,

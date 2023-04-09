@@ -1,8 +1,8 @@
 import React, {Suspense} from 'react';
 import {Await, defer, useLoaderData} from "react-router-dom";
 import SkeletonLoader from "../SkeletonLoader";
-import UserCard from "../UserCard";
-import ExtendedKy from "../../ExtendedKy";
+import UserCard from "../Cards/UserCard";
+import ExtendedKy from "../../Common/ExtendedKy";
 
 const UsersList = ({searchText, role, sortDateByDesc}) => {
     const {users} = useLoaderData()
@@ -23,7 +23,7 @@ const UsersList = ({searchText, role, sortDateByDesc}) => {
                             <>
                                 {
                                     resolvedUsers
-                                        .filter(user => user.fullName.includes(searchText) && user.role === role[0])
+                                        .filter(user => user.fullName.includes(searchText) && user.role === role)
                                         .sort(getSortFunc())
                                         .map(user => <UserCard title={user.fullName} role={user.role}
                                                                registrationDate={'05-05-2023'} id={user.id}

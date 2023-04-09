@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Select from "../Select";
-import {RepairRequestStatusOptions} from "../../SelectOptions";
+import {RepairRequestStatusOptions} from "../../Common/SelectOptions";
 
 const TitleRepairRequestDetails = ({date, requestNumber, status, onChangeStatus}) => {
     const [isModalCancel, setIsModalCancel] = useState(false)
@@ -22,8 +22,6 @@ const TitleRepairRequestDetails = ({date, requestNumber, status, onChangeStatus}
         onChangeStatus(selectedStatus)
         setIsModalCancel(false)
     }
-
-
 
     return (
         <div className='mt-4 flex sm:items-center'>

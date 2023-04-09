@@ -1,7 +1,7 @@
 import React, {Suspense} from 'react';
 import SkeletonLoader from "../SkeletonLoader";
-import UserCard from "../UserCard";
-import {Await,defer, useLoaderData} from "react-router-dom";
+import UserCard from "../Cards/UserCard";
+import {Await, defer, useLoaderData} from "react-router-dom";
 import ky from "ky";
 
 const TechEquipmentList = () => {

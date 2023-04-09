@@ -1,8 +1,8 @@
 import React, {Suspense} from 'react';
 import {Await, defer, useLoaderData} from "react-router-dom";
 import SkeletonLoader from "../SkeletonLoader";
-import RepairRequestCard from "../RepairRequestCard";
-import ExtendedKy from "../../ExtendedKy";
+import RepairRequestCard from "../Cards/RepairRequestCard";
+import ExtendedKy from "../../Common/ExtendedKy";
 
 const RepairRequestList = ({searchText, requestStatus, deviceTypes, sortDateByDesc}) => {
     const {requests} = useLoaderData()

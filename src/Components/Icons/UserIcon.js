@@ -1,7 +1,7 @@
 import React from 'react';
-import user from '../Resources/user.svg'
-import tech from '../Resources/tech.svg'
-import admin from '../Resources/admin.svg'
+import user from '../../Resources/user.svg'
+import tech from '../../Resources/tech.svg'
+import admin from '../../Resources/admin.svg'
 
 const UserIcon = ({userRole, width, height}) => {
     const imgClass = `w-[${width}px] h-[${height}px]`

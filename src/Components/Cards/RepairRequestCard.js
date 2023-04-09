@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from "./Card";
-import TechEquipmentIcon from "./TechEquiepmentIcon";
+import TechEquipmentIcon from "../Icons/TechEquiepmentIcon";
 
 const RepairRequestCard = ({title, type, id, description, descriptionLength, createdDate}) => {
     return (

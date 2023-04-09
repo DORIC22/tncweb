@@ -1,6 +1,6 @@
 import React, {createContext, useState} from 'react';
-import ky from "ky";
 import sha256 from 'js-sha256';
+import ExtendedKy from "../Common/ExtendedKy";
 
 export const AuthContext = createContext({})
 
@@ -16,14 +16,7 @@ export const AuthProvider = ({children}) => {
         }
 
         let passwordHash = sha256(password)
-        const result = await ky.get('http://5.128.221.139:7119/api/users?email=' + email + '&password=' + passwordHash, {
-                headers: {
-                    'x-apikey': '59a7ad19f5a9fa0808f11931',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                }
-            }
-        )
+        const result = await ExtendedKy.get('users?email=' + email + '&password=' + passwordHash)
         console.log(result)
         if (result.status === 200) {
             setUser(result.json())

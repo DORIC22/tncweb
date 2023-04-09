@@ -3,7 +3,7 @@ import TitleRepairRequestDetails from "../Components/RepairRequestDetails/TitleR
 import BodyRepairRequestDetails from "../Components/RepairRequestDetails/BodyRepairRequestDetails";
 import BottomRepairRequestDetails from "../Components/RepairRequestDetails/BottomRepairRequestDetails"
 import {defer, useLoaderData} from "react-router-dom";
-import ExtendedKy from "../ExtendedKy";
+import ExtendedKy from "../Common/ExtendedKy";
 
 const RepairRequestDetailsPage = () => {
     const {id, request, tech} = useLoaderData()
