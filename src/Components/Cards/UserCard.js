@@ -105,7 +105,7 @@ const UserCard = ({title, role, id, email, phone, registrationDate, updateUserLi
     ]
 
     return (
-        <Card title={title} linkToDetails={'/'} image={<UserIcon userRole={role} width={70} height={70}/>}
+        <Card title={title} linkToDetails={''} image={<UserIcon userRole={role} width={70} height={70}/>}
               footerTitle='Дата регистрации:' footerValue={registrationDate}>
             <div className='flex-1'>
                 <p>{email}</p>
