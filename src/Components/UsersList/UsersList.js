@@ -33,7 +33,7 @@ const UsersList = ({searchText, role, sortDateByDesc}) => {
                                         .filter(user => user.fullName.includes(searchText) && user.role === role)
                                         .sort(getSortFunc())
                                         .map(user => <UserCard title={user.fullName} role={user.role}
-                                                               registrationDate={'05-05-2023'} id={user.id}
+                                                               registrationDate={user.registrationDate} id={user.id}
                                                                phone={user.phone} email={user.email}
                                                                updateUserList={updateUserList}/>)
                                 }

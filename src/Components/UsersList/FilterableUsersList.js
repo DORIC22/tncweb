@@ -27,7 +27,8 @@ const FilterableUsersList = () => {
                              searchText={searchText}
                              sortDateByDesc={sortDateByDesc}/>
             <UsersList searchText={searchText}
-                       role={role}/>
+                       role={role}
+                       sortDateByDesc={sortDateByDesc}/>
         </>
     );
 };

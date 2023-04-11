@@ -1,7 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
 import '../index.css'
 
-const Select = ({placeholder = 'Select', options = {}, defaultValue, isMulti = false, onChange = () => null}) => {
+const Select = ({
+                    placeholder = 'Select',
+                    options = {},
+                    defaultValue,
+                    isMulti = false,
+                    isEnabled = true,
+                    onChange = () => null
+                }) => {
 
     const [isDropdownEnabled, setIsDropdownEnabled] = useState(false)
     const [selectedItems, setSelectedItems] = useState(isMulti ? [defaultValue.value] : defaultValue.value)
@@ -51,10 +58,12 @@ const Select = ({placeholder = 'Select', options = {}, defaultValue, isMulti = f
         }
     }
 
+    const isActive = isDropdownEnabled && isEnabled
+
     return (
-        <fieldset className='relative border-none w-full z-10'>
+        <fieldset className={`relative border-none w-full z-10 ${!isEnabled && 'opacity-50'}`} disabled={!isEnabled}>
             <button
-                className={`gradient-border w-full bg-white px-2 sm:h-[42px] h-[36px] flex justify-between items-center border rounded-lg ${isDropdownEnabled && `rounded-b-none border-b-0 pb-0.5`}`}
+                className={`gradient-border w-full bg-white px-2 sm:h-[42px] h-[36px] flex justify-between items-center border rounded-lg ${isActive && `rounded-b-none border-b-0 pb-0.5`}`}
                 onClick={(e) => {
                     e.stopPropagation()
                     setIsDropdownEnabled(!isDropdownEnabled)
@@ -65,13 +74,13 @@ const Select = ({placeholder = 'Select', options = {}, defaultValue, isMulti = f
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1}
                      stroke="currentColor" opacity={0.1} className="w-5 h-5"
                      style={{
-                         transform: `rotate(${isDropdownEnabled ? 180 : 0}deg)`,
+                         transform: `rotate(${isActive ? 180 : 0}deg)`,
                          transition: 'transform 0.15s ease-in-out'
                      }}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
                 </svg>
             </button>
-            {isDropdownEnabled &&
+            {isActive &&
                 (<div onClick={(e) => e.stopPropagation()}
                       ref={dropdownPanel}
                       className='gradient-border-panel border rounded-t-none text-black absolute bg-white w-full rounded-lg'>

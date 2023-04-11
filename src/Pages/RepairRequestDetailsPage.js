@@ -4,19 +4,20 @@ import BodyRepairRequestDetails from "../Components/RepairRequestDetails/BodyRep
 import BottomRepairRequestDetails from "../Components/RepairRequestDetails/BottomRepairRequestDetails"
 import {defer, useLoaderData} from "react-router-dom";
 import ExtendedKy from "../Common/ExtendedKy";
+import {useRepairRequestStore} from "../Stores/Stores";
 
 const RepairRequestDetailsPage = () => {
     const {id, request, tech} = useLoaderData()
+    const {repairNote, status} = useRepairRequestStore()
 
     const updateRepairRequest = () => {
         console.log(request.status)
-        const response = ExtendedKy.put('repairrequest', {json: request})
+        request.repairNote = repairNote
+        request.status = status
+        console.log(request)
+        // const response = ExtendedKy.put('repairrequest', {json: request})
 
-        console.log(response.status)
-    }
-
-    const changeRepairRequestStatus = (newStatus) => {
-        request.status = newStatus
+        //console.log(response.status)
     }
 
     const changeTech = (techId) => {
@@ -27,8 +28,7 @@ const RepairRequestDetailsPage = () => {
         <div className='sm:mx-32 flex-col sm:flex-1 sm:mt-12'>
             <TitleRepairRequestDetails date={request.createdDate}
                                        requestNumber={id}
-                                       status={request.status}
-                                       onChangeStatus={changeRepairRequestStatus}/>
+                                       status={request.status}/>
             <BodyRepairRequestDetails techEquipmentId={request.techEquipmentId}
                                       ipAddress={request.techIpAddress}
                                       techType={request.techType}

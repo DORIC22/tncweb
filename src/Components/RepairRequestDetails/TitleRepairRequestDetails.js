@@ -1,15 +1,19 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import Select from "../Select";
 import {RepairRequestStatusOptions} from "../../Common/SelectOptions";
 import useModal from "../../Hooks/useModal";
 import ModalWindow from "../ModalWindow";
+import {useRepairRequestStore} from "../../Stores/Stores";
 
-const TitleRepairRequestDetails = ({date, requestNumber, status, onChangeStatus}) => {
+const TitleRepairRequestDetails = ({date, requestNumber, status}) => {
     const [selectedStatus, setSelectedStatus] = useState(status) // сохраняем значение выбранного статуса
     const [isOpenModal, toggleModal] = useModal()
 
-    function showModalCancel(e) {
-        onChangeStatus(e)
+    const modalTextArea = useRef()
+
+    const changeStatus = (e) => {
+
+        useRepairRequestStore.setState(prev => ({...prev, status: e}))
 
         // сохраняем значение выбранного статуса при открытии модального окна
         setSelectedStatus(e)
@@ -19,15 +23,13 @@ const TitleRepairRequestDetails = ({date, requestNumber, status, onChangeStatus}
         }
     }
 
-    // используем сохраненное значение внутри модального окна
-    function handleSave() {
-        onChangeStatus(selectedStatus)
-    }
-
     const modalButtons = [
         {
             content: 'Сохранить',
             onClick: () => {
+                const repairNote = modalTextArea.current.value
+                useRepairRequestStore.setState(prev => ({...prev, repairNote}))
+                toggleModal()
             },
         },
         {
@@ -44,7 +46,8 @@ const TitleRepairRequestDetails = ({date, requestNumber, status, onChangeStatus}
                     <textarea
                         className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue sm:max-h-44 max-h-60'
                         placeholder='Примечание...'
-                        maxLength={300}/>
+                        maxLength={300}
+                        ref={modalTextArea}/>
                 </div>
             </ModalWindow>
 
@@ -55,7 +58,8 @@ const TitleRepairRequestDetails = ({date, requestNumber, status, onChangeStatus}
             <div className='w-1/2'>
                 <Select options={RepairRequestStatusOptions}
                         defaultValue={RepairRequestStatusOptions.find(x => x.value === status)}
-                        onChange={(e) => showModalCancel(e)}/>
+                        onChange={(e) => changeStatus(e)}
+                        isEnabled={true}/>
             </div>
         </div>
     );
