@@ -3,9 +3,11 @@ import headerLogoMobileApp from '../../Resources/headerLogoMobileApp.png'
 import {AuthContext} from "../../hoc/AuthProvider";
 import BurgerMenu from "../BurgerMenu"
 import CanSelectedLink from "../CanSelectedLink";
+import {useNavigate} from "react-router-dom";
 
 export default function Header() {
-    const {isLoggedIn} = useContext(AuthContext)
+    const {isLoggedIn, logoutUser} = useContext(AuthContext)
+    const navigate = useNavigate()
     const links = [{label: 'Сетевое оборудование', link: '/techEquipment'},
         {label: 'Пользователи', link: '/users'},
         {label: 'Заявки', link: '/repair-requests'}]
@@ -15,7 +17,8 @@ export default function Header() {
             const result = window.confirm("Выйти из аккаунта?");
             if (result) {
                 localStorage.setItem("UserAuth", "false")
-                window.location.reload()
+                logoutUser()
+                navigate('/')
                 console.log('Achievement required:' +
                     'Home sweet Home')
             } else {
@@ -36,7 +39,7 @@ export default function Header() {
 
                     <div className='sm:flex sm:justify-start sm:items-center ml-2 md:ml-0'>
                         <a onClick={out}>
-                            <h2 className='text-2xl font-bold sm:text-2xl'>Net-Eye</h2>
+                            <h2 className='text-2xl font-bold sm:text-2xl cursor-pointer'>Net-Eye</h2>
                         </a>
                         {!isLoggedIn &&
                             <h2 className='text-xs sm:hidden'>Система учета состояния сетевого оборудования</h2>
