@@ -1,17 +1,15 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../hoc/AuthProvider";
 import {Link, useNavigate} from "react-router-dom";
 
 export default function Header() {
     const {loginUser, isLoggedIn} = useContext(AuthContext);
-    const navigate = useNavigate()
-    const linkToHome = useRef(null);
     const [rememberMe, setRememberMe] = useState(false);
+    const navigate = useNavigate()
 
     const handleRememberMeChange = (event) => {
         setRememberMe(event.target.checked);
     };
-
 
     const [register, setRegister] = useState(() => {
         return {
@@ -32,7 +30,6 @@ export default function Header() {
     (async () => {
         await loginUserOnInit();
     })();
-
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -121,10 +118,6 @@ export default function Header() {
                                 disabled={!isFormValid}>
                             Войти
                         </button>
-                        {/* задаем ref для ссылки на страницу Home */}
-                        <Link to='/home' ref={linkToHome} className='hidden'>
-                            <button>ссылка - переход</button>
-                        </Link>
                         <span className='text-xs font-light mt-3
                                         sm:text-sm'>Нет аккаунта?</span>
                         <Link className='text-xs text-Accent_light font-light

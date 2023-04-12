@@ -11,13 +11,10 @@ const RepairRequestDetailsPage = () => {
     const {repairNote, status} = useRepairRequestStore()
 
     const updateRepairRequest = () => {
-        console.log(request.status)
         request.repairNote = repairNote
         request.status = status
-        console.log(request)
-        // const response = ExtendedKy.put('repairrequest', {json: request})
 
-        //console.log(response.status)
+        const response = ExtendedKy.put('repairrequest', {json: request})
     }
 
     const changeTech = (techId) => {
@@ -64,6 +61,10 @@ const getRequestById = async (id) => {
     } catch (e) {
         console.log('Catch')
     }
+
+    useRepairRequestStore.setState({status: result.status, repairNote: result.repairNote})
+
+    console.log(result)
 
     return result
 }

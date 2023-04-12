@@ -4,7 +4,7 @@ import icon_printer from "../../Resources/icon_printer.svg";
 import icon_camera from "../../Resources/icon_camera.svg";
 
 const TechEquipmentIcon = ({techEquipmentType, width, height}) => {
-    const imgClass = `w-[${width}px] h-[${height}px]`
+    const imgClass = `w-[${width}px] h-[${height}px] `
 
     if (techEquipmentType === 0)
         return <img src={icon_pc} className={imgClass}/>

@@ -6,9 +6,9 @@ export const AuthContext = createContext({})
 
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState({})
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("UserAuth") === "true")
 
-    const loginUser = async (email, password, remeberMe) => {
+    const loginUser = async (email, password, rememberMe) => {
 
         if (localStorage.getItem("UserAuth") === "true") {
             email = localStorage.getItem("email")
@@ -19,9 +19,9 @@ export const AuthProvider = ({children}) => {
         const result = await ExtendedKy.get('users?email=' + email + '&password=' + passwordHash)
         console.log(result)
         if (result.status === 200) {
-            setUser(result.json())
+            setUser(await result.json())
             setIsLoggedIn(true)
-            if (remeberMe) {
+            if (rememberMe) {
                 localStorage.setItem("UserAuth", "true")
                 localStorage.setItem("email", email)
                 localStorage.setItem("password", password)
