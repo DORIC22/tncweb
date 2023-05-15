@@ -40,7 +40,7 @@ const RepairRequestDetailsPage = () => {
 };
 
 const getUsersTech = async () => {
-    const result = await ExtendedKy.get('users?role=Tech').json()
+    const result = await ExtendedKy.get('users?role=Tech').json() //TODO: client side filtering
 
     console.log(result)
 
@@ -48,14 +48,14 @@ const getUsersTech = async () => {
 }
 
 const getRequestById = async (id) => {
-    const result = await ExtendedKy.get(`repairrequest?id=${id}`).json()
+    const result = await ExtendedKy.get(`repairrequest/${id}`).json()
     result.userFrom = {fullName: ''}
     result.userTo = {fullName: ''}
 
     try {
-        const userFrom = await ExtendedKy.get(`users?id=${result.userFromId}`).json()
+        const userFrom = await ExtendedKy.get(`users/${result.userFromId}`).json()
         result.userFrom = userFrom
-        const userTo = await ExtendedKy.get(`users?id=${result.userToId}`).json()
+        const userTo = await ExtendedKy.get(`users/${result.userToId}`).json()
         result.userTo = userTo
 
     } catch (e) {

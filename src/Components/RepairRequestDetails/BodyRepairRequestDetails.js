@@ -98,7 +98,7 @@ const BodyRepairRequestDetails = ({
                 </div>
             </div>
             {
-                repairStatus === 2 || repairStatus === 3 &&
+                (repairStatus === 2 || repairStatus === 3) &&
                 <div className='gradient-border border mt-4 rounded-lg shadow-formShadow px-6 py-3'>
                     <p className='sm:text-base text-xs'>Примечание:</p>
                     <textarea

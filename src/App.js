@@ -17,7 +17,7 @@ const router = createBrowserRouter([
         element: <Layout/>,
         children: [
             {
-                index: true,
+                path: 'login',
                 element: <LoginPage/>
             },
             {
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
                 element: <RegistrationPage/>
             },
             {
-                path: 'repair-requests',
+                index: true,
                 element: (
                     <RequireAuth>
                         <RepairRequestsPage/>

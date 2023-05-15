@@ -10,7 +10,7 @@ export default function Header() {
     const navigate = useNavigate()
     const links = [{label: 'Сетевое оборудование', link: '/techEquipment'},
         {label: 'Пользователи', link: '/users'},
-        {label: 'Заявки', link: '/repair-requests'}]
+        {label: 'Заявки', link: '/'}]
 
     function out() {
         if (isLoggedIn) {
@@ -18,7 +18,7 @@ export default function Header() {
             if (result) {
                 localStorage.setItem("UserAuth", "false")
                 logoutUser()
-                navigate('/')
+                navigate('/login')
                 console.log('Achievement required:' +
                     'Home sweet Home')
             } else {
@@ -57,7 +57,7 @@ export default function Header() {
                         <div className='hidden md:block'> {/*если isLoggedIn = true*/}
                             <CanSelectedLink to={'/tech-equipment'} className=''>Сетевое оборудование</CanSelectedLink>
                             <CanSelectedLink to={'/users'} className='mx-4 lg:mx-12'>Пользователи</CanSelectedLink>
-                            <CanSelectedLink to={'/repair-requests'} className=''>Заявки</CanSelectedLink>
+                            <CanSelectedLink to={'/'} className=''>Заявки</CanSelectedLink>
                         </div>
                     }
                 </div>

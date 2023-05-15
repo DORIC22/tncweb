@@ -4,12 +4,9 @@ import {Link, useNavigate} from "react-router-dom";
 
 export default function Header() {
     const {loginUser, isLoggedIn} = useContext(AuthContext);
-    const [rememberMe, setRememberMe] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false)
+    const [isFormValid, setIsFormValid] = useState(false)
     const navigate = useNavigate()
-
-    const handleRememberMeChange = (event) => {
-        setRememberMe(event.target.checked);
-    };
 
     const [register, setRegister] = useState(() => {
         return {
@@ -17,6 +14,17 @@ export default function Header() {
             password: "",
         };
     });
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate("/repair-requests")
+        }
+    }, [isLoggedIn, navigate])
+
+    useEffect(() => {
+        // Проверяем, что email и password не пустые строки
+        setIsFormValid(register.email !== "" && register.password !== "");
+    }, [register.email, register.password]);
 
     //если стоит чекбокс
     const loginUserOnInit = async () => {
@@ -27,15 +35,13 @@ export default function Header() {
         }
     };
 
+    const handleRememberMeChange = (event) => {
+        setRememberMe(event.target.checked);
+    };
+
     (async () => {
         await loginUserOnInit();
     })();
-
-    useEffect(() => {
-        if (isLoggedIn) {
-            navigate("/repair-requests")
-        }
-    }, [isLoggedIn, navigate])
 
     const changeInputRegister = (event) => {
         event.persist();
@@ -50,19 +56,9 @@ export default function Header() {
     const submit = async (e) => {
         e.preventDefault();
         console.log('Submit');
-        if (localStorage.getItem("UserAuth") === "true") {
-            register.email = localStorage.getItem("email")
-            register.password = localStorage.getItem("password")
-        }
+
         await loginUser(register.email, register.password, rememberMe);
     };
-
-    const [isFormValid, setIsFormValid] = useState(false);
-
-    useEffect(() => {
-        // Проверяем, что email и password не пустые строки
-        setIsFormValid(register.email !== "" && register.password !== "");
-    }, [register.email, register.password]);
 
     return (
         <div className="align-middle">
