@@ -19,24 +19,52 @@ export const AuthProvider = ({children}) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     const init = async () => {
-        console.log('Initialize authorization context')
-        const isAuthorization = (await ExtendedKy.head('auth')).status === 200
-        setIsLoggedIn(isAuthorization)
+        const useCookie = localStorage.getItem('useCookie') === 'true'
 
-        if (isAuthorization) {
-            const user = await ExtendedKy.get('auth/by-cookie')
-            setUser(user)
+        if (useCookie) {
+            alert('Используются куки, вы согласны')
+            const isAuthorization = await checkAuthorizationCookies()
+            setIsLoggedIn(isAuthorization)
 
-            await ExtendedKy.put('auth')
+            if (isAuthorization) {
+                const authResponse = await ExtendedKy.get('auth/by-cookie')
+                setUser(await authResponse.json())
+
+                await ExtendedKy.put('auth')
+            }
+        } else if (!useCookie) {
+            const accessToken = localStorage.getItem('accessToken')
+            const refreshToken = localStorage.getItem('refreshToken')
+
+            const authResponse = await ExtendedKy.get('auth/by-cookie', {
+                headers: {
+                    'refresh_token': refreshToken
+                }
+            })
+
+            setUser(await authResponse.json())
+            setIsLoggedIn(authResponse.ok)
         }
     }
 
     useEffect(init, [])
 
     const loginUser = async (email, password, rememberMe) => {
+
         const passwordHash = sha256(password)
         const result = await ExtendedKy.get('auth/by-credentials/?email=' + email + '&password=' + passwordHash)
         localStorage.setItem('rememberMe', rememberMe)
+
+        const existCookies = await checkAuthorizationCookies()
+        localStorage.setItem('useCookie', existCookies.toString())
+
+        if (existCookies === false) {
+            const refreshToken = result.headers.get('refresh_token')
+            const accessToken = result.headers.get('access_token')
+
+            localStorage.setItem('accessToken', accessToken)
+            localStorage.setItem('refreshToken', refreshToken)
+        }
 
         if (result.status === 200) {
             setUser(await result.json())
@@ -45,6 +73,8 @@ export const AuthProvider = ({children}) => {
 
         }
     }
+
+    const checkAuthorizationCookies = async () => (await ExtendedKy.head('auth')).status === 200
 
     const logoutUser = () => {
         setIsLoggedIn(false)
