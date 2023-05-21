@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const ModalWindow = ({isOpen, title, width, widthSm, children, buttons}) => {
+const ModalWindow = ({isOpen, title, width, widthSm, children, buttons = []}) => {
     const [isOpenModal, setIsOpenModal] = useState(isOpen)
 
     if (!isOpen) {
@@ -8,6 +8,32 @@ const ModalWindow = ({isOpen, title, width, widthSm, children, buttons}) => {
     }
 
     const defaultButtonsClassName = 'bg-Accent px-6 w-2/3 text-white sm:py-2 py-1 rounded-lg shadow-formShadow sm:w-2/5 sm:my-5 my-3 mx-1';
+
+    const clonedChildren = React.Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+            return (
+                React.cloneElement(child, {
+                    children: (
+                        <>
+                            {child.props.children}
+                            <div className="flex flex-row-reverse justify-center">
+                                {buttons.map((button) => (
+                                    <button
+                                        className={button.className || defaultButtonsClassName}
+                                        onClick={button.onClick}
+                                        type={button.isSubmit ? 'submit' : 'button'}
+                                    >
+                                        {button.content}
+                                    </button>
+                                ))}
+                            </div>
+                        </>
+                    ),
+                })
+            );
+        }
+        return child;
+    });
 
     return (
         <>
@@ -18,16 +44,12 @@ const ModalWindow = ({isOpen, title, width, widthSm, children, buttons}) => {
                     <div
                         className='z-50 bg-white w-full p-2 shadow-formShadow rounded-tr-lg rounded-tl-lg flex justify-center'>
                         <p className='font-medium sm:text-xl text-base'>{title}</p>
+                        <button className="bg-Accent">
+
+                        </button>
                     </div>
                     <div className='p-3'>
-                        {children}
-                        <div className='flex flex-row-reverse justify-center'>
-                            {
-                                buttons.map(button =>
-                                    <button className={button.className || defaultButtonsClassName}
-                                            onClick={button.onClick}>{button.content}</button>)
-                            }
-                        </div>
+                        {clonedChildren}
                     </div>
                 </div>
             </div>

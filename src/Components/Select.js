@@ -4,10 +4,11 @@ import '../index.css'
 const Select = ({
                     placeholder = 'Select',
                     options = {},
-                    defaultValue,
+                    defaultValue = {value: '', label: ''},
                     isMulti = false,
                     isEnabled = true,
-                    onChange = () => null
+                    onChange = () => null,
+                    ...props
                 }) => {
 
     const [isDropdownEnabled, setIsDropdownEnabled] = useState(false)
@@ -67,7 +68,8 @@ const Select = ({
                 onClick={(e) => {
                     e.stopPropagation()
                     setIsDropdownEnabled(!isDropdownEnabled)
-                }}>
+                }}
+                type='button'>
                 <span className='text-black text-xs sm:text-base '>
                     {title}
                 </span>

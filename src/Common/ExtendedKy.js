@@ -33,6 +33,8 @@ const ExtendedKy = ky.extend({
 
                     console.log('Update access token')
                     await ExtendedKy.put("auth")
+
+                    return ExtendedKy(request)
                 }
 
                 return response

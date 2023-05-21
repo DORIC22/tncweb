@@ -7,7 +7,7 @@ const RequireAuth = ({children}) => {
     const {isLoggedIn} = useContext(AuthContext)
 
     return (
-        isLoggedIn ? children : <Navigate to='/' state={{from: location}} replace={true}/>
+        isLoggedIn ? children : <Navigate to='/login' state={{from: location}} replace={true}/>
     )
 };
 

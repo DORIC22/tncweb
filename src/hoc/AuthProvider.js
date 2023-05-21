@@ -13,7 +13,6 @@ export const AuthContext = createContext({})
 что - то сделать, и запустить проект в тестовом виде к 17 числу.
 */
 
-
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState({})
     const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -78,6 +77,7 @@ export const AuthProvider = ({children}) => {
 
     const logoutUser = () => {
         setIsLoggedIn(false)
+        //TODO: Delete refresh token from cookie
     }
 
     return (

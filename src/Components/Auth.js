@@ -17,7 +17,7 @@ export default function Header() {
 
     useEffect(() => {
         if (isLoggedIn) {
-            navigate("/repair-requests")
+            navigate("/")
         }
     }, [isLoggedIn, navigate])
 
