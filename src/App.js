@@ -10,6 +10,8 @@ import Layout from "./Components/Layouts/Layout";
 import UsersPage from "./Pages/UsersPage";
 import {usersAction, usersLoader} from "./Components/UsersList/UsersList";
 import NotFoundPage from "./Pages/NotFoundPage";
+import TechEquipmentPage from "./Pages/TechEquipmentPage";
+import {techEquipmentLoader, techEquipmentsAction} from "./Components/TechEquipmentList/TechEquipmentList";
 
 const router = createBrowserRouter([
     {
@@ -51,6 +53,16 @@ const router = createBrowserRouter([
                 ),
                 loader: usersLoader,
                 action: usersAction
+            },
+            {
+                path: 'tech-equipment',
+                element: (
+                    <RequireAuth>
+                        <TechEquipmentPage/>
+                    </RequireAuth>
+                ),
+                loader: techEquipmentLoader,
+                action: techEquipmentsAction
             },
             {
                 path: '*',
