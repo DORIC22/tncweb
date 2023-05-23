@@ -34,7 +34,6 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
         setSelectedRole(item);
     };
 
-
     const inputStyle = 'border border-darkGray p-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base mt-2'
 
     function isModalAddChange() {
@@ -262,7 +261,7 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
                 <button
                     className='bg-Accent sm:px-6 sm:base text-sm rounded-lg py-0 px-2 text-white sm:ml-5 ml-1 sm:w-1/3 w-1/2'
                     onClick={toggleRegisterModel}>
-                    Добавить
+                    Зарегистрировать
                 </button>
             </div>
         </div>

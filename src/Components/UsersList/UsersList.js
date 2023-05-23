@@ -80,9 +80,6 @@ const usersAction = async ({request}) => {
 
 const getUsers = async () => {
     const result = await ExtendedKy.get('users').json();
-
-    console.log(result)
-
     return result
 }
 

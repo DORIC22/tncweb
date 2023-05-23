@@ -3,9 +3,18 @@ import SkeletonLoader from "../SkeletonLoader";
 import {Await, defer, redirect, useLoaderData} from "react-router-dom";
 import ExtendedKy from "../../Common/ExtendedKy";
 import TechEquipmentCard from "../Cards/TechEquipmentCard";
+import {useTechEquipmentStore} from "../../Stores/Stores";
 
 const TechEquipmentList = () => {
     const {equipments} = useLoaderData()
+    const [title, type, sortTotalRequestsByDesc] = useTechEquipmentStore(s => [s.title, s.type, s.sortTotalRequestsByDesc])
+
+    const getSortFunc = () => {
+        if (sortTotalRequestsByDesc)
+            return (a, b) => b.totalRepairRequest - a.totalRepairRequest
+        else
+            return (a, b) => a.totalRepairRequest - b.totalRepairRequest
+    }
 
     return (
         <div className='w-full'>
@@ -15,9 +24,14 @@ const TechEquipmentList = () => {
                         (resolvedEquipment) => (
                             <>
                                 {
-                                    resolvedEquipment.map(equipment => <TechEquipmentCard title={equipment.id}
-                                                                                          id={equipment.id}
-                                                                                          ipAddress={equipment.ipAddress}/>)
+                                    resolvedEquipment
+                                        .filter(tech => tech.id.includes(title) && tech.type === type)
+                                        .sort(getSortFunc())
+                                        .map(equipment => <TechEquipmentCard title={equipment.id}
+                                                                             id={equipment.id}
+                                                                             ipAddress={equipment.ipAddress}
+                                                                             type={equipment.type}
+                                                                             totalRepairRequest={equipment.totalRepairRequest}/>)
                                 }
                             </>
                         )
@@ -30,9 +44,23 @@ const TechEquipmentList = () => {
 
 const techEquipmentsAction = async ({request}) => {
     const formData = await request.formData()
-    console.log('RotEbal')
 
     switch (request.method) {
+        case 'POST': {
+            const newTech = {
+                id: formData.get('id'),
+                ipAddress: formData.get('ipAddress'),
+                type: parseInt(formData.get('type'))
+            }
+
+            console.log(newTech)
+
+            const result = await ExtendedKy.post('techequipment', {json: newTech})
+
+            console.log(result)
+            break
+        }
+
         case 'PATCH': {
             const techEquipmentWithNewIp = {
                 id: formData.get('id'),
@@ -45,7 +73,6 @@ const techEquipmentsAction = async ({request}) => {
 
         case 'DELETE': {
             const id = formData.get('id')
-            console.log(id)
 
             const result = await ExtendedKy.delete(`techequipment/${id}`)
             break
@@ -55,11 +82,8 @@ const techEquipmentsAction = async ({request}) => {
     return redirect('/tech-equipment')
 }
 
-
 const getTechEquipment = async () => {
     const result = await ExtendedKy.get('techequipment').json();
-
-    console.log(result)
 
     return result
 }

@@ -48,7 +48,7 @@ const UserCard = ({title, role, id, email, phone, registrationDate}) => {
 
     return (
         <Card title={title} linkToDetails={''} image={<UserIcon userRole={role} width={70} height={70}/>}
-              footerTitle='Дата регистрации:' footerValue={registrationDate}>
+              footerTitle='Дата регистрации:' footerValue={new Date(registrationDate).toLocaleDateString()}>
             <div className='flex-1'>
                 <p>{email}</p>
                 <p>{phone}</p>

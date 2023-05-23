@@ -3,8 +3,9 @@ import Card from "./Card";
 import ModalWindow from "../ModalWindow";
 import {Form} from "react-router-dom";
 import useModal from "../../Hooks/useModal";
+import TechEquipmentIcon from "../Icons/TechEquiepmentIcon";
 
-const TechEquipmentCard = ({title, id, ipAddress}) => {
+const TechEquipmentCard = ({title, id, ipAddress, type, totalRepairRequest}) => {
     const [isOpenChangeIpModal, toggleChangeIpModal] = useModal()
     const [isOpenDeleteTechModal, toggleDeleteTechModal] = useModal()
 
@@ -26,7 +27,6 @@ const TechEquipmentCard = ({title, id, ipAddress}) => {
         {
             content: 'Удалить',
             isSubmit: true,
-            onClick: () => toggleDeleteTechModal,
             className: `bg-Accent px-6 w-2/3 text-white sm:py-2 py-1 rounded-lg shadow-formShadow sm:w-2/5 sm:my-5 my-3 mx-1`
         },
         {
@@ -36,7 +36,8 @@ const TechEquipmentCard = ({title, id, ipAddress}) => {
     ]
 
     return (
-        <Card title={title}>
+        <Card title={title} footerTitle={'Общие количество заявок на ремонт:'} footerValue={totalRepairRequest}
+              image={<TechEquipmentIcon techEquipmentType={type} width={70} height={70}/>}>
             <div className='flex-1'>
                 <p>{ipAddress}</p>
                 <div className='flex sm:gap-16 gap-1 my-2 justify-between'>

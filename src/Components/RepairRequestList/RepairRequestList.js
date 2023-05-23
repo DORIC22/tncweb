@@ -45,13 +45,11 @@ const RepairRequestList = ({searchText, requestStatus, deviceTypes, sortDateByDe
                 </Await>
             </Suspense>
         </div>
-    );
-};
+    )
+}
 
 const getRequest = async () => {
     const result = await ExtendedKy.get('repairrequest').json();
-
-    console.log(result)
 
     return result
 }
