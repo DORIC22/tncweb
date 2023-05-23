@@ -153,7 +153,7 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
     ]
 
     return (
-        <div>
+        <div className='mb-2'>
             <ModalWindow title='Регистрация' isOpen={isOpenRegisterModal}
                          width={350} widthSm={500} buttons={registerModalButtons}>
                 <Form method='POST' action='/users'>
@@ -246,7 +246,6 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
                                     </div>
                                 </div>
                             )}
-
                         </div>
                     </div>
                 </Form>
@@ -256,12 +255,12 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
                        onChangeDateSorting={onChangeDateSorting}
                        searchText={searchText}
                        sortDateByDesc={sortDateByDesc}/>
-            <div className='flex justify-between mt-3'>
+            <div className='flex justify-between mt-2'>
                 <div className='sm:w-2/3 w-1/2'>
                     <Select options={RoleOptions} defaultValue={RoleOptions[0]} onChange={onChangeRole}/>
                 </div>
                 <button
-                    className='bg-Accent sm:px-6 sm:base text-sm rounded-lg py-0 px-2 text-white sm:ml-5 ml-2 sm:w-1/3 w-1/2'
+                    className='bg-Accent sm:px-6 sm:base text-sm rounded-lg py-0 px-2 text-white sm:ml-5 ml-1 sm:w-1/3 w-1/2'
                     onClick={toggleRegisterModel}>
                     Добавить
                 </button>

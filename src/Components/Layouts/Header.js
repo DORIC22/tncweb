@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 export default function Header() {
     const {isLoggedIn, logoutUser} = useContext(AuthContext)
     const navigate = useNavigate()
-    const links = [{label: 'Сетевое оборудование', link: '/techEquipment'},
+    const links = [{label: 'Сетевое оборудование', link: '/tech-equipment'},
         {label: 'Пользователи', link: '/users'},
         {label: 'Заявки', link: '/'}]
 
