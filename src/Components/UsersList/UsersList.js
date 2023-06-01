@@ -4,6 +4,7 @@ import SkeletonLoader from "../SkeletonLoader";
 import UserCard from "../Cards/UserCard";
 import ExtendedKy from "../../Common/ExtendedKy";
 import sha256 from "js-sha256";
+import validator from "validator/es";
 
 const UsersList = ({searchText, role, sortDateByDesc}) => {
     const {users} = useLoaderData()
@@ -41,28 +42,48 @@ const UsersList = ({searchText, role, sortDateByDesc}) => {
 
 const usersAction = async ({request}) => {
     const formData = await request.formData()
+    const errors = {}
 
     switch (request.method) {
         case 'POST': {
             const newUser = {
                 id: 0,
                 email: formData.get('email'),
-                password: sha256(formData.get('password')),
+                password: sha256('Passw0rd'),
                 firstName: formData.get('firstName'),
                 lastName: formData.get('lastName'),
                 patronymic: formData.get('patronymic'),
-                phone: formData.get('phone'),
+                phone: formData.get('phone').replace(/\D/g, ''),
                 role: parseInt(formData.get('role'))
             }
 
+            if (!newUser.firstName)
+                errors.firstName = 'Имя обязательно'
+
+            if (!newUser.lastName)
+                errors.lastName = 'Фамилия обязательна'
+
+            if (!validator.isEmail(newUser.email))
+                errors.email = 'Некоректый адрес электронной почты'
+
+            if (newUser.phone.length != 11)
+                errors.phone = 'Некоректный номер телефона'
+
+            if (Object.keys(errors).length > 0)
+                return errors
+
             const result = await ExtendedKy.post('users', {json: newUser})
+
+            if (result.status === 400)
+                errors.email = 'Сотрудник с таким email уже зарегистрирован'
+
             break
         }
 
         case 'PATCH': {
             const userWithNewPass = {
                 id: formData.get('id'),
-                newPassword: sha256(formData.get('password'))
+                newPassword: sha256('Passw0rd')
             }
 
             const result = await ExtendedKy.patch('users', {json: userWithNewPass})
@@ -75,7 +96,8 @@ const usersAction = async ({request}) => {
         }
     }
 
-    return redirect('/users')
+    redirect('/users')
+    return errors
 }
 
 const getUsers = async () => {

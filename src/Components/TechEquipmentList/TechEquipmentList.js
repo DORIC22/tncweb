@@ -4,6 +4,7 @@ import {Await, defer, redirect, useLoaderData} from "react-router-dom";
 import ExtendedKy from "../../Common/ExtendedKy";
 import TechEquipmentCard from "../Cards/TechEquipmentCard";
 import {useTechEquipmentStore} from "../../Stores/Stores";
+import validator from "validator/es";
 
 const TechEquipmentList = () => {
     const {equipments} = useLoaderData()
@@ -44,8 +45,9 @@ const TechEquipmentList = () => {
 
 const techEquipmentsAction = async ({request}) => {
     const formData = await request.formData()
+    const errors = {}
 
-    switch (request.method) {
+    switch (request.method) { //validation
         case 'POST': {
             const newTech = {
                 id: formData.get('id'),
@@ -53,18 +55,30 @@ const techEquipmentsAction = async ({request}) => {
                 type: parseInt(formData.get('type'))
             }
 
-            console.log(newTech)
+            if (!validator.isIP(newTech.ipAddress)) {
+                errors.ipAddress = 'неправильный ip адрес'
+                return errors
+            }
 
             const result = await ExtendedKy.post('techequipment', {json: newTech})
 
-            console.log(result)
+            if (result.status === 400) {
+                errors.id = 'оборудование уже добавлено в базу данных'
+                return errors
+            }
+
             break
         }
 
-        case 'PATCH': {
+        case 'PATCH': { // validation
             const techEquipmentWithNewIp = {
                 id: formData.get('id'),
                 ipAddress: formData.get('ipAddress')
+            }
+
+            if (!validator.isIP(techEquipmentWithNewIp.ipAddress)) {
+                errors.ipAddress = 'неправильный ip адрес'
+                return errors
             }
 
             const result = await ExtendedKy.put('techequipment', {json: techEquipmentWithNewIp})
@@ -79,7 +93,8 @@ const techEquipmentsAction = async ({request}) => {
         }
     }
 
-    return redirect('/tech-equipment')
+    redirect('/tech-equipment')
+    return errors
 }
 
 const getTechEquipment = async () => {

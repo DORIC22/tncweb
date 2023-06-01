@@ -1,19 +1,34 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import Card from "./Card";
 import ModalWindow from "../ModalWindow";
 import {Form} from "react-router-dom";
 import useModal from "../../Hooks/useModal";
 import TechEquipmentIcon from "../Icons/TechEquiepmentIcon";
+import useIgorSubmit from "../../Hooks/useIgorSubmit";
 
 const TechEquipmentCard = ({title, id, ipAddress, type, totalRepairRequest}) => {
     const [isOpenChangeIpModal, toggleChangeIpModal] = useModal()
     const [isOpenDeleteTechModal, toggleDeleteTechModal] = useModal()
 
+    const [submitDeleteTech, errorsDeleteTech] = useIgorSubmit()
+    const deleteFormRef = useRef()
+
+    const [submitChangeIp, errorsChangeIp] = useIgorSubmit()
+    const changeIpFormRef = useRef()
+
     const changeIpModalButtons = [
         {
             content: 'изменить ip',
-            isSubmit: true,
-            onClick: () => toggleChangeIpModal
+            isSubmit: false,
+            onClick: () => {
+                submitChangeIp(changeIpFormRef.current, x => {
+                    if (x) {
+                        if (Object.keys(x).length == 0) {
+                            toggleChangeIpModal()
+                        }
+                    }
+                }, {method: 'PATCH', action: '/tech-equipment'})
+            }
         },
         {
             content: 'отменить',
@@ -26,8 +41,14 @@ const TechEquipmentCard = ({title, id, ipAddress, type, totalRepairRequest}) => 
     const deleteTechModalButtons = [
         {
             content: 'Удалить',
-            isSubmit: true,
-            className: `bg-Accent px-6 w-2/3 text-white sm:py-2 py-1 rounded-lg shadow-formShadow sm:w-2/5 sm:my-5 my-3 mx-1`
+            isSubmit: false,
+            className: `bg-Accent px-6 w-2/3 text-white sm:py-2 py-1 rounded-lg shadow-formShadow sm:w-2/5 sm:my-5 my-3 mx-1`,
+            onClick: () => {
+                submitDeleteTech(deleteFormRef.current, x => {
+                    if (x)
+                        toggleDeleteTechModal()
+                }, {method: 'DELETE', action: '/tech-equipment'})
+            }
         },
         {
             content: 'Отмена',
@@ -53,7 +74,7 @@ const TechEquipmentCard = ({title, id, ipAddress, type, totalRepairRequest}) => 
 
                 <ModalWindow title={`Изменить ip адрес для: ${title}`} isOpen={isOpenChangeIpModal}
                              width={250} widthSm={400} buttons={changeIpModalButtons}>
-                    <Form method='PATCH' action='/tech-equipment'>
+                    <Form method='PATCH' action='/tech-equipment' ref={changeIpFormRef}>
                         <div className='my-3 flex-col'>
                             <input
                                 className='w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light mb-2'
@@ -61,6 +82,7 @@ const TechEquipmentCard = ({title, id, ipAddress, type, totalRepairRequest}) => 
                                 type='text'
                                 autoComplete='new-ip'
                                 name='ipAddress'/>
+                            {errorsChangeIp?.ipAddress && <span>{errorsChangeIp.ipAddress}</span>}
                             <input name='id' defaultValue={id} type='hidden'/>
                         </div>
                     </Form>
@@ -68,7 +90,7 @@ const TechEquipmentCard = ({title, id, ipAddress, type, totalRepairRequest}) => 
 
                 <ModalWindow title={`Удалить ${title}?`} isOpen={isOpenDeleteTechModal}
                              width={250} widthSm={400} buttons={deleteTechModalButtons}>
-                    <Form method='DELETE' action='/tech-equipment'>
+                    <Form method='DELETE' action='/tech-equipment' ref={deleteFormRef}>
                         <input name='id' defaultValue={id} type='hidden'/>
                     </Form>
                 </ModalWindow>

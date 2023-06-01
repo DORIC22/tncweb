@@ -1,32 +1,19 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import SearchBar from "../SearchBar";
 import Select from "../Select";
 import {RoleOptions} from "../../Common/SelectOptions";
-import sha256 from "js-sha256";
-import ExtendedKy from "../../Common/ExtendedKy";
 import InputMask from "react-input-mask";
-import validator from "validator/es";
-import emailjs from "emailjs-com";
 import ModalWindow from "../ModalWindow";
 import {Form} from "react-router-dom";
 import useModal from "../../Hooks/useModal";
+import useIgorSubmit from "../../Hooks/useIgorSubmit";
 
 const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChangeRole, onChangeDateSorting}) => {
-    const [isModalAdd, setIsModalAdd] = useState(false)
-    const [rPassword, setRPassword] = useState('')
-    const [sendRegMail, setSendRegMail] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const [savedUser, setSavedUser] = useState({
-        lastName: '',
-        firstName: '',
-        patronymic: '',
-        phone: '',
-        email: '',
-        role: 0,
-        password: ''
-    });
 
     const [isOpenRegisterModal, toggleRegisterModel] = useModal()
+    const [submitRegisterUser, errorsRegisterUser] = useIgorSubmit()
+    const registerUserFormRef = useRef()
 
     const [selectedRole, setSelectedRole] = useState(RoleOptions[0]);
 
@@ -36,112 +23,24 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
 
     const inputStyle = 'border border-darkGray p-2 rounded-lg shadow-sm focus:outline-none focus:border-Accent_light text-xs sm:text-base mt-2'
 
-    function isModalAddChange() {
-        setIsModalAdd((prev) => !prev)
-        for (const key in savedUser) {
-            if (savedUser.hasOwnProperty(key)) {
-                savedUser[key] = '';
-            }
-        }
-    }
-
-    async function saveNewUser() {
-        if (!savedUser.firstName || !savedUser.lastName) {
-            alert('Заполните все поля.');
-            return;
-        }
-
-        if (!validator.isEmail(savedUser.email)) {
-            alert('Введите корректный адрес электронной почты.');
-            return;
-        }
-
-        if (savedUser.phone.includes('_') || !savedUser.phone) {
-            alert('Введите корректный номер телефона.');
-            return;
-        }
-
-        if (rPassword !== savedUser.password) {
-            alert('Введенные пароли не совпадают.');
-            return;
-        }
-
-        if (!validator.isStrongPassword(savedUser.password)) {
-            alert('Сложность пароля не отвечает требованиям безопасности.');
-            return;
-        }
-        setIsLoading(true)
-        const nonHashPassword = savedUser.password
-        savedUser.password = sha256(savedUser.password);
-        savedUser.phone = formatPhoneNumber(savedUser.phone);
-
-        try {
-            const response = await ExtendedKy.post('users', {json: savedUser});
-            if (sendRegMail) {
-                sendMail(nonHashPassword)
-            } else {
-                setIsLoading(false)
-                alert('Сохранено')
-                setIsModalAdd(false)
-            }
-        } catch (error) {
-            console.error('Failed to save new user:', error);
-            alert('Не удалось сохранить нового пользователя.');
-            setIsLoading(false)
-        }
-    }
-
-    function sendMail(nonHashPassword) {
-
-        const templateParams = {
-            userEmail: savedUser.email,
-            userFullName: savedUser.lastName + ' ' + savedUser.firstName + ' ' + savedUser.patronymic,
-            userPassword: nonHashPassword
-        };
-
-        switch (savedUser.role) {
-            case 0:
-                templateParams.userRole = 'Пользователь'
-                break
-            case 1:
-                templateParams.userRole = 'Техник'
-                break
-            case 2:
-                templateParams.userRole = 'Администратор'
-                break
-        }
-
-        // перенести на сервер, добавить смену паролю пользователем в первый раз.
-        emailjs.send('service_58empoa', 'template_8uv60ai', templateParams, '9UvieRKIjqQahLyKs')
-            .then((result) => {
-                setIsLoading(false)
-                isModalAddChange();
-                alert('Успешно отправлено!')
-            }, (error) => {
-                console.log(error)
-                setIsLoading(false)
-            });
-    }
-
-    const handleChange = (selected) => {
-        savedUser.role = selected
-    };
-
-    function formatPhoneNumber(phoneNumber) {
-        const numericPhoneNumber = phoneNumber.replace(/\D/g, '');
-
-        return numericPhoneNumber;
-    }
-
-    const changeSendRegMail = () => {
-        setSendRegMail(!sendRegMail)
-    }
-
     const registerModalButtons = [
         {
             content: 'зарегистрировать',
-            isSubmit: true,
-            onClick: () => toggleRegisterModel
+            isSubmit: false,
+            onClick: () => {
+                submitRegisterUser(registerUserFormRef.current, x => {
+                    console.log('End submit')
+                    setIsLoading(false)
+                    if (x) {
+                        if (Object.keys(x).length == 0) {
+                            toggleRegisterModel()
+                        }
+                    }
+                }, {method: 'POST', action: '/users'}, () => {
+                    console.log('Start submit')
+                    setIsLoading(true)
+                })
+            }
         },
         {
             content: 'отменить',
@@ -155,48 +54,45 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
         <div className='mb-2'>
             <ModalWindow title='Регистрация' isOpen={isOpenRegisterModal}
                          width={350} widthSm={500} buttons={registerModalButtons}>
-                <Form method='POST' action='/users'>
+                <Form method='POST' action='/users' ref={registerUserFormRef}>
                     <div className='py-2 px-4 flex flex-col'>
                         <input
                             className={inputStyle}
                             placeholder='Фамилия'
                             maxLength={102}
-                            value={savedUser.lastName}
                             name='lastName'
-                            onChange={(event) => setSavedUser({...savedUser, lastName: event.target.value})}/>
+                        />
+                        {errorsRegisterUser?.lastName && <span>{errorsRegisterUser.lastName}</span>}
                         <input
                             className={inputStyle}
                             placeholder='Имя'
                             maxLength={102}
-                            value={savedUser.firstName}
                             name='firstName'
-                            required
-                            onChange={(event) => setSavedUser({...savedUser, firstName: event.target.value})}/>
+                        />
+                        {errorsRegisterUser?.firstName && <span>{errorsRegisterUser.firstName}</span>}
                         <input
                             className={inputStyle}
                             placeholder='Отчество'
                             maxLength={102}
-                            value={savedUser.patronymic}
                             name='patronymic'
-                            onChange={(event) => setSavedUser({...savedUser, patronymic: event.target.value})}/>
+                        />
                         <InputMask
                             className={inputStyle}
                             placeholder='Телефон'
                             type='tel'
                             mask="+7 (999) 999-99-99"
-                            value={savedUser.phone}
                             name='phone'
-                            onChange={(event) => setSavedUser({...savedUser, phone: event.target.value})}/>
+                        />
+                        {errorsRegisterUser?.phone && <span>{errorsRegisterUser.phone}</span>}
                         <input
                             className={`${inputStyle} mb-2`}
                             placeholder='Электронная почта'
                             autoComplete={'new-password'}
                             maxLength={100}
                             type={"email"}
-                            value={savedUser.email}
                             name='email'
-                            onChange={(event) => setSavedUser({...savedUser, email: event.target.value})}/>
-
+                        />
+                        {errorsRegisterUser?.email && <span>{errorsRegisterUser.email}</span>}
                         <Select
                             options={RoleOptions}
                             defaultValue={RoleOptions[0]}
@@ -206,29 +102,7 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
                         {/*TODO: Refactoring*/}
                         <input value={selectedRole} name='role' hidden/>
 
-                        <input
-                            className={inputStyle}
-                            placeholder='Пароль'
-                            type={"password"}
-                            autoComplete={'new-password'}
-                            value={savedUser.password}
-                            name='password'
-                            onChange={(event) => setSavedUser({...savedUser, password: event.target.value})}/>
-
-                        <input
-                            type={"password"}
-                            className={inputStyle}
-                            placeholder='Повтор пароля'
-                            autoComplete={'new-password'}
-                            onChange={(event) => setRPassword(event.target.value)}/>
-
                         <div className='flex justify-start mt-2'>
-                            <input className=''
-                                   type={"checkbox"}
-                                   onChange={changeSendRegMail}
-                            />
-                            <span className='ml-2'>Отправить письмо</span>
-
                             {isLoading && (
                                 <div className="fixed inset-0 flex items-center justify-center">
                                     <div
