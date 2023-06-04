@@ -10,7 +10,7 @@ const TechEquipmentCard = ({title, id, ipAddress, type, totalRepairRequest}) => 
     const [isOpenChangeIpModal, toggleChangeIpModal] = useModal()
     const [isOpenDeleteTechModal, toggleDeleteTechModal] = useModal()
 
-    const [submitDeleteTech, errorsDeleteTech] = useIgorSubmit()
+    const [submitDeleteTech] = useIgorSubmit()
     const deleteFormRef = useRef()
 
     const [submitChangeIp, errorsChangeIp] = useIgorSubmit()

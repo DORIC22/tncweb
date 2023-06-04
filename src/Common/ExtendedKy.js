@@ -1,4 +1,5 @@
 import ky from "ky";
+import * as AuthConstants from "./AuthConstants";
 
 const ExtendedKy = ky.extend({
     prefixUrl: 'http://192.168.0.107:7119/api',
@@ -13,12 +14,12 @@ const ExtendedKy = ky.extend({
         beforeError: [],
         beforeRequest: [
             request => {
-                const useCookie = localStorage.getItem('useCookie') === 'true'
+                const useCookie = localStorage.getItem(AuthConstants.isUseCookie) === 'true'
 
                 if (useCookie)
                     return
 
-                const accessToken = localStorage.getItem('accessToken')
+                const accessToken = localStorage.getItem(AuthConstants.accessToken)
 
                 if (!useCookie && accessToken !== null) {
                     request.headers.set('Authorization', `Bearer ${accessToken}`)
@@ -33,6 +34,8 @@ const ExtendedKy = ky.extend({
 
                     console.log('Update access token')
                     await ExtendedKy.put("auth")
+                    localStorage.setItem(AuthConstants.expiresUserAuth, AuthConstants.lifeTimeUserAuth.toString())
+                    //TODO: delay
 
                     return ExtendedKy(request)
                 }

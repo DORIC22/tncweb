@@ -58,8 +58,7 @@ export default function RegistrationPage() {
                 register.lastName + "\n" + register.firstName + "\n" + register.patronymic)
         }
         console.log(register.role)
-        switch (register.role)
-        {
+        switch (register.role) {
             case '1':
                 register.role = 'Администратор'
                 break
@@ -101,9 +100,10 @@ export default function RegistrationPage() {
     return (
         <div className="align-middle flex flex-col justify-center items-center min-w-[300px] mt-8 2xl:mt-36 ">
 
-            {isLoading&&
+            {isLoading &&
                 <div className="inline-flex items-center absolute bg-gray-100 shadow-formShadow px-4 py-3 rounded-lg">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-Accent_light sm:w-8 sm:h-8" xmlns="http://www.w3.org/2000/svg"
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-Accent_light sm:w-8 sm:h-8"
+                         xmlns="http://www.w3.org/2000/svg"
                          fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                                 stroke-width="4"></circle>
@@ -233,7 +233,7 @@ export default function RegistrationPage() {
                         <span className='text-xs font-light mt-3
                                         sm:text-sm'>Есть аккаунт?</span>
                         <Link className='text-xs text-Accent_light font-light
-                                     sm:text-sm' to='/'>Пройдите авторизацию</Link>
+                                     sm:text-sm' to='/login'>Пройдите авторизацию</Link>
                     </div>
                 </form>
             </div>

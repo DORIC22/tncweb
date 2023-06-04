@@ -3,30 +3,14 @@ import headerLogoMobileApp from '../../Resources/headerLogoMobileApp.png'
 import {AuthContext} from "../../hoc/AuthProvider";
 import BurgerMenu from "../BurgerMenu"
 import CanSelectedLink from "../CanSelectedLink";
-import {useNavigate} from "react-router-dom";
 
 export default function Header() {
-    const {isLoggedIn, logoutUser} = useContext(AuthContext)
-    const navigate = useNavigate()
-    const links = [{label: 'Сетевое оборудование', link: '/tech-equipment'},
+    const {isLoggedIn} = useContext(AuthContext)
+    const links = [
+        {label: 'Сетевое оборудование', link: '/tech-equipment'},
         {label: 'Пользователи', link: '/users'},
-        {label: 'Заявки', link: '/'}]
-
-    function out() {
-        if (isLoggedIn) {
-            const result = window.confirm("Выйти из аккаунта?");
-            if (result) {
-                localStorage.setItem("UserAuth", "false")
-                logoutUser()
-                navigate('/login')
-                console.log('Achievement required:' +
-                    'Home sweet Home')
-            } else {
-                console.log('Achievement required:' +
-                    'Сорвался!')
-            }
-        }
-    }
+        {label: 'Заявки', link: '/'}
+    ]
 
     return (
         <header className='shadow-formShadow fixed w-full bg-white z-30'>
@@ -34,11 +18,11 @@ export default function Header() {
 
                 <div className='flex'>
                     {isLoggedIn &&
-                        <BurgerMenu options={links}/>
+                        <BurgerMenu links={links}/>
                     }
 
                     <div className='sm:flex sm:justify-start sm:items-center ml-2 md:ml-0'>
-                        <a onClick={out}>
+                        <a>
                             <h2 className='text-2xl font-bold sm:text-2xl cursor-pointer'>Net-Eye</h2>
                         </a>
                         {!isLoggedIn &&

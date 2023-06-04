@@ -1,6 +1,7 @@
 import React, {createContext, useEffect, useState} from 'react';
 import sha256 from 'js-sha256';
 import ExtendedKy from "../Common/ExtendedKy";
+import * as AuthConstants from "../Common/AuthConstants";
 
 export const AuthContext = createContext({})
 
@@ -16,58 +17,82 @@ export const AuthContext = createContext({})
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState({})
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [isInit, setIsInit] = useState(false)
 
     const init = async () => {
-        const useCookie = localStorage.getItem('useCookie') === 'true'
+        setIsInit(false)
 
-        if (useCookie) {
-            alert('Используются куки, вы согласны')
-            const isAuthorization = await checkAuthorizationCookies()
-            setIsLoggedIn(isAuthorization)
+        if (localStorage.getItem(AuthConstants.isUserAuth) === 'true') {
+            const useCookie = localStorage.getItem(AuthConstants.isUseCookie) === 'true'
 
-            if (isAuthorization) {
-                const authResponse = await ExtendedKy.get('auth/by-cookie')
-                setUser(await authResponse.json())
+            if (useCookie) {
+                const isAuthorization = await checkAuthorizationCookies()
 
-                await ExtendedKy.put('auth')
-            }
-        } else if (!useCookie) {
-            const accessToken = localStorage.getItem('accessToken')
-            const refreshToken = localStorage.getItem('refreshToken')
+                setIsLoggedIn(isAuthorization)
 
-            const authResponse = await ExtendedKy.get('auth/by-cookie', {
-                headers: {
-                    'refresh_token': refreshToken
+                if (isAuthorization) {
+                    const authResponse = await ExtendedKy.get('auth/by-cookie')
+                    setUser(await authResponse.json())
                 }
-            })
+            }
 
-            setUser(await authResponse.json())
-            setIsLoggedIn(authResponse.ok)
+            if (!useCookie) {
+                const accessToken = localStorage.getItem(AuthConstants.accessToken)
+                const refreshToken = localStorage.getItem(AuthConstants.refreshToken)
+
+                const authResponse = await ExtendedKy.get('auth/by-cookie', {
+                    headers: {
+                        'refresh_token': refreshToken
+                    }
+                })
+
+                setUser(await authResponse.json())
+                setIsLoggedIn(authResponse.ok)
+            }
         }
+
+        setIsInit(true)
     }
 
     useEffect(init, [])
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            console.log('check expires access token')
+            const expiresDate = parseInt(localStorage.getItem(AuthConstants.expiresUserAuth))
+            const currentDate = new Date().getTime()
+
+            if (currentDate > expiresDate)
+                logoutUser()
+        }, 60000)
+
+        return () => {
+            clearInterval(intervalId)
+        }
+    }, [])
 
     const loginUser = async (email, password, rememberMe) => {
 
         const passwordHash = sha256(password)
         const result = await ExtendedKy.get('auth/by-credentials/?email=' + email + '&password=' + passwordHash)
-        localStorage.setItem('rememberMe', rememberMe)
+        localStorage.setItem(AuthConstants.isNeedToRememberMe, rememberMe)
+        localStorage.setItem(AuthConstants.isUserAuth, 'true')
 
         const existCookies = await checkAuthorizationCookies()
-        localStorage.setItem('useCookie', existCookies.toString())
+        localStorage.setItem(AuthConstants.isUseCookie, existCookies.toString())
 
         if (existCookies === false) {
             const refreshToken = result.headers.get('refresh_token')
             const accessToken = result.headers.get('access_token')
 
-            localStorage.setItem('accessToken', accessToken)
-            localStorage.setItem('refreshToken', refreshToken)
+            localStorage.setItem(AuthConstants.accessToken, accessToken)
+            localStorage.setItem(AuthConstants.refreshToken, refreshToken)
         }
 
         if (result.status === 200) {
             setUser(await result.json())
             setIsLoggedIn(true)
+            localStorage.setItem(AuthConstants.expiresUserAuth, AuthConstants.lifeTimeUserAuth.toString())
         } else {
 
         }
@@ -76,12 +101,13 @@ export const AuthProvider = ({children}) => {
     const checkAuthorizationCookies = async () => (await ExtendedKy.head('auth')).status === 200
 
     const logoutUser = () => {
+        console.log('logout')
+        localStorage.setItem(AuthConstants.isUserAuth, 'false')
         setIsLoggedIn(false)
-        //TODO: Delete refresh token from cookie
     }
 
     return (
-        <AuthContext.Provider value={{user, isLoggedIn, loginUser, logoutUser}}>
+        <AuthContext.Provider value={{user, isLoggedIn, isInit, loginUser, logoutUser}}>
             {children}
         </AuthContext.Provider>
     );

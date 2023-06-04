@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const ModalWindow = ({isOpen, title, width, widthSm, children, buttons = []}) => {
+const ModalWindow = ({isOpen, title, width, widthSm, children = <> </>, buttons = []}) => {
     const [isOpenModal, setIsOpenModal] = useState(isOpen)
 
     if (!isOpen) {
