@@ -38,8 +38,8 @@ const ModalWindow = ({isOpen, title, width, widthSm, children = <> </>, buttons 
     return (
         <>
             <div className={`fixed z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-                    bg-white rounded-lg min-w-[${width}px] gradient-border border
-                    sm:min-w-[${widthSm}px]`}>
+                    bg-white rounded-lg w-[${width}px] gradient-border border
+                    sm:w-[${widthSm}px]`}>
                 <div className=''>
                     <div
                         className='z-50 bg-white w-full p-2 shadow-formShadow rounded-tr-lg rounded-tl-lg flex justify-center'>

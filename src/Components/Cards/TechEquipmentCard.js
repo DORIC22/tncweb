@@ -73,7 +73,7 @@ const TechEquipmentCard = ({title, id, ipAddress, type, totalRepairRequest}) => 
                 </div>
 
                 <ModalWindow title={`Изменить ip адрес для: ${title}`} isOpen={isOpenChangeIpModal}
-                             width={250} widthSm={400} buttons={changeIpModalButtons}>
+                             width={500} widthSm={500} buttons={changeIpModalButtons}>
                     <Form method='PATCH' action='/tech-equipment' ref={changeIpFormRef}>
                         <div className='my-3 flex-col'>
                             <input

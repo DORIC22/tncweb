@@ -19,7 +19,9 @@ export const useIgorSubmit = () => {
 
     const mySubmit = async (form, callback, formInfo, beforeCallback) => {
         submit(form, formInfo)
-        beforeCallback()
+
+        if (beforeCallback)
+            beforeCallback()
 
         await new Promise(resolve => setTimeout(resolve, 3000))
 

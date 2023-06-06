@@ -72,6 +72,7 @@ export const AuthProvider = ({children}) => {
     }, [])
 
     const loginUser = async (email, password, rememberMe) => {
+        let errorMessage = ''
 
         const passwordHash = sha256(password)
         const result = await ExtendedKy.get('auth/by-credentials/?email=' + email + '&password=' + passwordHash)
@@ -90,11 +91,19 @@ export const AuthProvider = ({children}) => {
         }
 
         if (result.status === 200) {
-            setUser(await result.json())
+            const user = await result.json()
+
+            if (user.role != 2) {
+                errorMessage = 'Вы не администратор'
+                return errorMessage
+            }
+
+            setUser(user)
             setIsLoggedIn(true)
             localStorage.setItem(AuthConstants.expiresUserAuth, AuthConstants.lifeTimeUserAuth.toString())
         } else {
-
+            errorMessage = 'Неверная почта или пароль'
+            return errorMessage
         }
     }
 
