@@ -1,35 +1,33 @@
-import React, {useEffect, useState} from 'react';
-import validator from "validator/es";
+import React, {useState} from 'react';
 import InputMask from 'react-input-mask';
 import {Link} from "react-router-dom";
-import emailjs from 'emailjs-com';
-
+import Select from "../Components/Select";
+import {RoleOptions} from "../Common/SelectOptions";
+import LoaderButton from "../Components/LoaderButton";
+import ExtendedKy from "../Common/ExtendedKy";
 
 export default function RegistrationPage() {
-    const [register, setRegister] = useState(() => {
-        return {
-            email: "",
-            phoneNumber: "",
-            firstName: "",
-            lastName: "",
-            patronymic: "",
-            role: "",
-            fullName: ""
-        };
-    });
+    const [register, setRegister] = useState({
+        email: '',
+        phone: '',
+        firstName: '',
+        lastName: '',
+        patronymic: '',
+        fullName: '',
+        role: 0
+    })
 
-    const [isFormValid, setIsFormValid] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
+    const [errorFormMessage, setErrorFormMessage] = useState('')
 
-    useEffect(() => {
-        const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(register.email);
-        setIsFormValid(
-            register.email !== "" &&
-            register.phoneNumber !== "" &&
-            ((register.firstName !== "" && register.lastName !== "") || (register.fullName !== "")) &&
-            isEmailValid
-        );
-    }, [register]);
+    const inputStyle = "w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue"
+
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(register.email)
+    const isFormValid =
+        register.email !== "" &&
+        register.phone !== "" &&
+        ((register.firstName !== "" && register.lastName !== "") || (register.fullName !== "")) &&
+        isEmailValid
 
     const changeInputRegister = (event) => {
         event.persist();
@@ -37,16 +35,14 @@ export default function RegistrationPage() {
             return {
                 ...prev,
                 [event.target.name]: event.target.value,
-            };
-        });
-    };
+            }
+        })
+    }
 
     const submit = async (e) => {
-        e.preventDefault();
+        setIsLoading(true)
 
-        if (register.role === undefined || register.role === "") {
-            register.role = "1";
-        }
+        e.preventDefault()
 
         if (register.fullName !== "" && register.fullName !== undefined) {
             let fioMassive = register.fullName.split(" ")
@@ -57,44 +53,19 @@ export default function RegistrationPage() {
             alert("Входное значение FullName: " + register.fullName + "\nЧто в итоге получилось, lastname,firstname,patronymic: " +
                 register.lastName + "\n" + register.firstName + "\n" + register.patronymic)
         }
-        console.log(register.role)
-        switch (register.role) {
-            case '1':
-                register.role = 'Администратор'
-                break
-            case '2':
-                register.role = 'Техник'
-                break
-            case '3':
-                register.role = 'Пользователь'
-                break
+
+        const {fullName, ...registerRequestUser} = register
+        console.log(registerRequestUser)
+
+        const response = await ExtendedKy.post('Auth', {json: registerRequestUser})
+
+        if (!response.ok) {
+            setErrorFormMessage('Пользователь с таким email уже зарегистрирован')
+        } else {
+            setErrorFormMessage('')
         }
-        sendMail();
-    };
 
-    const inputStyle = "w-full border border-darkGray px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:border-accentBlue"
-
-    function sendMail() {
-        console.log('ggbet')
-        const templateParams = {
-            from_name: register.firstName + ' ' + register.lastName + ' ' + register.patronymic,
-            from_email: 'Net-Eye@yandex.ru',
-            to_name: 'awesome.tnc@yandex.ru',
-            userEmail: register.email,
-            userPhoneNumber: register.phoneNumber,
-            userRole: register.role
-        };
-        console.log(templateParams)
-        setIsLoading(true)
-        emailjs.send('service_58empoa', 'template_tgnnld8', templateParams, '9UvieRKIjqQahLyKs')
-            .then((result) => {
-                setIsLoading(false)
-                alert('Успешно отправлено!')
-                window.location.href = "/";
-            }, (error) => {
-                console.log(error)
-                setIsLoading(false)
-            });
+        setIsLoading(false)
     }
 
     return (
@@ -115,11 +86,18 @@ export default function RegistrationPage() {
 
             }
 
-            <div className="shadow-formShadow my-auto px-6 py-8 rounded-2xl bg-WhiteThemeMainColor1 min-w-[315px]">
-                <h2 className="text-center text-2xl font-light mb-4">Регистрация:</h2>
-                <div className="my-4 mx-auto border-b-4 border-Accent_light rounded-full"/>
+            <div
+                className="shadow-formShadow my-auto px-6 py-8 rounded-2xl bg-WhiteThemeMainColor1 min-w-[315px] border gradient-border">
+                <h2 className="text-center text-2xl font-medium mb-4 sm:text-3xl">Регистрация:</h2>
+                <div className="my-4 mx-auto h-[1px] border gradient-border rounded-full"/>
                 <form onSubmit={submit}>
-                    <div className="mb-3.5">
+                    {errorFormMessage &&
+                        <div className='my-2'>
+                            <p className='text-base text-red-700 font-medium text-center'>
+                                {errorFormMessage}</p>
+                        </div>
+                    }
+                    <div className="my-3.5">
                         <input
                             className={inputStyle}
                             type="email"
@@ -137,10 +115,10 @@ export default function RegistrationPage() {
                             className={inputStyle}
                             mask="+7 (999) 999-99-99"
                             type="tel"
-                            id="phoneNumber"
+                            id="phone"
                             placeholder="Телефон"
-                            name="phoneNumber"
-                            value={register.phoneNumber}
+                            name="phone"
+                            value={register.phone}
                             onChange={changeInputRegister}
                         />
                     </div>
@@ -199,41 +177,24 @@ export default function RegistrationPage() {
                         </div>
                     </div>
 
-
                     <div>
-                        <select
-                            id="role"
-                            name="role"
-                            value={register.role}
-                            onChange={changeInputRegister}
-                            className="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm
-                                       focus:outline-none focus:ring-accentBlue focus:border-accentBlue
-                              sm:text-sm focus:bg-blue-100"
-                            required
-                        >
-                            <option value="1">Администратор</option>
-                            <option value="2">Техник</option>
-                            <option value="3">Пользователь</option>
-                        </select>
+                        <Select options={RoleOptions}
+                                defaultValue={RoleOptions[0]}
+                                placeholder='Роль'
+                                isMulti={false}
+                                onChange={(e) => setRegister(prev => ({...prev, role: parseInt(e)}))}
+                        />
                     </div>
                     <div className="flex items-center justify-center flex-col">
-                        <button
-                            type="submit"
-                            className={`px-12 py-2 rounded-lg mt-5 font-medium 
-                                      ${isFormValid ? 'bg-Accent_light text-white' : 'bg-WhiteThemeMainColor2'}`}
-                            disabled={
-                                !validator.isEmail(register.email) ||
-                                !register.email ||
-                                !register.phoneNumber || !((!register.lastName || !register.firstName) || !register.fullName)
-                            }
-                        >
+                        <LoaderButton isEnabled={isFormValid} isLoading={isLoading} type='submit'>
                             Подать заявку
-                        </button>
+                        </LoaderButton>
 
                         <span className='text-xs font-light mt-3
                                         sm:text-sm'>Есть аккаунт?</span>
                         <Link className='text-xs text-Accent_light font-light
-                                     sm:text-sm' to='/login'>Пройдите авторизацию</Link>
+                                     sm:text-sm' to='/login'>Пройдите авторизацию
+                        </Link>
                     </div>
                 </form>
             </div>
