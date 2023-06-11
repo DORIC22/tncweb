@@ -13,6 +13,19 @@ export const LoginPage = () => {
             <div className='my-6 2xl:my-16 md:my-3'>
                 <img src={Logo} alt='logo tnc' className='w-[100px] sm:w-[130px]'/>
             </div>
+
+            {
+                new Date().getTime() > parseInt(localStorage.getItem(AuthConstants.expiresUserAuth)) &&
+                <div
+                    className='text-sm bg-red-100 sm:p-3 p-2 mb-4 border-red-600 border-2 rounded-lg sm:w-2/5 min-w-[315px] sm:px-10 sm:min-w-[500px] sm:text-base'
+                    style={{textAlign: 'center'}}>
+                    <a>
+                        Ваша сессия истекла. <br/>
+                        Пожалуйста, пройдите авторизацию
+                    </a>
+                </div>
+            }
+
             <Auth/>
         </div>
     )

@@ -43,7 +43,7 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
             }
         },
         {
-            content: 'отменить',
+            content: 'Отмена',
             onClick: () => {
                 toggleRegisterModel()
             }
@@ -62,14 +62,16 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
                             maxLength={102}
                             name='lastName'
                         />
-                        {errorsRegisterUser?.lastName && <span>{errorsRegisterUser.lastName}</span>}
+                        {errorsRegisterUser?.lastName &&
+                            <span className='ml-2 text-sm text-red-500'>{errorsRegisterUser.lastName}</span>}
                         <input
                             className={inputStyle}
                             placeholder='Имя'
                             maxLength={102}
                             name='firstName'
                         />
-                        {errorsRegisterUser?.firstName && <span>{errorsRegisterUser.firstName}</span>}
+                        {errorsRegisterUser?.firstName &&
+                            <span className='ml-2 text-sm text-red-500'>{errorsRegisterUser.firstName}</span>}
                         <input
                             className={inputStyle}
                             placeholder='Отчество'
@@ -83,43 +85,26 @@ const FilterUsersList = ({searchText, sortDateByDesc, onChangeSearchText, onChan
                             mask="+7 (999) 999-99-99"
                             name='phone'
                         />
-                        {errorsRegisterUser?.phone && <span>{errorsRegisterUser.phone}</span>}
+                        {errorsRegisterUser?.phone &&
+                            <span className='ml-2 text-sm text-red-500'>{errorsRegisterUser.phone}</span>}
                         <input
-                            className={`${inputStyle} mb-2`}
+                            className={`${inputStyle} `}
                             placeholder='Электронная почта'
                             autoComplete={'new-password'}
                             maxLength={100}
                             type={"email"}
                             name='email'
                         />
-                        {errorsRegisterUser?.email && <span>{errorsRegisterUser.email}</span>}
+                        {errorsRegisterUser?.email &&
+                            <span className='ml-2 text-sm text-red-500 mb-2'>{errorsRegisterUser.email}</span>}
                         <Select
                             options={RoleOptions}
                             defaultValue={RoleOptions[0]}
                             onChange={handleChangeRole}
                         />
 
-                        {/*TODO: Refactoring*/}
-                        <input value={selectedRole} name='role' hidden/>
 
-                        <div className='flex justify-start mt-2'>
-                            {isLoading && (
-                                <div className="fixed inset-0 flex items-center justify-center">
-                                    <div
-                                        className="bg-gray-100 shadow-formShadow px-4 py-3 rounded-lg z-50 flex items-center">
-                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-Accent_light sm:w-8 sm:h-8"
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             fill="none" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                                    strokeWidth="4"></circle>
-                                            <path className="opacity-75" fill="currentColor"
-                                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647zM12 20.25a8.25 8.25 0 100-16.5 8.25 8.25 0 000 16.5z"></path>
-                                        </svg>
-                                        <span className="text-xs sm:text-base">Отправляем письмо...</span>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                        <input value={selectedRole} name='role' hidden/>
                     </div>
                 </Form>
             </ModalWindow>
