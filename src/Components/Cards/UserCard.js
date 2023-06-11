@@ -1,10 +1,11 @@
-import React, {useRef, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import Card from "./Card";
 import UserIcon from "../Icons/UserIcon";
 import ModalWindow from "../ModalWindow";
 import useModal from "../../Hooks/useModal";
 import {Form} from "react-router-dom";
 import useIgorSubmit from "../../Hooks/useIgorSubmit";
+import {AuthContext} from "../../hoc/AuthProvider";
 
 const UserCard = ({title, role, id, email, phone, registrationDate}) => {
     const [inputFullName, setInputFullName] = useState('');
@@ -17,6 +18,8 @@ const UserCard = ({title, role, id, email, phone, registrationDate}) => {
 
     const [submitDeleteUser] = useIgorSubmit()
     const deleteUserFormRef = useRef()
+
+    const {user} = useContext(AuthContext)
 
     const isDisabled = inputFullName !== title;
 
@@ -68,7 +71,8 @@ const UserCard = ({title, role, id, email, phone, registrationDate}) => {
                         Сбросить пароль
                     </button>
                     <button className='w-1/2 text-xs sm:text-base bg-Accent text-white rounded-lg max-w-[250px]'
-                            onClick={toggleDeleteUserModal}>
+                            onClick={toggleDeleteUserModal}
+                            disabled={user.id === id}>
                         Удалить
                     </button>
                 </div>

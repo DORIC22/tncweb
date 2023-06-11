@@ -2,6 +2,7 @@ import React from "react";
 import Auth from "../Components/Auth";
 import Logo from '../Resources/logo.png'
 import {useLocation, useNavigate} from "react-router-dom";
+import * as AuthConstants from "../Common/AuthConstants"
 
 export const LoginPage = () => {
     const navigate = useNavigate()

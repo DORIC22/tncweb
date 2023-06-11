@@ -34,7 +34,7 @@ const ExtendedKy = ky.extend({
 
                     console.log('Update access token')
                     await ExtendedKy.put("auth")
-                    localStorage.setItem(AuthConstants.expiresUserAuth, AuthConstants.lifeTimeUserAuth.toString())
+                    localStorage.setItem(AuthConstants.expiresUserAuth, AuthConstants.lifeTimeUserAuth().toString())
                     //TODO: delay
 
                     return ExtendedKy(request)

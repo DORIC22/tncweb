@@ -100,7 +100,7 @@ export const AuthProvider = ({children}) => {
 
             setUser(user)
             setIsLoggedIn(true)
-            localStorage.setItem(AuthConstants.expiresUserAuth, AuthConstants.lifeTimeUserAuth.toString())
+            localStorage.setItem(AuthConstants.expiresUserAuth, AuthConstants.lifeTimeUserAuth().toString())
         } else {
             errorMessage = 'Неверная почта или пароль'
             return errorMessage
